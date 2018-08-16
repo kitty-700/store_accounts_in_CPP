@@ -1,0 +1,110 @@
+#include "Exporter.h"
+namespace fiop = option::file_io_parameter;
+Exporter::Exporter(Person * person) : person_to_export(person)
+{
+	this->fp.open(compile::default_save_file_name, std::ios::binary);
+	this->temp_string = "";
+}
+void Exporter::junk_byte_input()
+{
+	this->temp_string = "";
+
+	int trial = General_Function::get_random(compile::min_junk_bytes, compile::max_junk_bytes);
+	unsigned char to_add;
+	for (int i = 0; i < trial; i++)
+	{
+		to_add = General_Function::get_random(0, 255);
+		if (to_add == fiop::op_start_char)
+		{	/*
+			#0이 동시에 나와버리면 junk byte 만으로 데이터 로드를 시작해버리기 때문에,
+			'#' 과 다른 문자들간의 빈도수를 맞추면서 '#'과 '0', 둘이 동시에 나오지 않게한다.
+			빈도수 분석을 통해 파일의 성질을 추정하는 것을 방해한다.
+			*/
+			if (i % 2 == 0)
+				continue;
+			else //확률은 1/2이다. 각각 아예 '#'를 넣지 않거나, 한번에 두 개를 넣거나.
+				this->temp_string += to_add;
+		}
+		this->temp_string += to_add;
+	}
+	if (compile::active_encryption == true)
+		encrypt(this->temp_string);
+	this->fp << this->temp_string;
+
+}
+void Exporter::person_byte_input()
+{
+	this->temp_string = "";
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::load_started); //#0 만들기
+	for (
+		std::list<Site*>::iterator each = this->person_to_export->sites.begin(); \
+		each != this->person_to_export->sites.end();
+		each++)
+	{
+		site_byte_input(*each);	//여기에서 #1~6이 만들어진다.
+	}
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::load_finished); //#9 만들기
+	
+	if (compile::active_encryption == true) //출력 파일에 암호화 옵션을 적용할지?
+		encrypt(this->temp_string);
+	this->fp << this->temp_string;
+}
+void Exporter::site_byte_input(Site * temp_site)
+{
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::site_assemblying_started); //#1 만들기
+	this->temp_string += temp_site->site_name;
+	this->temp_string += fiop::arg_input_finished_char;
+
+	for (
+		std::list<Account*>::iterator each = temp_site ->accounts.begin(); \
+		each != temp_site->accounts.end();
+		each++)
+	{
+		account_byte_input(*each); //여기에서 #2~#5가 만들어진다.
+	}
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::site_assemblying_finished); //#6
+}
+void Exporter::encrypt(std::string& data)
+{
+	for (int i = 0; i < data.size(); i++)
+		data[i] = (~data[i]) ^ compile::xor_factor;
+}
+void Exporter::account_byte_input(Account * temp_account)
+{
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::account_id_assemblying);//#2
+	this->temp_string += temp_account->ID;
+	this->temp_string += fiop::arg_input_finished_char;
+
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::account_pw_assemblying);//#3
+	this->temp_string += temp_account->PW;
+	this->temp_string += fiop::arg_input_finished_char;
+
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::account_ud_assemblying);//#4
+	this->temp_string += temp_account->update_time;
+	this->temp_string += fiop::arg_input_finished_char;
+
+	this->temp_string += fiop::op_start_char;
+	this->temp_string += std::to_string(fiop::account_memo_assemblying);//#5
+	if (std::string(temp_account->memo) == "")
+		this->temp_string += fiop::non_arg_char;
+	else
+	{
+		this->temp_string += temp_account->memo;
+		this->temp_string += fiop::arg_input_finished_char;
+	}
+}
+void Exporter::save()
+{
+	if (compile::generate_junk_bytes == true)
+		junk_byte_input();
+	person_byte_input();
+	if (compile::generate_junk_bytes == true)
+		junk_byte_input();
+}

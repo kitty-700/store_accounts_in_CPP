@@ -1,0 +1,11 @@
+	del 1 이렇게 삭제하는것을 지원할까 안 할까? -> (실수방지차원에서)
+	Order_Form_Filler 클래스함수들에서 반환형 굳이 bool 안 쓰고 order form 을 적절히 채워넣으면 에러메세지 잘 띄울 수 있을 것 같은데...
+
+	실행 구조
+	main 에서 루프돌면서 string 형태로 명령어를 받는다.
+	이를 Order_interpreter에서 받아 문자열의 형태에서 Structs.h 의 Order_Token 형태로 가공한다.
+	여기에 포함된 명령어 코드에 따라 해당하는 함수에 Order_Token을 넘겨준다.
+
+	데이터 구조
+	Person 내에 여러 개의 Site 객체가 포함되어있고,
+	또 다시 Site 객체 내에 여러 Account 객체가 포함되어있다.

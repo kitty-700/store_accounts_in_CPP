@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일\Option">
+      <UniqueIdentifier>{68a921b6-9abb-44a8-b660-c260a1dcad4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Option\argument">
+      <UniqueIdentifier>{18b61aa5-4f1f-4967-9ab0-cff42b794247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Option\argument\Instruction">
+      <UniqueIdentifier>{c5b8fee0-658b-4437-a78f-0915b2f9376b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Order_Handler">
+      <UniqueIdentifier>{da4f9df3-c598-4aa4-93c7-d0382c45facd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Information_Organizing_Class">
+      <UniqueIdentifier>{dd00e0c0-2c77-4032-8042-6754b1f34c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\FILE_IO">
+      <UniqueIdentifier>{e886c624-6243-4f94-adb1-37e300362979}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Information_Organizing_Class">
+      <UniqueIdentifier>{bedd7738-7f5b-4e60-ad55-397c13eaf957}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Order_Handler">
+      <UniqueIdentifier>{f0c2afba-a146-4275-bf63-53e908f83f17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\FILE_IO_Class">
+      <UniqueIdentifier>{124895fd-0295-4200-97fe-0ac143a5ddba}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Start.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="General_Function.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Exporter.cpp">
+      <Filter>소스 파일\FILE_IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer.cpp">
+      <Filter>소스 파일\FILE_IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>소스 파일\Information_Organizing_Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Site.cpp">
+      <Filter>소스 파일\Information_Organizing_Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Person.cpp">
+      <Filter>소스 파일\Information_Organizing_Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Order_Form_Filler.cpp">
+      <Filter>소스 파일\Order_Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Order_Interpreter.cpp">
+      <Filter>소스 파일\Order_Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Order_Token_Refiner.cpp">
+      <Filter>소스 파일\Order_Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Natural_language.cpp">
+      <Filter>소스 파일\Information_Organizing_Class</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Natural_language.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="General_Function.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Status.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Compile.h">
+      <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Exporter.h">
+      <Filter>헤더 파일\FILE_IO_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Importer.h">
+      <Filter>헤더 파일\FILE_IO_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Order_Form_Filler.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Order_Interpreter.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Order_Token_Refiner.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Site.h">
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Account.h">
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Argument.h">
+      <Filter>헤더 파일\Option\argument</Filter>
+    </ClInclude>
+    <ClInclude Include="Update.h">
+      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Del.h">
+      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Add.h">
+      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Console_Color.h">
+      <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Error_Expression.h">
+      <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Information_Organizing_Class.h">
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="File_IO_Class.h">
+      <Filter>헤더 파일\FILE_IO_Class</Filter>
+    </ClInclude>
+    <ClInclude Include="File_IO_parameter.h">
+      <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="diary.txt">
+      <Filter>헤더 파일</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

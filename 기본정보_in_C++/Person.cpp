@@ -1,0 +1,294 @@
+#include "Person.h"
+namespace err_exp = option::error_expression;
+Person::Person() : 
+	site_count(0), 
+	is_alive(false) {}
+Person::~Person()
+{
+	clean_itself();
+}
+void Person::operator+=(Site * site)
+{
+	this->sites.push_back(site);
+	this->site_count++;
+}
+int Person::get_site_count() const
+{
+	return this->site_count;
+}
+void Person::print_site_number(int site_number)
+{
+	std::cout << "[";
+	std::cout.fill('0');
+	std::cout.width(General_Function::get_cipher(this->site_count));
+	std::cout << site_number << "]";
+}
+void Person::set_is_alive(bool is_alive)
+{
+	this->is_alive = is_alive;
+}
+bool Person::get_is_alive() const
+{
+	return this->is_alive;
+}
+
+void Person::clean_itself()
+{//Person 가 지닌, 동적할당한 모든 대상에 대해서 할당 해제한다.
+	for (std::list<Site*>::iterator position = this->sites.begin(); position != this->sites.end(); )
+	{
+		del_site((*position)->get_site_name());
+		position = this->sites.begin();
+	}
+}
+
+Site* Person::find_site_with_site_name(std::string site_name)
+{
+	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); each++)
+		if ((*each)->get_site_name() == site_name)
+			return (*each);
+	return nullptr;
+}
+Site * Person::find_site_with_site_number(int site_number)
+{
+	int count = 0;
+	for (
+		std::list<Site*>::iterator each = this->sites.begin(); \
+		each != this->sites.end();
+		each++, count++)
+	{
+		if (count == site_number - index_fix)
+			return *(each);
+	}
+	return nullptr;
+}
+int Person::get_site_number_with_site_name(std::string site_name)
+{
+	int count = 1;
+	for (
+		std::list<Site*>::iterator each = this->sites.begin(); \
+		each != this->sites.end();
+		each++, count++)
+	{
+		if ((*each)->get_site_name() == site_name)
+			return count;
+	}
+	return -1;
+}
+bool Person::is_redundancy_site_name(std::string site_name)
+{
+	if (find_site_with_site_name(site_name) == nullptr)
+		return false;
+	return true;
+}
+Site * Person::make_site(std::string site_name)
+{
+	Site * temp_site = new Site();
+	temp_site->update_site_name("site_name", site_name);
+	if (temp_site->get_site_name() != site_name) 
+	{//초기화가 제대로 안 됐으면?
+		delete temp_site;
+		return nullptr;
+	}
+	return temp_site;
+}
+void Person::add(Order_token *order)
+{
+	using namespace option::argument::instruction::add;
+	try {
+		if (order->type == add_site_only)
+		{	//사이트만 추가
+			add_site(order->content[new_site_name_position]);
+		}
+		else
+		{	//사이트에 계정 추가
+			if (order->type == add_account_without_memo) {
+				order->content[new_memo_position] = "";
+				order->type++;  // -> order->type 이 add_account_with_memo ( ↙ )가 된다.
+			}
+			if (order->type == add_account_with_memo)
+			{
+				add_account(
+					order->content[new_site_name_position],
+					order->content[new_id_position],
+					order->content[new_pw_position],
+					order->content[new_memo_position]
+				);
+			}
+			else {
+				throw err_exp::msg_unsupport_order_form;
+			}
+		}
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return;
+	}
+}
+Site * Person::add_site(std::string site_name)
+{
+	try {
+		if (is_redundancy_site_name(site_name) == true)
+			throw site_name + err_exp::msg_already_existing_site_name;
+		Site * temp_site = make_site(site_name);
+		if (temp_site == nullptr)
+			throw err_exp::msg_cant_make_site;
+		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
+		*(this) += temp_site;
+		return temp_site;
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return nullptr;
+	}
+}
+void Person::add_account(std::string site_name, std::string ID, std::string PW, std::string memo)
+{	//계정을 추가하되, 사이트가 없다면 사이트를 생성한 후에 추가할 것.
+	Site * temp_site;
+	if ((temp_site = find_site_with_site_name(site_name)) == nullptr)
+	{
+		temp_site = add_site(site_name); //없는 사이트 이름이었다면 add_site()가 실패할 일은 없지않을까? -> 있다. 금지된 문자가 포함되었을 때
+		if (temp_site == nullptr)
+			return;
+	}
+	temp_site->add_account(ID, PW, memo);
+}
+void Person::del(Order_token * order)
+{
+	using namespace option::argument::instruction::del;
+	try {
+		if (order->type == delete_site) {
+			del_site(order->content[site_name_position]);
+		}
+		else if (order->type == delete_account) {
+			del_account(order->content[site_name_position], order->content[id_position]);
+		}
+		else {
+			throw err_exp::msg_unsupport_order_form;
+		}
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return;
+	}
+}
+
+void Person::del_site(std::string site_name)
+{
+	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); )
+	{
+		if ((*each)->get_site_name() == site_name)
+		{
+			(*each)->clean_itself();
+			delete (*each);
+			this->sites.erase(each);
+			this->site_count--;
+			return;
+		}
+		each++;
+	}
+	try {
+		throw err_exp::msg_no_existing_site_name;
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return;
+	}
+}
+void Person::del_account(std::string site_name, std::string ID)
+{
+	Site * temp_site = find_site_with_site_name(site_name);
+	try {
+		if (temp_site == nullptr)
+			throw err_exp::msg_no_existing_site_name;
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return;
+	}
+	temp_site->del_account(ID);
+}
+void Person::update(Order_token *order)
+{
+	using namespace option::argument::instruction::update;
+	if (order->type == modify_site_name) {
+		update_site_name(
+			order->content[site_name_position],
+			order->content[new_site_name_position]
+		);
+	}
+	else if (order->type == modify_account_attribute) {
+		update_account_attribute(
+			order->content[site_name_position],
+			order->content[id_position],
+			order->content[attribute_select_position],
+			order->content[new_attribute_value_position]
+		);
+	}
+	else {
+		std::cout << err_exp::msg_unsupport_order_form << std::endl;
+	}
+}
+void Person::update_site_name(std::string site_name, std::string new_site_name)
+{
+	Site* temp_site = find_site_with_site_name(site_name);
+	try {
+		if (temp_site == nullptr)
+			throw err_exp::msg_no_existing_site_name;
+		if (is_redundancy_site_name(new_site_name) == true)
+			throw site_name + err_exp::msg_already_existing_site_name;
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return;
+	}
+	temp_site->update_site_name("site_name", new_site_name);
+}
+
+void Person::update_account_attribute(std::string site_name, std::string ID, std::string what_attribute, std::string new_value)
+{
+	Site* temp_site = find_site_with_site_name(site_name);
+	try {
+		if (temp_site == nullptr)
+			throw err_exp::msg_no_existing_site_name;
+	}
+	catch (std::string error_message) {
+		std::cout << error_message << std::endl;
+		return;
+	}
+	temp_site->update_account_attribute(ID, what_attribute, new_value);
+}
+
+void Person::show_one_site_information(Site * site, int site_number)
+{
+	SET_CONSOLE_COLOR(option::console_color::site_name_color);
+	print_site_number(site_number);
+	std::cout << site->get_site_name() << std::endl;
+	SET_CONSOLE_COLOR_DEFAULT;
+	site->show_account_information();
+}
+
+void Person::show_all_sites_information()
+{	// 명령어 ll 시에, 모든 사이트 이름과 그에 속한 계정 정보를 전부 나열한다.
+	int count = 1;
+	for (
+		std::list<Site*>::iterator each = this->sites.begin(); \
+		each != this->sites.end(); \
+		each++, count++)
+	{ 
+		show_one_site_information(*(each), count);
+	}
+}
+
+void Person::show_site_name_list()
+{	// 명령어 ls 시에, 사이트 이름 목록을 출력한다.
+	int count = 1;
+	SET_CONSOLE_COLOR(option::console_color::site_name_color);
+	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); each++)
+	{
+		print_site_number(count);
+		std::cout << (*each)->get_site_name();
+		std::cout << "     ( " << (*each)->get_account_count() << " 계정 보유 중 )" << std::endl;
+		count++;
+	}
+	SET_CONSOLE_COLOR_DEFAULT;
+}
