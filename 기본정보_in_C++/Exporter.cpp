@@ -21,7 +21,7 @@ void Exporter::put_on_file(char data)
 }
 void Exporter::junk_byte_input()
 {
-	const int trials = General_Function::get_random(compile::min_junk_bytes, compile::max_junk_bytes);
+	const int trials = General_Function::get_random(compile::min_junk_bytes, compile::max_junk_bytes); //디버깅결과 실제로 병목이 되는 부분임.
 	char to_add;
 	for (int i = 0; i < trials; i++)
 	{

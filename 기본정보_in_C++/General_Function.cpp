@@ -43,7 +43,12 @@ int General_Function::get_cipher(int number)
 int General_Function::get_random(int min, int max)
 {	
 	assert(max >= min);
-	// 1단계, 시드 설정
+	/* 기존의 이 방식으론 짧은 시간동안 너무 많은 중복 수가 나와버린다.
+	srand((unsigned)time(NULL));
+	cout << rand() << endl;
+	return rand() % (max - min) + min;
+	*/
+	// 1단계, 시드 설정	
 	std::random_device random;
 	std::mt19937_64 rnd(random());
 	// 2단계, 분포 설정 (정수)

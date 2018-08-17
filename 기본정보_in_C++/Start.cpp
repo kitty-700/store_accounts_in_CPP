@@ -9,7 +9,7 @@
 
 int main(int argc, char ** argv)
 {
-	if (compile::do_you_test_the_module)
+	if (compile::module_test)
 	{	//단순한 모듈테스트. compile_option에서 토글 가능
 		General_Function::function_test();
 		return 0;

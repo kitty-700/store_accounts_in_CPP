@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <string>
 #include <cstring>
+#include <ctime>
 #include <random>
 
 #include"Options.h"

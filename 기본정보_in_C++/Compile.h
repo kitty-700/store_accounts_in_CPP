@@ -7,7 +7,7 @@ namespace option {
 	namespace compile	//컴파일 시마다 바꿔볼수 있을만큼 변경에 따른 리스크는 없다.
 	{
 		//모듈 테스트
-		static const bool do_you_test_the_module = false;
+		static const bool module_test = false;
 		//파일명
 		static const std::string default_load_file_name = "AQ.alz";
 		static const std::string default_save_file_name = "AQ.alz";
