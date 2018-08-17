@@ -25,9 +25,6 @@
     <Filter Include="헤더 파일\Order_Handler">
       <UniqueIdentifier>{da4f9df3-c598-4aa4-93c7-d0382c45facd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Information_Organizing_Class">
-      <UniqueIdentifier>{dd00e0c0-2c77-4032-8042-6754b1f34c6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\FILE_IO">
       <UniqueIdentifier>{e886c624-6243-4f94-adb1-37e300362979}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="헤더 파일\FILE_IO_Class">
       <UniqueIdentifier>{124895fd-0295-4200-97fe-0ac143a5ddba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\FILE_IO_Class\Information_Organizing_Class">
+      <UniqueIdentifier>{dd00e0c0-2c77-4032-8042-6754b1f34c6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +66,6 @@
     <ClCompile Include="Person.cpp">
       <Filter>소스 파일\Information_Organizing_Class</Filter>
     </ClCompile>
-    <ClCompile Include="Order_Form_Filler.cpp">
-      <Filter>소스 파일\Order_Handler</Filter>
-    </ClCompile>
     <ClCompile Include="Order_Interpreter.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
@@ -77,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="Natural_language.cpp">
       <Filter>소스 파일\Information_Organizing_Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Order_Form_Filler.cpp">
+      <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,13 +114,13 @@
       <Filter>헤더 파일\Order_Handler</Filter>
     </ClInclude>
     <ClInclude Include="Person.h">
-      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Site.h">
-      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Account.h">
-      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Argument.h">
       <Filter>헤더 파일\Option\argument</Filter>
@@ -141,7 +141,7 @@
       <Filter>헤더 파일\Option</Filter>
     </ClInclude>
     <ClInclude Include="Information_Organizing_Class.h">
-      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="File_IO_Class.h">
       <Filter>헤더 파일\FILE_IO_Class</Filter>

@@ -3,17 +3,29 @@ namespace fiop = option::file_io_parameter;
 Exporter::Exporter(Person * person) : person_to_export(person)
 {
 	this->fp.open(compile::default_save_file_name, std::ios::binary);
-	this->temp_string = "";
+}
+void Exporter::encrypt(std::string& data)
+{
+	for (int i = 0; i < data.size(); i++)
+		data[i] = (~data[i]) ^ compile::xor_factor;
+}
+void Exporter::encrypt(char* data)
+{
+	*data = (~(*data)) ^ compile::xor_factor;
+}
+void Exporter::put_on_file(char data)
+{
+	if (compile::active_encryption == true)
+		encrypt(&data);
+	this->fp << data;
 }
 void Exporter::junk_byte_input()
 {
-	this->temp_string = "";
-
-	int trial = General_Function::get_random(compile::min_junk_bytes, compile::max_junk_bytes);
-	unsigned char to_add;
-	for (int i = 0; i < trial; i++)
+	const int trials = General_Function::get_random(compile::min_junk_bytes, compile::max_junk_bytes);
+	char to_add;
+	for (int i = 0; i < trials; i++)
 	{
-		to_add = General_Function::get_random(0, 255);
+		to_add = General_Function::get_random(0x00, 0xFF);
 		if (to_add == fiop::op_start_char)
 		{	/*
 			#0이 동시에 나와버리면 junk byte 만으로 데이터 로드를 시작해버리기 때문에,
@@ -22,15 +34,11 @@ void Exporter::junk_byte_input()
 			*/
 			if (i % 2 == 0)
 				continue;
-			else //확률은 1/2이다. 각각 아예 '#'를 넣지 않거나, 한번에 두 개를 넣거나.
-				this->temp_string += to_add;
+			else //확률은 1/2이다. 각각 아예 '#'를 넣지 않거나(if), 한번에 두 개를 넣거나(else).
+				put_on_file(to_add);
 		}
-		this->temp_string += to_add;
+		put_on_file(to_add);
 	}
-	if (compile::active_encryption == true)
-		encrypt(this->temp_string);
-	this->fp << this->temp_string;
-
 }
 void Exporter::person_byte_input()
 {
@@ -46,7 +54,7 @@ void Exporter::person_byte_input()
 	}
 	this->temp_string += fiop::op_start_char;
 	this->temp_string += std::to_string(fiop::load_finished); //#9 만들기
-	
+
 	if (compile::active_encryption == true) //출력 파일에 암호화 옵션을 적용할지?
 		encrypt(this->temp_string);
 	this->fp << this->temp_string;
@@ -59,7 +67,7 @@ void Exporter::site_byte_input(Site * temp_site)
 	this->temp_string += fiop::arg_input_finished_char;
 
 	for (
-		std::list<Account*>::iterator each = temp_site ->accounts.begin(); \
+		std::list<Account*>::iterator each = temp_site->accounts.begin(); \
 		each != temp_site->accounts.end();
 		each++)
 	{
@@ -67,11 +75,6 @@ void Exporter::site_byte_input(Site * temp_site)
 	}
 	this->temp_string += fiop::op_start_char;
 	this->temp_string += std::to_string(fiop::site_assemblying_finished); //#6
-}
-void Exporter::encrypt(std::string& data)
-{
-	for (int i = 0; i < data.size(); i++)
-		data[i] = (~data[i]) ^ compile::xor_factor;
 }
 void Exporter::account_byte_input(Account * temp_account)
 {

@@ -9,6 +9,7 @@
 #include "Options.h"
 #include "Information_Organizing_Class.h"
 #include "General_Function.h"
+
 class Exporter {
 	Person * person_to_export;
 
@@ -18,6 +19,8 @@ class Exporter {
 	void person_byte_input();
 	void site_byte_input(Site * temp_site);
 	void encrypt(std::string& data);
+	void encrypt(char* data);
+	void put_on_file(char data);
 	void account_byte_input(Account * temp_account);
 public:
 	Exporter(Person * person);

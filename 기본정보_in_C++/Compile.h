@@ -12,15 +12,12 @@ namespace option {
 		static const std::string default_load_file_name = "AQ.alz";
 		static const std::string default_save_file_name = "AQ.alz";
 		//암호화 여부
-		static const bool active_encryption = true;
-		static const bool active_decryption = true;
+		static const bool active_encryption = false; //at Export
+		static const bool active_decryption = false; //at Import
 		//JUNK byte 붙이기.  한번 붙일 때마다 min~max 만큼의 바이트 수 중 랜덤 갯수로 붙인다.
 		static const bool generate_junk_bytes = true;
 		static const int max_junk_bytes = 500000;
 		static const int min_junk_bytes = 250000; //max보다 크지 않아야 한다.
-												  //파일 입출력 시 딜레이 (second)
-		static const int import_delay = 1;
-		static const int export_delay = 1;
 		//로그인
 		static const bool do_check_basic_character = false;	//이 프로그램을 쓸 줄 아는지에 대한 것만 파악
 		static const char pass_char = 'a';
