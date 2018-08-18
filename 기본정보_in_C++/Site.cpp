@@ -29,7 +29,7 @@ int Site::get_account_count() const
 }
 bool Site::is_proper_string(string what_attribute, string str) const
 {	// what_attribute 문자열은 translate_natural_language() 를 거침.
-	try { //1.변경하려는 속성이 site_name이 맞는지, 2.길이가 적절한지, 3.특수문자가 포함되어있지는 않은지
+	try { //1.변경하려는 속성이 site_name이 맞는지, 2.길이가 적절한지, 3. 공백은 아닌지 4.특수문자가 포함되어있지는 않은지
 		if (what_attribute != "site_name")
 			throw err_exp::msg_undefined_site_attribute;
 		else {
@@ -115,8 +115,15 @@ Account * Site::add_account(string ID, string PW, string memo)
 	temp_account->update_attribute("memo", memo);
 	//파일로부터 적재 시에 update_time 이 변경되지 않게 함수 내에서 조절한다.
 	//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Account::update_attribute () 내에서 경고는 띄워준다.)
-	*(this) += temp_account;
-	return temp_account;
+	if (temp_account->get_attribute("ID") == error_expression::abnormal_Account_ID)
+	{
+		delete temp_account;
+		return nullptr;
+	}
+	else {
+		*(this) += temp_account;
+		return temp_account;
+	}
 }
 
 
@@ -147,6 +154,8 @@ void Site::update_site_name(string what_attribute, string new_site_name)
 	{
 		if (is_proper_string(what_attribute, new_site_name) == true)
 			strcpy_s(this->site_name, option::buffer::site_name_length, new_site_name.c_str());
+		else
+			strcpy_s(this->site_name, option::buffer::site_name_length, error_expression::abnormal_Site_site_name.c_str());
 	}
 	else { /*    return error_expression::translation_error;    */
 		cout << what_attribute << err_exp::msg_undefined_site_attribute << endl;
@@ -160,6 +169,7 @@ void Site::update_account_attribute(std::string ID, std::string what_attribute, 
 			throw err_exp::msg_no_existing_ID;
 		if (Natural_language::account_attribute_translate(what_attribute) == "ID")
 		{
+			
 			if (is_redundancy_ID(new_value) == true)
 				throw new_value + err_exp::msg_already_existing_ID;
 

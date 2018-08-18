@@ -3,6 +3,7 @@
 #define index_fix 1
 #define null_fix 1
 #define char_to_int_fix '0'
+#define thick_line "=============================="
 #include"Buffer.h"
 #include"Compile.h"
 #include"Console_Color.h"

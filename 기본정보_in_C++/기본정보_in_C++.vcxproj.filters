@@ -37,7 +37,7 @@
     <Filter Include="헤더 파일\FILE_IO_Class">
       <UniqueIdentifier>{124895fd-0295-4200-97fe-0ac143a5ddba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\FILE_IO_Class\Information_Organizing_Class">
+    <Filter Include="헤더 파일\Information_Organizing_Class">
       <UniqueIdentifier>{dd00e0c0-2c77-4032-8042-6754b1f34c6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -114,13 +114,13 @@
       <Filter>헤더 파일\Order_Handler</Filter>
     </ClInclude>
     <ClInclude Include="Person.h">
-      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Site.h">
-      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Account.h">
-      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Argument.h">
       <Filter>헤더 파일\Option\argument</Filter>
@@ -141,7 +141,7 @@
       <Filter>헤더 파일\Option</Filter>
     </ClInclude>
     <ClInclude Include="Information_Organizing_Class.h">
-      <Filter>헤더 파일\FILE_IO_Class\Information_Organizing_Class</Filter>
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="File_IO_Class.h">
       <Filter>헤더 파일\FILE_IO_Class</Filter>

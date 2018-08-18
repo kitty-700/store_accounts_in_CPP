@@ -19,7 +19,7 @@ bool Account::is_proper_string(std::string what_attribute, std::string str) cons
 		}
 		else if (what_attribute == "memo") {
 			if (str.size() > buffer::memo_length)
-				throw err_exp::msg_too_long_accout_memo;
+				throw err_exp::msg_too_long_accout_memo; //메모는 공백이어도 된다.
 		}
 		else
 			throw err_exp::msg_undefined_account_attribute;
@@ -55,14 +55,20 @@ void Account::update_attribute(string what_attribute, string new_value)
 	if (what_attribute == "ID") {
 		if (is_proper_string(what_attribute, new_value) == true)
 			strcpy_s(this->ID, buffer::id_length, new_value.c_str());
+		else
+			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "PW") {
 		if (is_proper_string(what_attribute, new_value) == true)
 			strcpy_s(this->PW, buffer::password_length, new_value.c_str());
+		else
+			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "memo") {
 		if (is_proper_string(what_attribute, new_value) == true)
 			strcpy_s(this->memo, buffer::memo_length, new_value.c_str());
+		else
+			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}
 	else {  /*    return error_expression::translation_error;    */
 		cout << err_exp::msg_undefined_account_attribute << endl;

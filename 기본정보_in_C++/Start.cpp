@@ -29,7 +29,8 @@ int main(int argc, char ** argv)
 
 	do
 	{
-		std::cout << "==============================\n> ";
+		std::cout << thick_line << std::endl;
+		std::cout << "> ";
 		if (Status::get_is_argument_input() == true) { //프로그램에 인자가 전달됐다면 단 한 번 전달된 명령을 실행한다.
 			order = General_Function::sum_of_argv(argc, argv);
 			Status::set_is_argument_input(false);
@@ -38,7 +39,6 @@ int main(int argc, char ** argv)
 		else {
 			SET_CONSOLE_COLOR(console_color::order_color);
 			std::getline(std::cin, order, '\n');
-			//Sleep(2000);
 			SET_CONSOLE_COLOR_DEFAULT;
 		}
 		if (order == "reload") {

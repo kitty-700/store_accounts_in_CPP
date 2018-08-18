@@ -81,11 +81,11 @@ bool Person::is_redundancy_site_name(std::string site_name)
 	return true;
 }
 Site * Person::make_site(std::string site_name)
-{
+{	//site_name을 가지고 Site를 못 만들 시엔 nullptr을 반환. 만들었으면 그 사이트의 주소를 반환한다.
 	Site * temp_site = new Site();
 	temp_site->update_site_name("site_name", site_name);
-	if (temp_site->get_site_name() != site_name) 
-	{//초기화가 제대로 안 됐으면?
+	if (temp_site->get_site_name() == error_expression::abnormal_Site_site_name)
+	{
 		delete temp_site;
 		return nullptr;
 	}
@@ -95,18 +95,15 @@ void Person::add(Order_token *order)
 {
 	using namespace option::argument::instruction::add;
 	try {
-		if (order->type == add_site_only)
-		{	//사이트만 추가
+		if (order->type == add_site_only) { //사이트만 추가
 			add_site(order->content[new_site_name_position]);
 		}
-		else
-		{	//사이트에 계정 추가
+		else { //사이트에 계정 추가
 			if (order->type == add_account_without_memo) {
 				order->content[new_memo_position] = "";
 				order->type++;  // -> order->type 이 add_account_with_memo ( ↙ )가 된다.
 			}
-			if (order->type == add_account_with_memo)
-			{
+			if (order->type == add_account_with_memo) {
 				add_account(
 					order->content[new_site_name_position],
 					order->content[new_id_position],
@@ -125,7 +122,7 @@ void Person::add(Order_token *order)
 	}
 }
 Site * Person::add_site(std::string site_name)
-{
+{	//person에 성공적으로 site가 추가되었으면 사이트의 주소를, 추가 실패 시에는 nullptr을 반환.
 	try {
 		if (is_redundancy_site_name(site_name) == true)
 			throw site_name + err_exp::msg_already_existing_site_name;
@@ -142,7 +139,7 @@ Site * Person::add_site(std::string site_name)
 	}
 }
 void Person::add_account(std::string site_name, std::string ID, std::string PW, std::string memo)
-{	//계정을 추가하되, 사이트가 없다면 사이트를 생성한 후에 추가할 것.
+{	//계정을 추가하는 함수이지만, 만약 사이트가 없다면 사이트를 생성한 후에 추가한다.
 	Site * temp_site;
 	if ((temp_site = find_site_with_site_name(site_name)) == nullptr)
 	{

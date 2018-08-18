@@ -9,11 +9,21 @@
 #include"Structs.h"
 class Order_Form_Filler {
 	Person * person;
+
+	std::string selection;
 	int selection_1;
 	int selection_2;
 	int selection_3;
 
-	//이 클래스의 함수 반환값인 true / false 는 함수의 성공 / 실패를 의미한다.
+public:
+	Order_Form_Filler(Person * person);
+
+	//XXXX_form_filler() 에서 false가 반환될 경우, 제대로 된 order 양식을 만들지 못했음을 의미하며, 따라서 이에 대해 명령을 수행하지 않는다.
+	bool add_form_filler(Order_token * order);///
+	bool del_form_filler(Order_token * order);///
+	bool update_form_filler(Order_token * order);///
+
+private:
 	void add_new_site(Order_token * order);
 	bool add_new_account(Order_token * order);
 
@@ -23,10 +33,5 @@ class Order_Form_Filler {
 	bool update_site_name(Order_token * order);
 	bool update_account_attribute(Order_token * order);
 
-public:
-	Order_Form_Filler(Person * person);
-	bool add_form_filler(Order_token * order);
-	bool del_form_filler(Order_token * order);
-	bool update_form_filler(Order_token * order);
 };
 #endif

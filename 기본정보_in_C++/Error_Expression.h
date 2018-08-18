@@ -20,6 +20,7 @@ namespace option {
 		//Person
 		static const std::string msg_person_hasnt_site = "아무 사이트도 등록되어있지 않습니다...";
 		//Site
+		static const std::string abnormal_Site_site_name= "#$SN";
 		static const std::string msg_site_name_must_be_filled = "사이트 이름은 공백이어서는 안 됩니다.";
 		static const std::string msg_undefined_site_attribute = "Site 에 그런 속성은 없습니다..";
 		static const std::string msg_cant_make_site = "Site 를 만들 수 없습니다...";
@@ -30,6 +31,7 @@ namespace option {
 		static const std::string msg_too_long_site_name =
 			"입력한 사이트 이름의 길이가 너무 깁니다.  ( " + std::to_string(buffer::site_name_length) + " 자 이하로..)";
 		//Account
+		static const std::string abnormal_Account_ID = "#$ID";
 		static const std::string msg_undefined_account_attribute = "Account 에 그런 속성은 없습니다..";
 		static const std::string msg_no_existing_ID = "그런 ID는 없습니다.";
 		static const std::string msg_ID_must_be_filled = "ID 는 공백이어서는 안 됩니다.";
@@ -50,6 +52,12 @@ namespace option {
 		//answer
 		static const std::string msg_no_special_thing = "";
 		static const std::string msg_no_order_input = "";
+		//form fill
+		static const std::string msg_form_filling_cancel = "아무 입력도 없으므로 동작을 취소합니다.";
+		//string to int
+		enum convert_error{
+			string_to_be_int_wasnt_entered = -999
+		};
 	}// namespace error_expression
 }//namespace option
 #endif

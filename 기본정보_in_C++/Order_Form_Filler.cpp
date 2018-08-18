@@ -2,8 +2,10 @@
 namespace err_exp = error_expression;
 Order_Form_Filler::Order_Form_Filler(Person * person) : person(person) { }
 
+//XXXX_form_filler() 에서 false가 반환될 경우, 제대로 된 order 양식을 만들지 못했음을 의미하며, 따라서 이에 대해 명령을 수행하지 않는다.
+
 bool Order_Form_Filler::add_form_filler(Order_token * order)
-{	//"add" 명령에 대한 양식을 받는다.
+{	//"add" 명령에 대한 양식을 받는다. 
 	std::cout << "계정을 추가하고자 하는 사이트의 번호를 선택해주세요." << std::endl;
 	SET_CONSOLE_COLOR(console_color::zero_selection);
 	this->person->print_site_number(0);
@@ -12,14 +14,23 @@ bool Order_Form_Filler::add_form_filler(Order_token * order)
 	this->person->show_site_name_list();
 
 	std::cout << "선택 > ";
-	std::cin >> this->selection_1; 
-	std::cin.ignore();
+	std::getline(std::cin, this->selection, '\n');
+	this->selection_1 = General_Function::string_to_integer(this->selection);
 
-	if (this->selection_1 == argument::zero_selection)
-		add_new_site(order);
-	else {
-		if (add_new_account(order) == false)
-			return false;
+	try {
+		if (this->selection_1 == argument::zero_selection)
+			add_new_site(order);
+		else if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered) {
+			throw error_expression::msg_form_filling_cancel;
+		}
+		else {
+			if (add_new_account(order) == false)
+				return false;
+		}
+	}
+	catch (std::string error_message) { //보통의 catch문
+		std::cout << error_message << std::endl;
+		return false;
 	}
 	return true;
 }
@@ -72,9 +83,9 @@ bool Order_Form_Filler::del_form_filler(Order_token * order)
 	this->person->show_site_name_list();
 	std::cout << "사이트 선택 > ";
 	SET_CONSOLE_COLOR(console_color::order_color);
-	std::cin >> this->selection_1;
+	std::getline(std::cin, this->selection, '\n');
+	this->selection_1 = General_Function::string_to_integer(this->selection);
 	SET_CONSOLE_COLOR_DEFAULT;
-	std::cin.ignore();
 	Site * temp_site;
 	try {
 		if (this->selection_1 <= 0)
@@ -98,10 +109,10 @@ bool Order_Form_Filler::del_form_filler(Order_token * order)
 	SET_CONSOLE_COLOR_DEFAULT;
 	temp_site->show_account_information();	
 	std::cout << "선택 > ";
-	SET_CONSOLE_COLOR(console_color::order_color);
-	std::cin >> this->selection_2;
+	SET_CONSOLE_COLOR(console_color::order_color);	
+	std::getline(std::cin, this->selection, '\n');
+	this->selection_2 = General_Function::string_to_integer(this->selection);
 	SET_CONSOLE_COLOR_DEFAULT;
-	std::cin.ignore();
 
 	if (this->selection_2 == argument::zero_selection) {
 		del_site(order);
@@ -137,10 +148,11 @@ bool Order_Form_Filler::update_form_filler(Order_token * order)
 	std::cout << "사이트 이름 혹은 계정 속성을 변경하고자 하는 사이트의 번호를 선택해주세요." << std::endl;
 	this->person->show_site_name_list();
 	std::cout << "사이트 선택 > ";
-	SET_CONSOLE_COLOR(console_color::order_color);
-	std::cin >> this->selection_1;
+	SET_CONSOLE_COLOR(console_color::order_color);	
+	std::getline(std::cin, this->selection, '\n');
+	this->selection_1 = General_Function::string_to_integer(this->selection);
 	SET_CONSOLE_COLOR_DEFAULT;
-	std::cin.ignore();
+
 	Site * temp_site;
 	try {
 		if (this->selection_1 <= 0)
@@ -164,10 +176,10 @@ bool Order_Form_Filler::update_form_filler(Order_token * order)
 	SET_CONSOLE_COLOR_DEFAULT;
 	temp_site->show_account_information();
 	std::cout << "계정 선택 > ";
-	SET_CONSOLE_COLOR(console_color::order_color);
-	std::cin >> this->selection_2;
+	SET_CONSOLE_COLOR(console_color::order_color);	
+	std::getline(std::cin, this->selection, '\n');
+	this->selection_2 = General_Function::string_to_integer(this->selection);
 	SET_CONSOLE_COLOR_DEFAULT;
-	std::cin.ignore();
 
 	if (this->selection_2 == argument::zero_selection) {
 		return update_site_name(order);
@@ -209,10 +221,11 @@ bool Order_Form_Filler::update_account_attribute(Order_token * order)
 	std::cout << "[3] memo : " << temp_account->get_attribute("Memo") << std::endl;
 	SET_CONSOLE_COLOR_DEFAULT;
 	std::cout << "속성 선택 > ";
-	SET_CONSOLE_COLOR(console_color::order_color);
-	std::cin >> this->selection_3;
+	SET_CONSOLE_COLOR(console_color::order_color);	
+	std::getline(std::cin, this->selection, '\n');
+	this->selection_3 = General_Function::string_to_integer(this->selection);
 	SET_CONSOLE_COLOR_DEFAULT;
-	std::cin.ignore();
+
 	try {
 		if (this->selection_3 < 1 || 3 < this->selection_3)
 			throw err_exp::msg_undefined_account_attribute;

@@ -19,9 +19,10 @@ namespace option {
 		static const int max_junk_bytes = 500000;
 		static const int min_junk_bytes = 250000; //max보다 크지 않아야 한다.
 		//로그인
-		static const bool do_check_basic_character = false;	//이 프로그램을 쓸 줄 아는지에 대한 것만 파악
+		static const bool pass_char_ipnut = false;	//이 프로그램을 쓸 줄 아는지에 대한 것만 파악
 		static const char pass_char = 'a';
-		static const bool do_require_additional_password = false;	 //그 외에 추가로 비밀번호 입력
+
+		static const bool require_additional_password = false;	 //그 외에 추가로 비밀번호 입력
 		static const std::string then_password = "bc";
 		enum login_status { login_success = 0, login_fail = 1 };
 		//암호화 관련
