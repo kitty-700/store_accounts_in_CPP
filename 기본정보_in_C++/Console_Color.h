@@ -2,6 +2,7 @@
 #pragma once
 #ifndef _CONSOLE_COLOR_H_
 #define _CONSOLE_COLOR_H_
+#include <Windows.h>
 namespace option {
 	namespace console_color {
 #define SET_CONSOLE_COLOR(X) (SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ),(X)))

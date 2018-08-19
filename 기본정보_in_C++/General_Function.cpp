@@ -72,6 +72,12 @@ bool General_Function::ask_do_or_not(std::string ask)
 		return true;
 	return false;
 }
+void General_Function::order_color_input(std::string &order)
+{
+	SET_CONSOLE_COLOR(console_color::order_color);
+	std::getline(std::cin, order, '\n');
+	SET_CONSOLE_COLOR_DEFAULT;
+}
 std::string General_Function::sum_of_argv(int argc, char ** argv)
 {
 	string order = "";

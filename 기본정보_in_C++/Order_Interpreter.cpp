@@ -105,35 +105,38 @@ std::string Order_Interpreter::do_order(std::string order)
 
 void Order_Interpreter::add(Order_token* order)
 {
+	Status::set_is_form_filling_successful(true);
 	using namespace argument::instruction::add;
 	if (order->type == add_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		if (Order_Form_Filler(this->person).add_form_filler(order) == false)
-			return;
+		Order_Form_Filler(this->person).add_form_filler(order);
 	}
-	this->person->add(order);
+	if (Status::get_is_form_filling_successful() == true)
+		this->person->add(order);
 }
 
 void Order_Interpreter::del(Order_token* order)
 {
+	Status::set_is_form_filling_successful(true);
 	using namespace argument::instruction::del;
 	if (order->type == delete_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		if (Order_Form_Filler(this->person).del_form_filler(order) == false)
-			return;
+		Order_Form_Filler(this->person).del_form_filler(order);
 	}
-	this->person->del(order);
+	if (Status::get_is_form_filling_successful() == true)
+		this->person->del(order);
 }
 
 void Order_Interpreter::update(Order_token* order)
 {
+	Status::set_is_form_filling_successful(true);
 	using namespace argument::instruction::update;
 	if (order->type == modify_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		if (Order_Form_Filler(this->person).update_form_filler(order) == false)
-			return;
+		Order_Form_Filler(this->person).update_form_filler(order);
 	}
-	this->person->update(order);
+	if (Status::get_is_form_filling_successful() == true)
+		this->person->update(order);
 }
 void Order_Interpreter::show(int what_type_of_showing)
 {	//각 if~else if 문의 순서를 변경할 때는 의미가 달라질 수 있으므로 주의.
@@ -176,7 +179,7 @@ void Order_Interpreter::show_site_in_number(Order_token* order)//숫자로 사이트 �
 	}
 	else if ((1 <= number) && (number <= this->person->get_site_count()))
 	{
-		Site * temp_site = this->person->find_site_with_site_number(number);
+		Site * temp_site = this->person->site_number_to_Site(number);
 		this->person->show_one_site_information(temp_site, number);
 	}
 	else {
@@ -195,7 +198,7 @@ void Order_Interpreter::show_site_in_site_name(Order_token * order)
 		std::cout << error_message << std::endl;
 		return;
 	}
-	Site * temp_site = this->person->find_site_with_site_name(this->order->content[arg::operation_position]);
+	Site * temp_site = this->person->site_name_to_Site(this->order->content[arg::operation_position]);
 	try {
 		if (temp_site == nullptr)
 			throw err_exp::msg_no_existing_site_name;
@@ -204,7 +207,7 @@ void Order_Interpreter::show_site_in_site_name(Order_token * order)
 		std::cout << error_message << std::endl;
 		return;
 	}
-	int site_number = this->person->get_site_number_with_site_name(temp_site->get_site_name());
+	int site_number = this->person->site_name_to_site_number(temp_site->get_site_name());
 	this->person->show_one_site_information(temp_site, site_number);
 }
 
@@ -247,7 +250,7 @@ arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 	else if (query_op == "help")
 		interpreted_op = arg::order_type::help_;
 
-	else if (this->person->find_site_with_site_name(query_op) != nullptr) //사이트 이름 입력
+	else if (this->person->site_name_to_Site(query_op) != nullptr) //사이트 이름 입력
 		interpreted_op = arg::order_type::show_one_site_information_with_site_name_;
 
 	else if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력

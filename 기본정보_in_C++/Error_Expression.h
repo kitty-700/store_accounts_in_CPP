@@ -6,8 +6,8 @@
 namespace option {
 	namespace error_expression
 	{	//std::string error_answer / error_message
-		/*
-		catch (std::string error_message) { //보통의 catch문
+		/*//보통의 catch문
+		catch (std::string error_message) { 
 		std::cout << error_message << std::endl;
 		return;
 		}
@@ -18,16 +18,16 @@ namespace option {
 		static const std::string msg_unsupport_order_form = "명령어는 존재하지만, 지원하지 않는 명령 양식입니다..";
 		static const std::string msg_forbidden_character = "금지된 특수 문자 입력를 입력하셨습니다.";
 		//Person
-		static const std::string msg_person_hasnt_site = "아무 사이트도 등록되어있지 않습니다...";
+		static const std::string msg_person_hasnt_site = "아무 사이트도 등록되어있지 않습니다.";
 		//Site
 		static const std::string abnormal_Site_site_name= "#$SN";
 		static const std::string msg_site_name_must_be_filled = "사이트 이름은 공백이어서는 안 됩니다.";
 		static const std::string msg_undefined_site_attribute = "Site 에 그런 속성은 없습니다..";
-		static const std::string msg_cant_make_site = "Site 를 만들 수 없습니다...";
+		static const std::string msg_cant_make_site = "Site 를 만들 수 없습니다.";
 		static const std::string msg_already_existing_site_name = "은(/는) 이미 존재하는 사이트 이름입니다.";
 		static const std::string msg_no_existing_site_number = "그런 번호를 가진 사이트는 없습니다.";
 		static const std::string msg_no_existing_site_name = "그런 이름를 가진 사이트는 없습니다.";
-		static const std::string msg_site_hasnt_account = "사이트에 아무런 계정도 없습니다..";
+		static const std::string msg_site_hasnt_account = "사이트에 아무런 계정도 없습니다.";
 		static const std::string msg_too_long_site_name =
 			"입력한 사이트 이름의 길이가 너무 깁니다.  ( " + std::to_string(buffer::site_name_length) + " 자 이하로..)";
 		//Account
@@ -46,7 +46,7 @@ namespace option {
 		//translation
 		static const std::string translation_error = "TRANSLATION FAIL";
 		//file_io
-		static const std::string msg_file_doesnt_exist = "그런 파일 없습니다..";
+		static const std::string msg_file_doesnt_exist = "그런 파일 없습니다.";
 		static const std::string msg_wrong_file_detected = "파일은 존재하지만 내용이 잘못되어 불러오지 못했습니다.";
 		static const std::string msg_string_in_file_was_too_long = "파일 내에서의 문자열들의 길이가 너무 깁니다.";
 		//answer

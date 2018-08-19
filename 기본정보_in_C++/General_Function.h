@@ -11,6 +11,7 @@
 
 #include"Options.h"
 #include "Structs.h"
+#include "Console_Color.h"
 class General_Function {
 public:
 	static void function_test();
@@ -19,6 +20,7 @@ public:
 	static int get_cipher(int number);
 	static int get_random(int min, int max);
 	static bool ask_do_or_not(std::string ask);
+	static void order_color_input(std::string &order);
 	static std::string sum_of_argv(int argc, char ** argv);
 	static void get_string_without_overflow(char *string, const int string_length);
 	static int login();
