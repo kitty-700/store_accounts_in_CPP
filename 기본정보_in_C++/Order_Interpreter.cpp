@@ -109,7 +109,7 @@ void Order_Interpreter::add(Order_token* order)
 	using namespace argument::instruction::add;
 	if (order->type == add_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		Order_Form_Filler(this->person).add_form_filler(order);
+		Order_Form_Filler(this->person, order).add_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
 		this->person->add(order);
@@ -121,7 +121,7 @@ void Order_Interpreter::del(Order_token* order)
 	using namespace argument::instruction::del;
 	if (order->type == delete_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		Order_Form_Filler(this->person).del_form_filler(order);
+		Order_Form_Filler(this->person, order).del_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
 		this->person->del(order);
@@ -133,7 +133,7 @@ void Order_Interpreter::update(Order_token* order)
 	using namespace argument::instruction::update;
 	if (order->type == modify_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		Order_Form_Filler(this->person).update_form_filler(order);
+		Order_Form_Filler(this->person, order).update_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
 		this->person->update(order);

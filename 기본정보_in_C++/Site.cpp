@@ -82,10 +82,10 @@ void Site::show_account_information()
 	SET_CONSOLE_COLOR(option::console_color::account_attribute_color);
 	for (list<Account*>::iterator each = this->accounts.begin(); each != this->accounts.end(); each++)
 	{
-		std::cout << "    [";
+		std::cout << "[";
 		std::cout.fill('0');
 		std::cout.width(General_Function::get_cipher(this->account_count));
-		std::cout << count << "]================¢×" << std::endl;
+		std::cout << count << "]¢Ù" << std::endl;
 		(*each)->show_account_information();
 		count++;
 	}

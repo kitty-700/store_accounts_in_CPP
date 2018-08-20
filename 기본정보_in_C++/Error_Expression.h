@@ -37,6 +37,7 @@ namespace option {
 		static const std::string msg_ID_must_be_filled = "ID 는 공백이어서는 안 됩니다.";
 		static const std::string msg_PW_must_be_filled = "PW 는 공백이어서는 안 됩니다.";
 		static const std::string msg_already_existing_ID = "은(/는) 이미 존재하는 ID입니다.";
+		static const std::string msg_no_existing_account_number = "그런 번호를 가진 계정은 없습니다.";
 		static const std::string msg_too_long_account_ID =
 			"입력한 계정의 ID의 길이가 너무 깁니다.  ( " + std::to_string(buffer::id_length) + " 자 이하로..)";
 		static const std::string msg_too_long_account_PW =
@@ -54,6 +55,7 @@ namespace option {
 		static const std::string msg_no_order_input = "";
 		//form fill
 		static const std::string msg_form_filling_cancel = "아무 입력도 없으므로 동작을 취소합니다.";
+		static const std::string msg_ineffective_select = "선택지에 없습니다.";
 		//string to int
 		enum convert_error{
 			string_to_be_int_wasnt_entered = -999

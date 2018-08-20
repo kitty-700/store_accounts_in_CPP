@@ -1,27 +1,34 @@
 #include "Order_Form_Filler.h"
 namespace err_exp = error_expression;
-Order_Form_Filler::Order_Form_Filler(Person * person) : person(person) { }
+Order_Form_Filler::Order_Form_Filler(Person * person, Order_token * order) 
+	: person(person) , order(order) { }
 /* 입력 양식
 
-//첫번째 페이지 ()
-{
-	//메뉴출력
+	//첫번째 페이지 ()
 	{
+		//메뉴출력
+		{
 		
-	}
-	//메뉴 중에서 선택
-	{
+		}
+		//메뉴 중에서 선택
+		{
 
-	}
-	//선택에 대한 예외처리
-	{
+		}
+		//선택에 대한 예외처리
+		{
 
+		}
+		//정상진행
+		{
+
+		}
 	}
-}
+
 */
-void Order_Form_Filler::add_form_filler(Order_token * order)
+
+void Order_Form_Filler::add_form_filler()
 {	//"add" 명령에 대한 양식을 받는다. 
-	//첫번째 페이지 (사이트 선택)
+	//ADD-1 페이지 (사이트 선택)
 	{	
 		//메뉴 출력
 		{
@@ -31,7 +38,7 @@ void Order_Form_Filler::add_form_filler(Order_token * order)
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "> ";
+			std::cout << "선택 > ";
 			General_Function::order_color_input(this->selection);
 			this->selection_1 = General_Function::string_to_integer(this->selection);
 		}
@@ -40,10 +47,8 @@ void Order_Form_Filler::add_form_filler(Order_token * order)
 			try {
 				if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered)
 					throw error_expression::msg_form_filling_cancel;
-				else if (this->selection_1 == argument::zero_selection)
-					add_new_site(order);
-				else
-					add_new_account(order);
+				if (is_count_range(this->selection_1, this->person->get_site_count()) == false)
+					throw error_expression::msg_no_existing_site_number;
 			}
 			catch (std::string error_message) { //보통의 catch문
 				Status::set_is_form_filling_successful(false);
@@ -51,63 +56,69 @@ void Order_Form_Filler::add_form_filler(Order_token * order)
 				return;
 			}
 		}
-	}
+		//정상진행
+		{
+			if (this->selection_1 == argument::zero_selection)
+				add_new_site();
+			else
+				add_new_account();
+		}
+	}//첫번째 페이지 (사이트 선택)
 	return;
 }
 
-void Order_Form_Filler::add_new_site(Order_token * order)
+void Order_Form_Filler::add_new_site()
 {
 	using namespace std;
 	std::string new_site_name;
-	std::cout << "새 사이트 이름 > ";
-	General_Function::order_color_input(new_site_name);
+	//ADD-2-NewSite 페이지 (사이트 이름 입력)
+	{
+		std::cout << "새 사이트 이름 > ";
+		General_Function::order_color_input(new_site_name);
+	}
 
 	using namespace argument::instruction::add;
-	order->tokens[new_site_name_position] = new_site_name;
-	order->type = add_site_only;
+	this->order->tokens[new_site_name_position] = new_site_name;
+	this->order->type = add_site_only;
 }
 
-void Order_Form_Filler::add_new_account(Order_token * order)
-{	//사이트 번호를 잘못 입력하면 실패
+void Order_Form_Filler::add_new_account()
+{
 	Site * temp_site = this->person->site_number_to_Site(this->selection_1);
-	try {
-		if (temp_site == nullptr)
-			throw err_exp::msg_no_existing_site_number;
-	}
-	catch (std::string error_message) {
-		Status::set_is_form_filling_successful(false);
-		std::cout << error_message << std::endl;
-		return;
-	}
-	temp_site->show_account_information();
-
-	std::string temp_str;
 
 	using namespace argument::instruction::add;
+	std::string temp_str;
+	//ADD-2-NewAccount 페이지 (계정 정보 입력)
+	{
+		//메뉴 출력
+		{
+			temp_site->show_account_information();
+		}
+		this->order->tokens[new_site_name_position] = temp_site->get_site_name();
+		//
+		std::cout << "새 계정의 ID > ";
+		General_Function::order_color_input(temp_str);
+		this->order->tokens[new_id_position] = temp_str;
+		//
+		std::cout << "새 계정의 PW > ";
+		General_Function::order_color_input(temp_str);
+		this->order->tokens[new_pw_position] = temp_str;
+		//
+		std::cout << "새 계정에 대한 메모 > ";
+		General_Function::order_color_input(temp_str);
+		this->order->tokens[new_memo_position] = temp_str;
 
-	order->tokens[new_site_name_position] = temp_site->get_site_name();
-	std::cout << "새 계정의 ID > ";
-	General_Function::order_color_input(temp_str);
-	order->tokens[new_id_position] = temp_str;
-
-	std::cout << "새 계정의 PW > ";
-	General_Function::order_color_input(temp_str);
-	order->tokens[new_pw_position] = temp_str;
-
-	std::cout << "새 계정에 대한 메모 > ";
-	General_Function::order_color_input(temp_str);
-	order->tokens[new_memo_position] = temp_str;
-
-	order->token_count = add_account_with_memo;
+		this->order->token_count = add_account_with_memo;
+	}
 	return;
 }
 
-void Order_Form_Filler::del_form_filler(Order_token * order)
+void Order_Form_Filler::del_form_filler()
 {	//"del" 명령에 대한 양식을 받는다.
 	if (exception_no_sites() == true)
 		return;
 	Site * temp_site;
-	//첫번째 페이지 (사이트 선택)
+	//DEL-1-SiteSelect 페이지 (사이트 선택)
 	{
 		//메뉴 출력
 		{
@@ -117,7 +128,7 @@ void Order_Form_Filler::del_form_filler(Order_token * order)
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "사이트 선택 > ";
+			std::cout << "선택 > ";
 			General_Function::order_color_input(this->selection);
 			this->selection_1 = General_Function::string_to_integer(this->selection);
 		}
@@ -125,11 +136,10 @@ void Order_Form_Filler::del_form_filler(Order_token * order)
 		{
 			try {
 				if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered)
-					throw error_expression::msg_form_filling_cancel;
-				if (this->selection_1 <= 0) //번호가 0 이하인 사이트는 없으므로.
-					throw err_exp::msg_no_existing_site_number;
-				temp_site = this->person->site_number_to_Site(this->selection_1);
-				if (temp_site == nullptr)
+					throw err_exp::msg_form_filling_cancel;
+				if (this->selection_1 == argument::zero_selection)
+					throw err_exp::msg_form_filling_cancel;
+				if (is_count_range(this->selection_1, this->person->get_site_count()) == false)
 					throw err_exp::msg_no_existing_site_number;
 			}
 			catch (std::string error_message) { //보통의 catch문
@@ -138,12 +148,17 @@ void Order_Form_Filler::del_form_filler(Order_token * order)
 				return;
 			}
 		}
-	}
-	//두번째 페이지 (사이트 자체(0) 혹은 계정 선택)
-	{
-		//메뉴 출력2
+		//정상진행
 		{
-			std::cout << "사이트 자체를 삭제할 경우 0번을 선택하고, \n사이트 내의 계정을 삭제할 경우 계정의 번호를 선택해주세요." << std::endl;
+			temp_site = this->person->site_number_to_Site(this->selection_1);
+		}
+	}//DEL-1-SiteSelect 페이지 (사이트 선택)
+
+	//DEL-2-AccountSelect 페이지 (사이트 자체(0) 혹은 계정 선택)
+	{
+		//메뉴 출력
+		{
+			std::cout << "삭제할 계정의 번호를 선택해주세요." << std::endl;
 			zero_selection_explain("사이트 삭제", temp_site);
 			temp_site->show_account_information();
 		}
@@ -158,8 +173,8 @@ void Order_Form_Filler::del_form_filler(Order_token * order)
 			try {
 				if (this->selection_2 == error_expression::string_to_be_int_wasnt_entered)
 					throw error_expression::msg_form_filling_cancel;
-				if (this->selection_2 < 0 || temp_site->get_account_count() < this->selection_2)
-					throw error_expression::msg_no_existing_site_number;
+				if (is_count_range(this->selection_2, temp_site->get_account_count()) == false)
+					throw error_expression::msg_no_existing_account_number;
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -170,40 +185,38 @@ void Order_Form_Filler::del_form_filler(Order_token * order)
 		//정상 진행
 		{
 			if (this->selection_2 == argument::zero_selection)
-				del_site(order);
-			else if (this->selection_2)
-				del_account(order);
+				del_site(temp_site);
+			else
+				del_account(temp_site);
 		}
-	}
+	}//DEL-2-AccountSelect 페이지 (사이트 자체(0) 혹은 계정 선택)
 	return;
 }
 
-void Order_Form_Filler::del_site(Order_token * order)
+void Order_Form_Filler::del_site(Site * site)
 {
 	using namespace argument::instruction::del;
-	Site * temp_site = this->person->site_number_to_Site(this->selection_1);
-	order->tokens[site_name_position] = temp_site->get_site_name();
-	order->type = delete_site;
+	this->order->tokens[site_name_position] = site->get_site_name();
+	this->order->type = delete_site;
 	return;
 }
 
-void Order_Form_Filler::del_account(Order_token * order)
+void Order_Form_Filler::del_account(Site * site)
 {
 	using namespace argument::instruction::del;
-	Site * temp_site = this->person->site_number_to_Site(this->selection_1);
-	order->tokens[site_name_position] = temp_site->get_site_name();
-	Account * temp_account = temp_site->find_account_with_account_number(this->selection_2);
-	order->tokens[id_position] = temp_account->get_attribute("ID");
-	order->type = delete_account;
+	this->order->tokens[site_name_position] = site->get_site_name();
+	Account * temp_account = site->find_account_with_account_number(this->selection_2);
+	this->order->tokens[id_position] = temp_account->get_attribute("ID");
+	this->order->type = delete_account;
 	return;
 }
 
-void Order_Form_Filler::update_form_filler(Order_token * order)
+void Order_Form_Filler::update_form_filler()
 {	//"update" 명령에 대한 양식을 받는다.
 	if (exception_no_sites() == true)
 		return;
 	Site * temp_site;
-	//첫번째 페이지 (사이트 선택)
+	//UPDATE-1 페이지 (사이트 선택)
 	{	
 		//메뉴 출력
 		{
@@ -213,17 +226,18 @@ void Order_Form_Filler::update_form_filler(Order_token * order)
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "사이트 선택 > ";
+			std::cout << "선택 > ";
 			General_Function::order_color_input(this->selection);
 			this->selection_1 = General_Function::string_to_integer(this->selection);
 		}
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_1 <= 0)
-					throw err_exp::msg_no_existing_site_number;
-				temp_site = this->person->site_number_to_Site(this->selection_1);
-				if (temp_site == nullptr)
+				if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered)
+					throw error_expression::msg_form_filling_cancel;
+				if (this->selection_1 == argument::zero_selection)
+					throw err_exp::msg_form_filling_cancel;
+				if (is_count_range(this->selection_1, this->person->get_site_count()) == false)
 					throw err_exp::msg_no_existing_site_number;
 			}
 			catch (std::string error_message) {
@@ -232,9 +246,13 @@ void Order_Form_Filler::update_form_filler(Order_token * order)
 				return;
 			}
 		}
-	}
+		//정상진행
+		{
+			temp_site = this->person->site_number_to_Site(this->selection_1);
+		}
+	}//UPDATE-1 페이지 (사이트 선택)
 
-	//두번째 페이지 (사이트 자체(0) 혹은 계정 선택)
+	//UPDATE-2 페이지 (사이트 자체(0) 혹은 계정 선택)
 	{
 		//메뉴 출력
 		{
@@ -244,19 +262,17 @@ void Order_Form_Filler::update_form_filler(Order_token * order)
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "계정 선택 > ";
+			std::cout << "선택 > ";
 			General_Function::order_color_input(this->selection);
 			this->selection_2 = General_Function::string_to_integer(this->selection);
 		}
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_2 == argument::zero_selection) {
-					return update_site_name(order);
-				}
-				else {
-					return update_account_attribute(order);
-				}
+				if (this->selection_2 == error_expression::string_to_be_int_wasnt_entered)
+					throw error_expression::msg_form_filling_cancel;
+				if (is_count_range(this->selection_2, temp_site->get_account_count()) == false)
+					throw error_expression::msg_no_existing_account_number;
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -264,49 +280,67 @@ void Order_Form_Filler::update_form_filler(Order_token * order)
 				return;
 			}
 		}
-	}
+		//정상진행
+		{
+			if (this->selection_2 == argument::zero_selection)
+				update_site_name(temp_site);
+			else
+				update_account_attribute(temp_site);
+		}
+	}//UPDATE-2 페이지 (사이트 자체(0) 혹은 계정 선택)
 }
 
-void Order_Form_Filler::update_site_name(Order_token * order)
+void Order_Form_Filler::update_site_name(Site * site)
 {
-	Site * temp_site = this->person->site_number_to_Site(this->selection_1);
-
 	namespace update = argument::instruction::update;
-	order->tokens[update::site_name_position] = temp_site->get_site_name();
+	this->order->tokens[update::site_name_position] = site->get_site_name();
 	std::string new_site_name;
-	//세번째 페이지 ()
+	//UPDATE-3-UpdateSiteName 페이지 (사이트 자체(0) 혹은 계정 선택)
 	{
 		//메뉴출력
 		{
 			std::cout << "변경할 사이트 이름 ( ";
-			print_colored_site_name(temp_site);
+			print_colored_site_name(site);
 			std::cout << " ->  ? )" << std::endl;
-			std::cout << "└ > ";
 		}
 		//메뉴 중에서 선택
 		{
+			std::cout << "└ > ";
 			General_Function::order_color_input(new_site_name);
 		}
 		//선택에 대한 예외처리
 		{
-
+			try {
+				if (new_site_name == "")
+					throw error_expression::msg_form_filling_cancel;
+			}
+			catch (std::string error_message) {
+				Status::set_is_form_filling_successful(false);
+				std::cout << error_message << std::endl;;
+				return;
+			}
 		}
-	}
-	order->tokens[update::new_site_name_position] = new_site_name;
-	order->type = update::modify_site_name;
+		//정상진행
+		{
+			this->order->tokens[update::new_site_name_position] = new_site_name;
+			this->order->type = update::modify_site_name;
+		}
+	}//UPDATE-3-UpdateSiteName 페이지 (사이트 자체(0) 혹은 계정 선택)
 	return;
 }
 
-void Order_Form_Filler::update_account_attribute(Order_token * order)
+void Order_Form_Filler::update_account_attribute(Site * site)
 {
+	namespace update = argument::instruction::update;
 	Site * temp_site = this->person->site_number_to_Site(this->selection_1);
 	Account * temp_account = temp_site->find_account_with_account_number(this->selection_2);
-	//세번째 페이지 (속성 선택)
+
+	//UPDATE-3-UpdateAccountAttribute 페이지 (계정 속성 선택 ID/PW/Memo)
 	{
 		//메뉴출력
 		{
 			print_colored_account_attributes(temp_account);
-			std::cout << "속성 선택 > ";
+			std::cout << "선택 > ";
 		}
 		//메뉴 중에서 선택
 		{
@@ -316,7 +350,9 @@ void Order_Form_Filler::update_account_attribute(Order_token * order)
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_3 < 1 || 3 < this->selection_3)
+				if (this->selection_3 == error_expression::string_to_be_int_wasnt_entered)
+					throw error_expression::msg_form_filling_cancel;
+				if (this->selection_3 < 1 || 3 < this->selection_3) //속성은 1~3뿐
 					throw err_exp::msg_undefined_account_attribute;
 			}
 			catch (std::string error_message) { //보통의 catch문
@@ -325,30 +361,36 @@ void Order_Form_Filler::update_account_attribute(Order_token * order)
 				return;
 			}
 		}
-	}
+		//정상진행
+		{
+			this->order->tokens[update::site_name_position] = temp_site->get_site_name();
+			this->order->tokens[update::id_position] = temp_account->get_attribute("ID");
 
-	namespace update = argument::instruction::update;
-	order->tokens[update::site_name_position] = temp_site->get_site_name();
-	order->tokens[update::id_position] = temp_account->get_attribute("ID");
+			switch (this->selection_3)
+			{
+			case 1:
+				this->order->tokens[update::attribute_select_position] = "ID";
+				break;
+			case 2:
+				this->order->tokens[update::attribute_select_position] = "PW";
+				break;
+			case 3:
+				this->order->tokens[update::attribute_select_position] = "memo";
+				break;
+			}
+		}
+	}//UPDATE-3-AccountAttributeSelect 페이지 (계정 속성 선택)
 
-	switch (this->selection_3)
-	{
-	case 1:
-		order->tokens[update::attribute_select_position] = "ID";
-		break;
-	case 2:
-		order->tokens[update::attribute_select_position] = "PW";
-		break;
-	case 3:
-		order->tokens[update::attribute_select_position] = "memo";
-		break;
-	}
 	std::string new_attribute_value;
-	//네번째 페이지 (선택된 속성이 가지게 될 값 입력)
+	//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)
 	{
 		//메뉴출력
 		{
-
+			std::cout << "변경할 ";
+			std::cout << this->order->tokens[update::attribute_select_position];
+			std::cout << "( ";
+			print_colored_account_attribute(temp_account, this->order->tokens[update::attribute_select_position]);
+			std::cout << " ->  ? )" << std::endl;
 		}
 		//메뉴 중에서 선택
 		{
@@ -357,11 +399,23 @@ void Order_Form_Filler::update_account_attribute(Order_token * order)
 		}
 		//선택에 대한 예외처리
 		{
-			///지금 다 생략했는데, 사실 입력 안 받으면 취소하도록 예외처리해야한다.
+			try {
+				if (new_attribute_value == "")
+					throw error_expression::msg_form_filling_cancel;
+			}
+			catch (std::string error_message) {
+				Status::set_is_form_filling_successful(false);
+				std::cout << error_message << std::endl;;
+				return;
+			}
 		}
-	}
-	order->tokens[update::new_attribute_value_position] = new_attribute_value;
-	order->type = update::modify_account_attribute;
+		//정상진행
+		{
+			this->order->tokens[update::new_attribute_value_position] = new_attribute_value;
+			this->order->type = update::modify_account_attribute;
+		}
+	}//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)
+	
 	return;
 }
 
@@ -410,4 +464,23 @@ void Order_Form_Filler::print_colored_account_attributes(Account * account)
 	std::cout << "[2] PW : " << account->get_attribute("PW") << std::endl;
 	std::cout << "[3] memo : " << account->get_attribute("Memo") << std::endl;
 	SET_CONSOLE_COLOR_DEFAULT;
+}
+
+void Order_Form_Filler::print_colored_account_attribute(Account * account, std::string attribute)
+{
+	SET_CONSOLE_COLOR(console_color::account_attribute_color);
+	if (attribute == "ID")
+		std::cout <<  account->get_attribute("ID");
+	else if (attribute == "PW")
+		std::cout <<  account->get_attribute("PW");
+	else if (attribute == "memo")
+		std::cout <<  account->get_attribute("Memo") ;
+	else
+		assert(0);
+	SET_CONSOLE_COLOR_DEFAULT;
+}
+
+bool Order_Form_Filler::is_count_range(int select, int count)
+{
+	return (0 <= select && select <= count) ? true : false;
 }
