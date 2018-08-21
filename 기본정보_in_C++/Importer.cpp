@@ -11,7 +11,7 @@ Importer::Importer(std::string load_file_name) :
 	data(nullptr),
 	data_size(fiop::file_doesnt_exist),
 	di(fiop::file_doesnt_exist),
-	is_file_exist(false)
+	is_file_exists(false)
 {
 	load_raw_data();
 }
@@ -37,11 +37,11 @@ void Importer::load_raw_data()
 	}
 	catch (...)
 	{
-		this->is_file_exist = false;
+		this->is_file_exists = false;
 		this->fp.close();
 		return;
 	}
-	this->is_file_exist = true;
+	this->is_file_exists = true;
 	get_data_size();
 	this->data = new char[this->data_size + 1];
 	this->data[this->data_size] = NULL;
@@ -258,7 +258,7 @@ void Importer::make_a_person()
 {
 	this->temp_person = new Person();
 	try { //파일 로드에서의 3가지 경우 중 예외처리는 2가지 경우에 대해서 한다.
-		if (this->is_file_exist == false) //A. 해당하는 파일이 없을 때 -> temp_person의 is_alive는 true이되, 사이트 수는 0개.
+		if (this->is_file_exists == false) //A. 해당하는 파일이 없을 때 -> temp_person의 is_alive는 true이되, 사이트 수는 0개.
 			throw err_exp::msg_file_doesnt_exist;
 		if (is_person_initialized_well_with_raw_data() == true) //B. 존재하는 파일을 정상적으로 로드
 			this->temp_person->set_is_alive(true);
@@ -268,6 +268,7 @@ void Importer::make_a_person()
 	catch (std::string error_message) {
 		if (error_message == err_exp::msg_file_doesnt_exist)
 		{	//A 번의 예외처리 (파일 없음)
+			std::cout << this->load_file_name << " 라는 파일이 없어서 새로 만들었습니다." << std::endl;
 			this->temp_person->set_is_alive(true); //사실상 파일이 없는건 오류가 아니기에 return 하지 않는다.
 			return;
 		}

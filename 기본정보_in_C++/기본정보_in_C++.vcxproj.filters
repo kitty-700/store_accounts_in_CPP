@@ -78,6 +78,9 @@
     <ClCompile Include="Order_Form_Filler.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
+    <ClCompile Include="Load.h">
+      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="General_Function.h">

@@ -23,7 +23,7 @@ class Importer { //순전히 file 을 가지고 person을 만들기 위한 클래스. 파일 이름�
 	int data_size;
 	int di; //data index
 
-	bool is_file_exist;
+	bool is_file_exists;
 
 private:
 	void get_data_size();

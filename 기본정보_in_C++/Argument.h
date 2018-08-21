@@ -37,6 +37,9 @@ namespace option {
 			show_one_site_information_with_site_name_ = 6,
 			show_all_site_information_ = 7,
 			save_ = 8,
+			load_ = 9,
+			reload_ = 10,
+			clear_screen_ = 11,
 			exit_ = -1,
 			no_operation_input_ = -2
 		};

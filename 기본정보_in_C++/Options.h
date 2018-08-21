@@ -14,5 +14,6 @@
 #include"Add.h"
 #include"Del.h"
 #include"Update.h"
+#include"Load.h"
 using namespace option;
 #endif
