@@ -80,9 +80,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Natural_language.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="General_Function.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="Options.h">
       <Filter>헤더 파일\Option</Filter>
+    </ClInclude>
+    <ClInclude Include="Natural_language.h">
+      <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

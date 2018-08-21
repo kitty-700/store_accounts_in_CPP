@@ -28,7 +28,7 @@ bool Account::is_proper_string(std::string what_attribute, std::string str) cons
 			if (str.find(arg::forbidden_chars[i]) != string::npos)
 				throw  "계정의 " + what_attribute + "에 " + err_exp::msg_forbidden_character;
 	}
-	catch (std::string error_message) { //보통의 catch문
+	catch (std::string error_message) {
 		std::cout << error_message << std::endl;
 		return false;
 	}

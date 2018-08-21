@@ -25,7 +25,7 @@ public:
 
 private:
 	void add_new_site();
-	void add_new_account();
+	void add_new_account(Site * site);
 
 	void del_site(Site * site);
 	void del_account(Site * site);

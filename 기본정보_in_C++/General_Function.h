@@ -25,6 +25,8 @@ public:
 	static void get_string_without_overflow(char *string, const int string_length);
 	static int login();
 	static void show_order(Order_token * order);
+	static void print_thick_line();
+	static void print_thin_line();
 	static void help();
 };
 #endif

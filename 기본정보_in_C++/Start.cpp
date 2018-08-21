@@ -21,7 +21,7 @@ int main(int argc, char ** argv)
 	init(&do_more, &slave, argc);
 	do
 	{
-		std::cout << thick_line << std::endl;
+		General_Function::print_thick_line();
 		std::cout << "> ";
 		if (Status::get_is_argument_input() == false) {//보통의 경우엔 콘솔에서 명령어 입력을 받고 명령을 실행한다.
 			General_Function::order_color_input(order);
