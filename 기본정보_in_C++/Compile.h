@@ -12,8 +12,8 @@ namespace option {
 		static const std::string default_load_file_name = "AQ.alz";
 		static const std::string default_save_file_name = "AQ.alz";
 		//암호화 여부
-		static const bool active_encryption = false; //at Export
-		static const bool active_decryption = false; //at Import
+		static const bool active_encryption = true; //at Export
+		static const bool active_decryption = true; //at Import
 		//JUNK byte 붙이기.  한번 붙일 때마다 min~max 만큼의 바이트 수 중 랜덤 갯수로 붙인다.
 		static const bool generate_junk_bytes = true;
 		static const int max_junk_bytes = 500000;

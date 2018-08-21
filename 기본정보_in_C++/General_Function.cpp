@@ -41,23 +41,25 @@ int General_Function::get_cipher(int number)
 		result++;
 	}
 	assert(0); //자릿수 구하는데에서 음수는 고려하지않음.
-	return 0;
+	return -999;
 }
 int General_Function::get_random(int min, int max)
-{	
+{	//2가지 방법이 있는데, 2번째 방법은 속도가 너무 느리다.
 	assert(max >= min);
-	/* 기존의 이 방식으론 짧은 시간동안 너무 많은 중복 수가 나와버린다.
-	srand((unsigned)time(NULL));
-	cout << rand() << endl;
-	return rand() % (max - min) + min;
-	*/
-	// 1단계, 시드 설정	
+	//기존의 이 방식으론 짧은 시간동안 너무 많은 중복 수가 나와버린다. (시드 단위가 1초라서)
+	//└ 이 오류가 일어난 이유는 함수가 호출될 때마다 시드를 설정했기 때문. 아예 main()쪽에서 딱 한번만 시드를 설정할 수 있게 바꿨다.
+	const static int interval = max - min;
+	return (rand() % interval) + min;
+	////////////////////////////////////////////////////////
+	/*
+	// 1단계, 시드 설정
 	random_device random;
 	mt19937_64 rnd(random());
 	// 2단계, 분포 설정 (정수)
 	uniform_int_distribution<int> range(min, max);
 	// 3단계, 값 추출
 	return range(rnd);
+	*/
 }
 
 bool General_Function::ask_do_or_not(std::string ask)

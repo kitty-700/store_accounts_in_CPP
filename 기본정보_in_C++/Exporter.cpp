@@ -36,6 +36,7 @@ void Exporter::junk_byte_input()
 				continue;
 			else //확률은 1/2이다. 각각 아예 '#'를 넣지 않거나(if), 한번에 두 개를 넣거나(else).
 				put_on_file(to_add);
+			//가끔 메모장으로 데이터를 읽어보면 ?#j~~~ 처럼 #가 하나만 있는 경우가 있는데 이건 한글이랑 겹쳐서 출력된거고, 실제로는  ##가 있다.
 		}
 		put_on_file(to_add);
 	}

@@ -332,10 +332,9 @@ void Order_Form_Filler::update_site_name(Site * site)
 void Order_Form_Filler::update_account_attribute(Site * site)
 {
 	namespace update = argument::instruction::update;
-	Site * temp_site = this->person->site_number_to_Site(this->selection_1);
-	Account * temp_account = temp_site->find_account_with_account_number(this->selection_2);
+	Account * temp_account = site->find_account_with_account_number(this->selection_2);
 
-	//UPDATE-3-UpdateAccountAttribute 페이지 (계정 속성 선택 ID/PW/Memo)
+	//UPDATE-3-AccountAttributeSelect 페이지 (계정 속성 선택 ID/PW/Memo)
 	{
 		//메뉴출력
 		{
@@ -363,7 +362,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//정상진행
 		{
-			this->order->tokens[update::site_name_position] = temp_site->get_site_name();
+			this->order->tokens[update::site_name_position] = site->get_site_name();
 			this->order->tokens[update::id_position] = temp_account->get_attribute("ID");
 
 			switch (this->selection_3)
@@ -379,7 +378,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 				break;
 			}
 		}
-	}//UPDATE-3-AccountAttributeSelect 페이지 (계정 속성 선택)
+	}//UPDATE-3-AccountAttributeSelect 페이지 (계정 속성 선택 ID/PW/Memo)
 
 	std::string new_attribute_value;
 	//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)

@@ -8,7 +8,7 @@
 #include "Options.h"
 #include "Information_Organizing_Class.h"
 #include "Status.h"
-class Importer { //순전히 file 을 가지고 person을 만들기 위한 클래스
+class Importer { //순전히 file 을 가지고 person을 만들기 위한 클래스. 파일 이름을 입력받아 동작한다.
 	std::string load_file_name;
 
 	std::ifstream fp;
