@@ -12,6 +12,7 @@
 
 class Exporter {
 	Person * person_to_export;
+	std::string save_file_name;
 
 	std::ofstream fp;
 	std::string temp_string;
@@ -23,7 +24,7 @@ class Exporter {
 	void put_on_file(char data);
 	void account_byte_input(Account * temp_account);
 public:
-	Exporter(Person * person);
+	Exporter(Person * person, std::string save_file_name);
 	void save();
 };
 #endif

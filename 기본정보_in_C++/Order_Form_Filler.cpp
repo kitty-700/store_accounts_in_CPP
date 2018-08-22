@@ -65,7 +65,7 @@ void Order_Form_Filler::add_form_filler()
 				add_new_account(temp_site);
 			}
 		}
-	}//첫번째 페이지 (사이트 선택)
+	}//ADD-1 페이지 (사이트 선택)
 	return;
 }
 
@@ -310,6 +310,41 @@ void Order_Form_Filler::update_form_filler()
 				update_account_attribute(temp_site);
 		}
 	}//UPDATE-2 페이지 (사이트 자체(0) 혹은 계정 선택)
+}
+
+void Order_Form_Filler::load_form_filler()
+{	// "load" 명령에 대한 양식을 받는다.
+	//LOAD-1 페이지 (파일 이름 입력)
+	{
+		//메뉴 출력
+		{
+			General_Function::print_thin_line();
+			std::cout << "새로 로드하고자 하는 파일의 이름을 입력해주세요." << std::endl;
+		}
+		//입력
+		{
+			std::cout << "파일 이름 > ";
+			General_Function::order_color_input(this->selection);
+		}
+		//선택에 대한 예외처리
+		{
+			try {
+				if (this->selection == "")
+					throw error_expression::msg_form_filling_cancel;
+			}
+			catch (std::string error_message) {
+				Status::set_is_form_filling_successful(false);
+				std::cout << error_message << std::endl;
+				return;
+			}
+		}
+		//정상진행
+		{
+			using namespace argument::instruction::load;
+			order->tokens[file_name_position] = this->selection;
+		}
+	}//LOAD-1 페이지 (파일 이름 입력)
+	return;
 }
 
 void Order_Form_Filler::update_site_name(Site * site)

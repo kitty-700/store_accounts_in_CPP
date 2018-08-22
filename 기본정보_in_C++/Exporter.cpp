@@ -1,8 +1,8 @@
 #include "Exporter.h"
 namespace fiop = option::file_io_parameter;
-Exporter::Exporter(Person * person) : person_to_export(person)
+Exporter::Exporter(Person * person, std::string save_file_name) : person_to_export(person), save_file_name(save_file_name)
 {
-	this->fp.open(compile::default_save_file_name, std::ios::binary);
+	this->fp.open(this->save_file_name, std::ios::binary);
 }
 void Exporter::encrypt(std::string& data)
 {

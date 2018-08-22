@@ -2,11 +2,11 @@
 
 namespace arg = option::argument;
 namespace err_exp = option::error_expression;
-bool Order_Interpreter::init_person(std::string file_name, const bool using_in_first_time)
+bool Order_Interpreter::init_person(std::string file_name)
 {
 	Importer importer(file_name);
 	Person * imported_person = importer.return_person();
-	bool is_success = change_person(imported_person, using_in_first_time);
+	bool is_success = change_person(imported_person);
 	if (is_success == true)
 		init_person_success_action(file_name);
 	return is_success;
@@ -19,12 +19,12 @@ void Order_Interpreter::init_person_success_action(std::string loaded_file_name)
 	std::cout << this->person->get_site_count() << " 개의 사이트 정보가 적재되었습니다." << std::endl;
 	std::cout << "도움말 : help" << std::endl;
 }
-Order_Interpreter::Order_Interpreter()
+Order_Interpreter::Order_Interpreter() : person(nullptr)
 {	//당연한 소리지만, 맨 처음은 파일을 읽어와야 프로그램을 시작할 수 있다.
 	std::string load_file_name = compile::default_load_file_name; //가장 처음은 기본으로 지정된 파일 이름으로 적재를 시도한다.
 	while (1)
 	{
-		if (init_person(load_file_name, true) == false)
+		if (init_person(load_file_name) == false)
 		{
 			std::string reload_file_name;
 			std::cout << "새 파일 이름을 입력해주시겠습니까? ";
@@ -42,7 +42,7 @@ Order_Interpreter::~Order_Interpreter()
 {
 	delete this->person;
 }
-std::string Order_Interpreter::excute_order(std::string order)
+std::string Order_Interpreter::excute_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
 {
 	this->order = Order_Token_Refiner(new Order_token).refining(order); //Order_Token_Refiner 임시객체 개념 사용
 	if (compile::debug::order_tokenizer_debug) { //확인 결과 정상동작
@@ -79,7 +79,7 @@ std::string Order_Interpreter::excute_order(std::string order)
 	else if (op == arg::order_type::load_)
 		load(this->order);
 	else if (op == arg::order_type::reload_)
-		init_person(this->now_loaded_file_name, false);
+		init_person(this->now_loaded_file_name);
 
 	else if (
 		op == arg::order_type::show_site_list_ ||
@@ -89,7 +89,7 @@ std::string Order_Interpreter::excute_order(std::string order)
 		show(op);
 
 	else if (op == arg::order_type::save_) {
-		Exporter exp(this->person);
+		Exporter exp(this->person, this->now_loaded_file_name);
 		exp.save();
 	}
 
@@ -124,16 +124,18 @@ void Order_Interpreter::add(Order_token* order)
 		this->person->add(order);
 }
 
-void Order_Interpreter::load(Order_token * site_name)
+void Order_Interpreter::load(Order_token * order)
 {
 	Status::set_is_form_filling_successful(true);
 	using namespace arg::instruction::load;
 	if (order->type == load_in_default_file_name)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		//
+		Order_Form_Filler(this->person, order).load_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->add(order);
+	{
+		init_person(order->tokens[file_name_position]);
+	}
 }
 
 void Order_Interpreter::del(Order_token* order)
@@ -232,7 +234,7 @@ void Order_Interpreter::show_site_in_site_name(Order_token * order)
 	this->person->show_one_site_information(temp_site, site_number);
 }
 
-bool Order_Interpreter::change_person(Person * person_to_change, const bool using_in_first_time)
+bool Order_Interpreter::change_person(Person * person_to_change)
 {
 	if (person_to_change->get_is_alive() == false)
 	{
@@ -241,7 +243,7 @@ bool Order_Interpreter::change_person(Person * person_to_change, const bool usin
 	}
 	else
 	{
-		if (using_in_first_time == false)
+		if (this->person != nullptr)
 		{	//맨 처음 적재되는게 아니라면 작업 도중 변경되는것을 의미하므로 확인 절차를 거친다.
 			if (General_Function::ask_do_or_not(error_expression::msg_job_reset_warning + " 진행하시겠습니까?") == true)
 			{

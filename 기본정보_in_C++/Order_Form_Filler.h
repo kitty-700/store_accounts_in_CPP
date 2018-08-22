@@ -22,6 +22,7 @@ public:
 	void add_form_filler();
 	void del_form_filler();
 	void update_form_filler();
+	void load_form_filler();
 
 private:
 	void add_new_site();
