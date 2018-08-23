@@ -34,7 +34,13 @@ private:
 	void update_site_name(Site * site);
 	void update_account_attribute(Site * site);
 
-	bool exception_no_sites();
+	//////////////////////////////////////뒷받침되는 함수들
+	bool exception_no_sites(int site_count);
+	void exception_no_input(int selection);
+	void exception_no_input(std::string selection);
+	void exception_zero_to_quit(int selection);
+	void exception_range_out(int select, int count);
+
 	void zero_selection_explain(std::string sentence);
 	void zero_selection_explain(std::string sentence, Site * site);
 	void print_colored_site_name(Site *site);

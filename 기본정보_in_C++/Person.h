@@ -37,9 +37,9 @@ public:
 	void print_site_number(int number);
 	int get_site_count() const;
 	bool get_is_alive() const;
-	Site * site_name_to_Site(std::string site_name);
-	Site * site_number_to_Site(int site_number);
-	int site_name_to_site_number(std::string site_name);
+	Site * find_Site(std::string site_name);
+	Site * find_Site(int site_number);
+	int find_Site_number(std::string site_name);
 	void add(Order_token* order);
 	void del(Order_token* order);
 	void update(Order_token* order);

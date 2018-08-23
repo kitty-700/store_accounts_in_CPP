@@ -45,10 +45,8 @@ void Order_Form_Filler::add_form_filler()
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered)
-					throw error_expression::msg_form_filling_cancel;
-				if (is_count_range(this->selection_1, this->person->get_site_count()) == false)
-					throw error_expression::msg_no_existing_site_number;
+				exception_no_input(this->selection_1);
+				exception_range_out(this->selection_1, this->person->get_site_count());
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -61,7 +59,7 @@ void Order_Form_Filler::add_form_filler()
 			if (this->selection_1 == argument::zero_selection)
 				add_new_site();
 			else {
-				Site * temp_site = this->person->site_number_to_Site(this->selection_1);
+				Site * temp_site = this->person->find_Site(this->selection_1);
 				add_new_account(temp_site);
 			}
 		}
@@ -135,7 +133,7 @@ void Order_Form_Filler::add_new_account(Site * site)
 
 void Order_Form_Filler::del_form_filler()
 {	//"del" 명령에 대한 양식을 받는다.
-	if (exception_no_sites() == true)
+	if (exception_no_sites(this->person->get_site_count()) == true)
 		return;
 	Site * temp_site;
 	//DEL-1-SiteSelect 페이지 (사이트 선택)
@@ -155,12 +153,9 @@ void Order_Form_Filler::del_form_filler()
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered)
-					throw err_exp::msg_form_filling_cancel;
-				if (this->selection_1 == argument::zero_selection)
-					throw err_exp::msg_form_filling_cancel;
-				if (is_count_range(this->selection_1, this->person->get_site_count()) == false)
-					throw err_exp::msg_no_existing_site_number;
+				exception_no_input(this->selection_1);
+				exception_zero_to_quit(this->selection_1);
+				exception_range_out(this->selection_1, this->person->get_site_count());
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -170,7 +165,7 @@ void Order_Form_Filler::del_form_filler()
 		}
 		//정상진행
 		{
-			temp_site = this->person->site_number_to_Site(this->selection_1);
+			temp_site = this->person->find_Site(this->selection_1);
 		}
 	}//DEL-1-SiteSelect 페이지 (사이트 선택)
 
@@ -192,10 +187,8 @@ void Order_Form_Filler::del_form_filler()
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_2 == error_expression::string_to_be_int_wasnt_entered)
-					throw error_expression::msg_form_filling_cancel;
-				if (is_count_range(this->selection_2, temp_site->get_account_count()) == false)
-					throw error_expression::msg_no_existing_account_number;
+				exception_no_input(this->selection_2);
+				exception_range_out(this->selection_2, temp_site->get_account_count());
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -234,7 +227,7 @@ void Order_Form_Filler::del_account(Site * site)
 
 void Order_Form_Filler::update_form_filler()
 {	//"update" 명령에 대한 양식을 받는다.
-	if (exception_no_sites() == true)
+	if (exception_no_sites(this->person->get_site_count()) == true)
 		return;
 	Site * temp_site;
 	//UPDATE-1 페이지 (사이트 선택)
@@ -254,12 +247,9 @@ void Order_Form_Filler::update_form_filler()
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_1 == error_expression::string_to_be_int_wasnt_entered)
-					throw error_expression::msg_form_filling_cancel;
-				if (this->selection_1 == argument::zero_selection)
-					throw err_exp::msg_form_filling_cancel;
-				if (is_count_range(this->selection_1, this->person->get_site_count()) == false)
-					throw err_exp::msg_no_existing_site_number;
+				exception_no_input(this->selection_1);
+				exception_zero_to_quit(this->selection_1);
+				exception_range_out(this->selection_1, this->person->get_site_count());
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -269,7 +259,7 @@ void Order_Form_Filler::update_form_filler()
 		}
 		//정상진행
 		{
-			temp_site = this->person->site_number_to_Site(this->selection_1);
+			temp_site = this->person->find_Site(this->selection_1);
 		}
 	}//UPDATE-1 페이지 (사이트 선택)
 
@@ -291,10 +281,8 @@ void Order_Form_Filler::update_form_filler()
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_2 == error_expression::string_to_be_int_wasnt_entered)
-					throw error_expression::msg_form_filling_cancel;
-				if (is_count_range(this->selection_2, temp_site->get_account_count()) == false)
-					throw error_expression::msg_no_existing_account_number;
+				exception_no_input(this->selection_2);
+				exception_range_out(this->selection_2, temp_site->get_account_count());
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -310,41 +298,6 @@ void Order_Form_Filler::update_form_filler()
 				update_account_attribute(temp_site);
 		}
 	}//UPDATE-2 페이지 (사이트 자체(0) 혹은 계정 선택)
-}
-
-void Order_Form_Filler::load_form_filler()
-{	// "load" 명령에 대한 양식을 받는다.
-	//LOAD-1 페이지 (파일 이름 입력)
-	{
-		//메뉴 출력
-		{
-			General_Function::print_thin_line();
-			std::cout << "새로 로드하고자 하는 파일의 이름을 입력해주세요." << std::endl;
-		}
-		//입력
-		{
-			std::cout << "파일 이름 > ";
-			General_Function::order_color_input(this->selection);
-		}
-		//선택에 대한 예외처리
-		{
-			try {
-				if (this->selection == "")
-					throw error_expression::msg_form_filling_cancel;
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
-		}
-		//정상진행
-		{
-			using namespace argument::instruction::load;
-			order->tokens[file_name_position] = this->selection;
-		}
-	}//LOAD-1 페이지 (파일 이름 입력)
-	return;
 }
 
 void Order_Form_Filler::update_site_name(Site * site)
@@ -369,8 +322,7 @@ void Order_Form_Filler::update_site_name(Site * site)
 		//선택에 대한 예외처리
 		{
 			try {
-				if (new_site_name == "")
-					throw error_expression::msg_form_filling_cancel;
+				exception_no_input(new_site_name);
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -398,6 +350,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		{
 			General_Function::print_thin_line();
 			std::cout << "변경할 속성을 선택해주세요." << std::endl;
+			zero_selection_explain("동작 취소");
 			print_colored_account_attributes(temp_account);
 		}
 		//메뉴 중에서 선택
@@ -409,10 +362,9 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->selection_3 == error_expression::string_to_be_int_wasnt_entered)
-					throw error_expression::msg_form_filling_cancel;
-				if (this->selection_3 < 1 || 3 < this->selection_3) //속성은 1~3뿐
-					throw err_exp::msg_undefined_account_attribute;
+				exception_no_input(this->selection_3);
+				exception_range_out(this->selection_3, 3);
+				exception_zero_to_quit(this->selection_3);
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -460,8 +412,8 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		//선택에 대한 예외처리
 		{
 			try {
-				if (new_attribute_value == "" && this->order->tokens[update::attribute_select_position] != "memo")
-					throw error_expression::msg_form_filling_cancel;
+				if (this->order->tokens[update::attribute_select_position] != "memo")
+					exception_no_input(new_attribute_value);
 			}
 			catch (std::string error_message) {
 				Status::set_is_form_filling_successful(false);
@@ -479,10 +431,44 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 	return;
 }
 
-bool Order_Form_Filler::exception_no_sites()
-{
+void Order_Form_Filler::load_form_filler()
+{	// "load" 명령에 대한 양식을 받는다.
+	//LOAD-1 페이지 (파일 이름 입력)
+	{
+		//메뉴 출력
+		{
+			General_Function::print_thin_line();
+			std::cout << "새로 로드하고자 하는 파일의 이름을 입력해주세요." << std::endl;
+		}
+		//입력
+		{
+			std::cout << "파일 이름 > ";
+			General_Function::order_color_input(this->selection);
+		}
+		//선택에 대한 예외처리
+		{
+			try {
+				exception_no_input(this->selection);
+			}
+			catch (std::string error_message) {
+				Status::set_is_form_filling_successful(false);
+				std::cout << error_message << std::endl;
+				return;
+			}
+		}
+		//정상진행
+		{
+			using namespace argument::instruction::load;
+			order->tokens[file_name_position] = this->selection;
+		}
+	}//LOAD-1 페이지 (파일 이름 입력)
+	return;
+}
+
+bool Order_Form_Filler::exception_no_sites(int site_count)
+{	//site가 없으면 동작이 의미가 없는 DEL, UPDATE 와 같은 명령에 쓰인다.
 	try {
-		if (this->person->get_site_count() == 0)	//사이트가 없으면 del의 의미가 없다.
+		if (site_count == 0)	//사이트가 없으면 del의 의미가 없다.
 			throw err_exp::msg_person_hasnt_site;
 	}
 	catch (std::string error_message) {
@@ -491,6 +477,30 @@ bool Order_Form_Filler::exception_no_sites()
 		return true;
 	}
 	return false;
+}
+
+void Order_Form_Filler::exception_no_input(int selection)
+{
+	if (selection == error_expression::string_to_be_int_wasnt_entered)
+		throw err_exp::msg_no_input_form_filling_cancel;
+}
+
+void Order_Form_Filler::exception_no_input(std::string selection)
+{
+	if (selection == "")
+		throw err_exp::msg_no_input_form_filling_cancel;
+}
+
+void Order_Form_Filler::exception_zero_to_quit(int selection)
+{
+	if (selection == argument::zero_selection)
+		throw err_exp::msg_form_filling_cancel;
+}
+
+void Order_Form_Filler::exception_range_out(int select, int count)
+{
+	if (is_count_range(select, count) == false)
+		throw err_exp::msg_ineffective_select;
 }
 
 void Order_Form_Filler::zero_selection_explain(std::string sentence)
@@ -542,6 +552,6 @@ void Order_Form_Filler::print_colored_account_attribute(Account * account, std::
 }
 
 bool Order_Form_Filler::is_count_range(int select, int count)
-{
+{	//0까지는 정상범주로 취급
 	return (0 <= select && select <= count) ? true : false;
 }
