@@ -68,8 +68,7 @@ bool General_Function::ask_do_or_not(std::string ask)
 	cout << "yes 혹은 no 를 입력하세요. (입력이 \"yes\" 가 아니면 전부 \"no\"로 취급함)" << std::endl;
 	cout << "> ";
 	string answer;
-	cin >> answer;
-	cin.ignore();
+	order_color_input(answer);
 	if (answer == "yes")
 		return true;
 	return false;

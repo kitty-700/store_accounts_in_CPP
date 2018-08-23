@@ -153,6 +153,7 @@
     <ClCompile Include="Exporter.cpp" />
     <ClCompile Include="General_Function.cpp" />
     <ClCompile Include="Importer.cpp" />
+    <ClCompile Include="Load.h" />
     <ClCompile Include="Natural_language.cpp" />
     <ClCompile Include="Order_Form_Filler.cpp" />
     <ClCompile Include="Order_Interpreter.cpp" />
