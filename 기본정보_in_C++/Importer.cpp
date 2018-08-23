@@ -170,6 +170,11 @@ bool Importer::fill_proper_place(const int state_was)
 }
 void Importer::boot_load(bool * load_start, bool * op_active)
 {	//입력받은 데이터를 참조해서 '#'과 '0'을 연속으로 입력받았을 때만 load_start 를 true로 만든다.
+	/*                  (상태 1)									(상태 2)										(상태 3)								(상태 4)
+	  (시작)--->	 [ 적재시작X ]								[ 적재시작X ]								[ 적재시작O ]
+	  ┌------- >	 [ 명령활성X ] ------('#'입력)------>[ 명령활성O ] -----('0'입력)----->	[ 명령활성X ] --(람다전이)---> 적재시작! (승인상태)
+	  └--(기타 입력)-<----------------------------------(기타 입력)-<┘
+	*/
 	if ((*op_active) == true)
 	{
 		*(op_active) = false;
@@ -181,7 +186,7 @@ void Importer::boot_load(bool * load_start, bool * op_active)
 	}
 	else //if ((*op_active) == false) 
 	{
-		if (this->data[this->di] == fiop::op_start_char) //data[di] 가 '#'
+		if (this->data[this->di] == fiop::op_start_char) //data[di] 가 '#'일 때
 			*(op_active) = true;
 	}
 }
