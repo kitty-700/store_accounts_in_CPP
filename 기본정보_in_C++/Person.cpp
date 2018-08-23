@@ -41,14 +41,14 @@ void Person::clean_itself()
 	}
 }
 
-Site* Person::site_name_to_Site(std::string site_name)
+Site* Person::find_Site(std::string site_name)
 {
 	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); each++)
 		if ((*each)->get_site_name() == site_name)
 			return (*each);
 	return nullptr;
 }
-Site * Person::site_number_to_Site(int site_number)
+Site * Person::find_Site(int site_number)
 {
 	int count = 0;
 	for (
@@ -61,7 +61,7 @@ Site * Person::site_number_to_Site(int site_number)
 	}
 	return nullptr;
 }
-int Person::site_name_to_site_number(std::string site_name)
+int Person::find_Site_number(std::string site_name)
 {
 	int count = 1;
 	for (
@@ -76,7 +76,7 @@ int Person::site_name_to_site_number(std::string site_name)
 }
 bool Person::is_redundancy_site_name(std::string site_name)
 {
-	if (site_name_to_Site(site_name) == nullptr)
+	if (find_Site(site_name) == nullptr)
 		return false;
 	return true;
 }
@@ -141,7 +141,7 @@ Site * Person::add_site(std::string site_name)
 void Person::add_account(std::string site_name, std::string ID, std::string PW, std::string memo)
 {	//계정을 추가하는 함수이지만, 만약 사이트가 없다면 사이트를 생성한 후에 추가한다.
 	Site * temp_site;
-	if ((temp_site = site_name_to_Site(site_name)) == nullptr)
+	if ((temp_site = find_Site(site_name)) == nullptr)
 	{
 		temp_site = add_site(site_name); //없는 사이트 이름이었다면 add_site()가 실패할 일은 없지않을까? -> 있다. 금지된 문자가 포함되었을 때
 		if (temp_site == nullptr)
@@ -193,7 +193,7 @@ void Person::del_site(std::string site_name)
 }
 void Person::del_account(std::string site_name, std::string ID)
 {
-	Site * temp_site = site_name_to_Site(site_name);
+	Site * temp_site = find_Site(site_name);
 	try {
 		if (temp_site == nullptr)
 			throw err_exp::msg_no_existing_site_name;
@@ -227,7 +227,7 @@ void Person::update(Order_token *order)
 }
 void Person::update_site_name(std::string site_name, std::string new_site_name)
 {
-	Site* temp_site = site_name_to_Site(site_name);
+	Site* temp_site = find_Site(site_name);
 	try {
 		if (temp_site == nullptr)
 			throw err_exp::msg_no_existing_site_name;
@@ -243,7 +243,7 @@ void Person::update_site_name(std::string site_name, std::string new_site_name)
 
 void Person::update_account_attribute(std::string site_name, std::string ID, std::string what_attribute, std::string new_value)
 {
-	Site* temp_site = site_name_to_Site(site_name);
+	Site* temp_site = find_Site(site_name);
 	try {
 		if (temp_site == nullptr)
 			throw err_exp::msg_no_existing_site_name;

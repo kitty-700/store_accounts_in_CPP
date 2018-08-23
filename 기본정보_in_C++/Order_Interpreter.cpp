@@ -202,7 +202,7 @@ void Order_Interpreter::show_site_in_number(Order_token* order)//숫자로 사이트 �
 	}
 	else if ((1 <= number) && (number <= this->person->get_site_count()))
 	{
-		Site * temp_site = this->person->site_number_to_Site(number);
+		Site * temp_site = this->person->find_Site(number);
 		this->person->show_one_site_information(temp_site, number);
 	}
 	else {
@@ -221,7 +221,7 @@ void Order_Interpreter::show_site_in_site_name(Order_token * order)
 		std::cout << error_message << std::endl;
 		return;
 	}
-	Site * temp_site = this->person->site_name_to_Site(this->order->content[arg::operation_position]);
+	Site * temp_site = this->person->find_Site(this->order->content[arg::operation_position]);
 	try {
 		if (temp_site == nullptr)
 			throw err_exp::msg_no_existing_site_name;
@@ -230,7 +230,7 @@ void Order_Interpreter::show_site_in_site_name(Order_token * order)
 		std::cout << error_message << std::endl;
 		return;
 	}
-	int site_number = this->person->site_name_to_site_number(temp_site->get_site_name());
+	int site_number = this->person->find_Site_number(temp_site->get_site_name());
 	this->person->show_one_site_information(temp_site, site_number);
 }
 
@@ -319,7 +319,7 @@ arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 	else if (query_op == "help")
 		interpreted_op = arg::order_type::help_;
 
-	else if (this->person->site_name_to_Site(query_op) != nullptr) //사이트 이름 입력
+	else if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
 		interpreted_op = arg::order_type::show_one_site_information_with_site_name_;
 
 	else if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력
