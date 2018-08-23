@@ -109,7 +109,7 @@ std::string Order_Interpreter::excute_order(std::string order)///★★★★★★★�
 	delete this->order;
 	this->order = nullptr;
 	using namespace err_exp;
-	return msg_no_special_thing; //에러는 아니지만.
+	return msg_no_special_thing; //에러는 아니지만 error_expression에 넣어둠. 나중에 expression이라는 namespace 내에서 분리할 것.
 }
 
 void Order_Interpreter::add(Order_token* order)

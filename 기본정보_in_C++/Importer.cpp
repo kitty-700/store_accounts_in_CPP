@@ -73,37 +73,35 @@ bool Importer::change_state(bool * is_successful)
 		if (is_proper_transition(this->state_was, state_will) == false)
 			goto STOP_LOADING;
 		this->state_was = state_will;
-
 		this->temp_site = new Site();
 		goto CONTINUE_LOADING;
-
+		//
 	case fiop::account_id_assemblying:
 		if (is_proper_transition(this->state_was, state_will) == false)
 			goto STOP_LOADING;
 		this->state_was = state_will;
-
 		this->temp_account = new Account();
 		goto CONTINUE_LOADING;
-
+		//
 	case fiop::account_pw_assemblying:
 		if (is_proper_transition(this->state_was, state_will) == false)
 			goto STOP_LOADING;
 		this->state_was = state_will;
 		goto CONTINUE_LOADING;
-
+		//
 	case fiop::account_ud_assemblying:
 		if (is_proper_transition(this->state_was, state_will) == false)
 			goto STOP_LOADING;
 		this->state_was = state_will;
 		goto CONTINUE_LOADING;
-
+		//
 	case fiop::account_memo_assemblying:
 		if (is_proper_transition(this->state_was, state_will) == false)
 			goto STOP_LOADING;
 		this->state_was = state_will;
 
 		goto CONTINUE_LOADING;
-
+		//
 	case fiop::site_assemblying_finished:
 		if (is_proper_transition(this->state_was, state_will) == false)
 			goto STOP_LOADING;
@@ -112,10 +110,11 @@ bool Importer::change_state(bool * is_successful)
 		*(this->temp_person) += this->temp_site;
 		this->temp_site = nullptr;
 		goto CONTINUE_LOADING;
-
+		//
 	case fiop::load_finished:
 		*(is_successful) = true;
 		goto STOP_LOADING;
+		//
 	default: //fail
 		*(is_successful) = false;
 		goto STOP_LOADING;
@@ -153,7 +152,7 @@ bool Importer::fill_proper_place(const int state_was)
 		strcpy_s(this->temp_account->update_time, buffer::update_time_length, this->temp_str.c_str());
 		break;
 
-	case fiop::account_memo_assemblying://여까지 성공
+	case fiop::account_memo_assemblying://여까지 성공하면 계정 하나 만들어지는 것
 		if (this->temp_str.size() > buffer::memo_length)
 			return false;
 		strcpy_s(this->temp_account->memo, buffer::memo_length, this->temp_str.c_str());
@@ -214,7 +213,7 @@ bool Importer::assembly(bool * op_active, bool * is_successful)
 		}
 		else
 		{
-			//한 바이트씩 문자열에 저장
+			//보통의 경우엔 일단 한 바이트씩 문자열에 저장
 			this->temp_str += this->data[this->di];
 		}
 	}

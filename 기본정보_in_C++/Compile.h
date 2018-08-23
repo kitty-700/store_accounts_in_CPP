@@ -36,6 +36,8 @@ namespace option {
 			static const bool order_tokenizer_debug = false;
 			static const bool load_raw_data_debug = false;
 		}// namespace debug
+		//±‚≈∏
+		static const std::string msg_null = "(null)";
 	} // namespace compile
 }//option
 #endif

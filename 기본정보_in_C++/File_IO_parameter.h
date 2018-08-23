@@ -7,18 +7,22 @@ namespace option {
 	{
 		/*
 		#0
-		#1eee$
-		-	#2fuck adss$
-		#3asdasop$
-		#42018-08-06 01:07:03$
-		#5asjodpasjpo$ -> site에 account를 붙임
-		-	#2asjpeojwpo$
-		#3qwpoejp$
-		#42018-08-06 01:07:11$
-		#5%
+
+		#1naver$
+		-	#2my main ID$
+			#3main's PW$
+			#42018-08-06 01:07:03$
+			#5asjodpasjpo$ -> site에 account를 붙임
+
+		-	#2mysecondID$
+			#3secPW$
+			#42018-08-06 01:07:11$
+			#5%
 		#6 -> person에 site를 붙임
-		#1qojepwejpoq$
-		#6
+
+		#1secondSite$
+		#6 -> 이 경우, 사이트만 person에 붙인다.
+
 		#9
 		*/
 		static const char op_start_char = '#';

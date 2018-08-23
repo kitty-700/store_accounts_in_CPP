@@ -47,7 +47,11 @@ void Account::show_account_information() const
 	cout << "     ID : " << this->ID << endl;
 	cout << "     PW : " << this->PW << endl;
 	cout << "     UD : " << this->update_time << endl;
-	cout << "     MM : " << this->memo << endl;
+	cout << "     MM : ";
+	if (!strcmp(this->memo, "") == true)
+		cout << compile::msg_null << endl;
+	else
+		cout << this->memo << endl;
 }
 void Account::update_attribute(string what_attribute, string new_value)
 {
