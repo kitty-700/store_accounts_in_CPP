@@ -4,8 +4,15 @@
 #include <string>
 
 #include"Options.h"
+
 typedef struct Order_token{
 	int token_count = 0;
 	std::string tokens[argument::argument_limit]; 
 }Order_token;
+
+typedef struct Log{
+	Order_token order;
+	std::string original_value;
+}Log;
+
 #endif

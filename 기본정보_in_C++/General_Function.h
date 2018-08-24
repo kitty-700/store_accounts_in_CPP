@@ -12,6 +12,8 @@
 #include"Options.h"
 #include "Structs.h"
 #include "Console_Color.h"
+#include "Log_Recorder.h"
+#include "Status.h"
 class General_Function {
 public:
 	static void function_test();
