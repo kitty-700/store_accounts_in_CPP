@@ -66,7 +66,7 @@ std::string Order_Interpreter::excute_order(std::string order)///�ڡڡڡڡڡڡڡ
 		return err_exp::msg_no_special_thing;
 	}
 
-	arg::order_type op = operation_translate(Order::get()->content[arg::operation_position]);
+	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
 	if (op == arg::order_type::clear_screen_)
 		system("cls");
 	else if (op == arg::order_type::add_)
@@ -117,7 +117,7 @@ void Order_Interpreter::add()
 		Order_Form_Filler(this->person).add_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->add(Order::get());
+		this->person->add();
 }
 
 void Order_Interpreter::load()
@@ -143,7 +143,7 @@ void Order_Interpreter::del()
 		Order_Form_Filler(this->person).del_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->del(Order::get());
+		this->person->del();
 }
 
 void Order_Interpreter::update()
@@ -155,7 +155,7 @@ void Order_Interpreter::update()
 		Order_Form_Filler(this->person).update_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->update(Order::get());
+		this->person->update();
 }
 
 void Order_Interpreter::show(int what_type_of_showing)
