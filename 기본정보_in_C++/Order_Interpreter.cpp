@@ -161,6 +161,7 @@ void Order_Interpreter::update(Order_token* order)
 	if (Status::get_is_form_filling_successful() == true)
 		this->person->update(order);
 }
+
 void Order_Interpreter::show(int what_type_of_showing)
 {	//각 if~else if 문의 순서를 변경할 때는 의미가 달라질 수 있으므로 주의.
 	if (this->person->get_site_count() == 0)
@@ -185,6 +186,7 @@ void Order_Interpreter::show(int what_type_of_showing)
 		assert(0);
 	}
 }
+
 void Order_Interpreter::show_site_in_number(Order_token* order)//숫자로 사이트 찾아주기
 {	//"12" 처럼 사이트 번호만으로 정보를 찾는다.
 	try { //token 수가 1개가 아니면 함수 종료.
@@ -265,68 +267,17 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 {
-	arg::order_type interpreted_op;
-	if (query_op == "exit"
-		|| query_op == "-1")
-		interpreted_op = arg::order_type::exit_;
+	arg::order_type interpreted_op = Natural_language::operation_translate(query_op);
+	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
+	{
+		if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
+			interpreted_op = arg::order_type::show_one_site_information_with_site_name_;
 
-	else if (query_op == "show"
-		|| query_op == "ls")
-		interpreted_op = arg::order_type::show_site_list_;
+		else if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력
+			interpreted_op = arg::order_type::show_one_site_information_with_number_;
 
-	else if (query_op == "all"
-		|| query_op == "ll")
-		interpreted_op = arg::order_type::show_all_site_information_;
-
-	else if (query_op == "add"
-		|| query_op == "ADD"
-		|| query_op == "+")
-		interpreted_op = arg::order_type::add_;
-
-	else if (query_op == "del"
-		|| query_op == "DELETE"
-		|| query_op == "delete"
-		|| query_op == "remove"
-		|| query_op == "rm"
-		|| query_op == "-")
-		interpreted_op = arg::order_type::del_;
-
-	else if (query_op == "cls"
-		|| query_op == "clear")
-		interpreted_op = arg::order_type::clear_screen_;
-
-	else if (query_op == "update"
-		|| query_op == "UPDATE"
-		|| query_op == "Update"
-		|| query_op == "udt")
-		interpreted_op = arg::order_type::update_;
-
-	else if (query_op == "save"
-		|| query_op == "SAVE"
-		|| query_op == "Save"
-		|| query_op == "store")
-		interpreted_op = arg::order_type::save_;
-	
-	else if (query_op == "load"
-		|| query_op == "Load"
-		|| query_op == "LOAD")
-		interpreted_op = arg::order_type::load_;
-
-	else if (query_op == "reload"
-		|| query_op == "Reload")
-		interpreted_op = arg::order_type::reload_;
-
-	else if (query_op == "help")
-		interpreted_op = arg::order_type::help_;
-
-	else if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
-		interpreted_op = arg::order_type::show_one_site_information_with_site_name_;
-
-	else if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력
-		interpreted_op = arg::order_type::show_one_site_information_with_number_;
-
-	else
-		interpreted_op = arg::order_type::no_operation_input_;
-
+		else
+			interpreted_op = arg::order_type::no_operation_input_;
+	}
 	return interpreted_op;
 }

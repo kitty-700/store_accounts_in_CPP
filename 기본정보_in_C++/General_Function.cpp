@@ -1,10 +1,6 @@
 #include "General_Function.h"
 using namespace std;
-void General_Function::function_test()
-{
-	for (int i = 0; i < 100; i++)
-		cout << get_random(200, 200) << endl;
-}
+
 bool General_Function::is_natural_number(string str)
 {
 	if (str.size() > 0)
@@ -119,9 +115,9 @@ int General_Function::login()
 
 void General_Function::show_order(Order_token * order)
 {
-	cout << "=< " << order->token_count << " > tokens ="<< endl;
 	for (int i = 0; i < order->token_count; i++)
-		cout << "\t[" << i << "] " << order->tokens[i] << endl;
+		cout << order->tokens[i] << " ";
+	cout << endl;
 }
 
 void General_Function::print_thick_line()

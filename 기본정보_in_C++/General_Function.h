@@ -12,11 +12,8 @@
 #include"Options.h"
 #include "Structs.h"
 #include "Console_Color.h"
-#include "Log_Recorder.h"
-#include "Status.h"
 class General_Function {
 public:
-	static void function_test();
 	static bool is_natural_number(std::string str);
 	static int string_to_integer(std::string str);
 	static int get_cipher(int number);

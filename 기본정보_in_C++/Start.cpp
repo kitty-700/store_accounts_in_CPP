@@ -3,15 +3,15 @@
 #include <windows.h>
 #include "Options.h"
 #include "Compile.h"
-#include "General_Function.h"
 #include "Order_Interpreter.h"
+#include "Module_Tester.h"
 #include "Status.h"
 void init(bool * do_more, Order_Interpreter * p_slave, const int argc);
 int main(int argc, char ** argv)
 {
 	if (compile::module_test == true)
 	{	//단순한 모듈테스트. compile_option에서 토글 가능
-		General_Function::function_test();
+		module_test();
 		exit(0);
 	}
 	Order_Interpreter slave;

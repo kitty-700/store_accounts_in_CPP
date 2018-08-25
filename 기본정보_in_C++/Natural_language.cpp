@@ -29,3 +29,66 @@ std::string Natural_language::account_attribute_translate(std::string str)
 			return "memo";
 	return err_exp::translation_error;
 }
+
+argument::order_type Natural_language::operation_translate(std::string query_op)
+{
+	namespace arg = argument;
+	arg::order_type interpreted_op;
+	if (query_op == "exit"
+		|| query_op == "-1")
+		interpreted_op = arg::order_type::exit_;
+
+	else if (query_op == "show"
+		|| query_op == "ls")
+		interpreted_op = arg::order_type::show_site_list_;
+
+	else if (query_op == "all"
+		|| query_op == "ll")
+		interpreted_op = arg::order_type::show_all_site_information_;
+
+	else if (query_op == "add"
+		|| query_op == "ADD"
+		|| query_op == "+")
+		interpreted_op = arg::order_type::add_;
+
+	else if (query_op == "del"
+		|| query_op == "DELETE"
+		|| query_op == "delete"
+		|| query_op == "remove"
+		|| query_op == "rm"
+		|| query_op == "-")
+		interpreted_op = arg::order_type::del_;
+
+	else if (query_op == "cls"
+		|| query_op == "clear")
+		interpreted_op = arg::order_type::clear_screen_;
+
+	else if (query_op == "update"
+		|| query_op == "UPDATE"
+		|| query_op == "Update"
+		|| query_op == "udt")
+		interpreted_op = arg::order_type::update_;
+
+	else if (query_op == "save"
+		|| query_op == "SAVE"
+		|| query_op == "Save"
+		|| query_op == "store")
+		interpreted_op = arg::order_type::save_;
+
+	else if (query_op == "load"
+		|| query_op == "Load"
+		|| query_op == "LOAD")
+		interpreted_op = arg::order_type::load_;
+
+	else if (query_op == "reload"
+		|| query_op == "Reload")
+		interpreted_op = arg::order_type::reload_;
+
+	else if (query_op == "help")
+		interpreted_op = arg::order_type::help_;
+
+	else
+		interpreted_op = arg::order_type::not_translate_but_should_calculated_;
+
+	return interpreted_op;
+}

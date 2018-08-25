@@ -46,6 +46,12 @@
     <Filter Include="소스 파일\Log">
       <UniqueIdentifier>{dc00eee6-d585-4edb-bf93-e68a4237021e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Expression">
+      <UniqueIdentifier>{32655bc9-fd30-483c-b5aa-235bf50495af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Expression">
+      <UniqueIdentifier>{f8f393f0-d542-4cdb-a990-25af1c27ad50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Start.cpp">
@@ -78,9 +84,6 @@
     <ClCompile Include="Order_Token_Refiner.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
-    <ClCompile Include="Natural_language.cpp">
-      <Filter>소스 파일\Information_Organizing_Class</Filter>
-    </ClCompile>
     <ClCompile Include="Order_Form_Filler.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
@@ -89,6 +92,12 @@
     </ClCompile>
     <ClCompile Include="Log_Recorder.cpp">
       <Filter>소스 파일\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Module_Tester.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Natural_language.cpp">
+      <Filter>소스 파일\Expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,11 +170,14 @@
     <ClInclude Include="Options.h">
       <Filter>헤더 파일\Option</Filter>
     </ClInclude>
-    <ClInclude Include="Natural_language.h">
-      <Filter>헤더 파일\Information_Organizing_Class</Filter>
-    </ClInclude>
     <ClInclude Include="Log_Recorder.h">
       <Filter>헤더 파일\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Module_Tester.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Natural_language.h">
+      <Filter>헤더 파일\Expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

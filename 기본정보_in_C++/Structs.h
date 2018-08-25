@@ -11,6 +11,7 @@ typedef struct Order_token{
 }Order_token;
 
 typedef struct Log{
+	int order_type = -1;
 	Order_token order;
 	std::string original_value;
 }Log;

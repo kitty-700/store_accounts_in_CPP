@@ -111,4 +111,5 @@ void Exporter::save()
 	person_byte_input();
 	if (compile::generate_junk_bytes == true)
 		junk_byte_input();
+	Status::log_recorder.clear_itself();
 }
