@@ -157,6 +157,7 @@
     <ClCompile Include="Log_Recorder.cpp" />
     <ClCompile Include="Module_Tester.cpp" />
     <ClCompile Include="Natural_language.cpp" />
+    <ClCompile Include="Order.cpp" />
     <ClCompile Include="Order_Form_Filler.cpp" />
     <ClCompile Include="Order_Interpreter.cpp" />
     <ClCompile Include="Order_Token_Refiner.cpp" />
@@ -184,9 +185,11 @@
     <ClInclude Include="Module_Tester.h" />
     <ClInclude Include="Natural_language.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="Order.h" />
     <ClInclude Include="Order_Form_Filler.h" />
     <ClInclude Include="Order_Interpreter.h" />
     <ClInclude Include="Order_Token_Refiner.h" />
+    <ClInclude Include="Show.h" />
     <ClInclude Include="Structs.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="Site.h" />

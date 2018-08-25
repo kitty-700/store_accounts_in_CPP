@@ -99,6 +99,9 @@
     <ClCompile Include="Natural_language.cpp">
       <Filter>소스 파일\Expression</Filter>
     </ClCompile>
+    <ClCompile Include="Order.cpp">
+      <Filter>소스 파일\Order_Handler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="General_Function.h">
@@ -178,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="Natural_language.h">
       <Filter>헤더 파일\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="Order.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Show.h">
+      <Filter>헤더 파일\Option\argument\Instruction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

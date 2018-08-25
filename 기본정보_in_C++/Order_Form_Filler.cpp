@@ -1,7 +1,7 @@
 #include "Order_Form_Filler.h"
 namespace err_exp = error_expression;
-Order_Form_Filler::Order_Form_Filler(Person * person, Order_token * order) 
-	: person(person) , order(order) { }
+Order_Form_Filler::Order_Form_Filler(Person * person) 
+	: person(person) { }
 /* 입력 양식
 
 	//첫번째 페이지 ()
@@ -87,8 +87,8 @@ void Order_Form_Filler::add_new_site()
 		//정상진행
 		{
 			using namespace argument::instruction::add;
-			this->order->tokens[new_site_name_position] = new_site_name;
-			this->order->type = add_site_only;
+			Order::change_content(new_site_name_position, new_site_name);
+			Order::change_count(add_site_only);
 		}
 	}
 }
@@ -121,11 +121,11 @@ void Order_Form_Filler::add_new_account(Site * site)
 		//정상진행
 		{
 			using namespace argument::instruction::add;
-			this->order->tokens[new_site_name_position] = site->get_site_name();
-			this->order->tokens[new_id_position] = ID_input;
-			this->order->tokens[new_pw_position] = PW_input;
-			this->order->tokens[new_memo_position] = memo_input;
-			this->order->token_count = add_account_with_memo;
+			Order::change_content(new_site_name_position, site->get_site_name());
+			Order::change_content(new_id_position, ID_input);
+			Order::change_content(new_pw_position, PW_input);
+			Order::change_content(new_memo_position, memo_input);
+			Order::change_count(add_account_with_memo);
 		}
 	}
 	return;
@@ -210,18 +210,18 @@ void Order_Form_Filler::del_form_filler()
 void Order_Form_Filler::del_site(Site * site)
 {
 	using namespace argument::instruction::del;
-	this->order->tokens[site_name_position] = site->get_site_name();
-	this->order->type = delete_site;
+	Order::change_content(site_name_position, site->get_site_name());
+	Order::change_count(delete_site);
 	return;
 }
 
 void Order_Form_Filler::del_account(Site * site)
 {
 	using namespace argument::instruction::del;
-	this->order->tokens[site_name_position] = site->get_site_name();
 	Account * temp_account = site->find_account_with_account_number(this->selection_2);
-	this->order->tokens[id_position] = temp_account->get_attribute("ID");
-	this->order->type = delete_account;
+	Order::change_content(site_name_position, site->get_site_name());
+	Order::change_content(id_position, temp_account->get_attribute("ID"));
+	Order::change_count(delete_account);
 	return;
 }
 
@@ -303,7 +303,7 @@ void Order_Form_Filler::update_form_filler()
 void Order_Form_Filler::update_site_name(Site * site)
 {
 	namespace update = argument::instruction::update;
-	this->order->tokens[update::site_name_position] = site->get_site_name();
+
 	std::string new_site_name;
 	//UPDATE-3-UpdateSiteName 페이지 (사이트 자체(0) 혹은 계정 선택)
 	{
@@ -332,8 +332,9 @@ void Order_Form_Filler::update_site_name(Site * site)
 		}
 		//정상진행
 		{
-			this->order->tokens[update::new_site_name_position] = new_site_name;
-			this->order->type = update::modify_site_name;
+			Order::change_content(update::site_name_position, site->get_site_name());
+			Order::change_content(update::new_site_name_position, new_site_name);
+			Order::change_count(update::modify_site_name);
 		}
 	}//UPDATE-3-UpdateSiteName 페이지 (사이트 자체(0) 혹은 계정 선택)
 	return;
@@ -341,8 +342,8 @@ void Order_Form_Filler::update_site_name(Site * site)
 
 void Order_Form_Filler::update_account_attribute(Site * site)
 {
+	Account * account = site->find_account_with_account_number(this->selection_2);
 	namespace update = argument::instruction::update;
-	Account * temp_account = site->find_account_with_account_number(this->selection_2);
 
 	//UPDATE-3-AccountAttributeSelect 페이지 (계정 속성 선택 ID/PW/Memo)
 	{
@@ -351,7 +352,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 			General_Function::print_thin_line();
 			std::cout << "변경할 속성을 선택해주세요." << std::endl;
 			zero_selection_explain("동작 취소");
-			print_colored_account_attributes(temp_account);
+			print_colored_account_attributes(account);
 		}
 		//메뉴 중에서 선택
 		{
@@ -374,19 +375,19 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//정상진행
 		{
-			this->order->tokens[update::site_name_position] = site->get_site_name();
-			this->order->tokens[update::id_position] = temp_account->get_attribute("ID");
+			Order::change_content(update::site_name_position, site->get_site_name());
+			Order::change_content(update::id_position, account->get_attribute("ID"));
 
 			switch (this->selection_3)
 			{
 			case 1:
-				this->order->tokens[update::attribute_select_position] = "ID";
+				Order::change_content(update::attribute_select_position, "ID");
 				break;
 			case 2:
-				this->order->tokens[update::attribute_select_position] = "PW";
+				Order::change_content(update::attribute_select_position, "PW");
 				break;
 			case 3:
-				this->order->tokens[update::attribute_select_position] = "memo";
+				Order::change_content(update::attribute_select_position, "memo");
 				break;
 			}
 		}
@@ -399,9 +400,9 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		{
 			General_Function::print_thin_line();
 			std::cout << "변경할 ";
-			std::cout << this->order->tokens[update::attribute_select_position];
+			std::cout << Order::get_content(update::attribute_select_position);
 			std::cout << "( ";
-			print_colored_account_attribute(temp_account, this->order->tokens[update::attribute_select_position]);
+			print_colored_account_attribute(account, Order::get_content(update::attribute_select_position)); 
 			std::cout << " ->  ? )" << std::endl;
 		}
 		//입력
@@ -412,7 +413,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		//선택에 대한 예외처리
 		{
 			try {
-				if (this->order->tokens[update::attribute_select_position] != "memo")
+				if (Order::get_content(update::attribute_select_position) != "memo")
 					exception_no_input(new_attribute_value);
 			}
 			catch (std::string error_message) {
@@ -423,8 +424,8 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//정상진행
 		{
-			this->order->tokens[update::new_attribute_value_position] = new_attribute_value;
-			this->order->type = update::modify_account_attribute;
+			Order::change_content(update::new_attribute_value_position, new_attribute_value);
+			Order::change_count(update::modify_account_attribute);
 		}
 	}//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)
 	
@@ -459,7 +460,7 @@ void Order_Form_Filler::load_form_filler()
 		//정상진행
 		{
 			using namespace argument::instruction::load;
-			order->tokens[file_name_position] = this->selection;
+			Order::change_content(file_name_position, this->selection);
 		}
 	}//LOAD-1 페이지 (파일 이름 입력)
 	return;

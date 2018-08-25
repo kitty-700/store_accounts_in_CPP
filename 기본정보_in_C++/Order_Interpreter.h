@@ -6,6 +6,7 @@
 #include <windows.h>
 
 #include"Options.h"
+#include"Order.h"
 #include "File_IO_Class.h"
 #include "Status.h"
 #include "Structs.h"
@@ -16,18 +17,17 @@
 class Person;
 class Order_Interpreter {
 	Person * person;
-	Order_token * order;
 	std::string now_loaded_file_name;
 private:
 	bool init_person(std::string file_name); //생성자로부터 호출됨
 	void init_person_success_action(std::string loaded_file_name); //생성자로부터 호출됨
-	void add(Order_token* order);
-	void del(Order_token* order);
-	void update(Order_token* order);
-	void load(Order_token* order);
+	void add();
+	void del();
+	void update();
+	void load();
 	void show(int what_type_of_showing);
-	void show_site_in_number(Order_token* order);
-	void show_site_in_site_name(Order_token* order);
+	void show_site_in_number();
+	void show_site_in_site_name();
 	bool change_person(Person * person_to_change);
 public:
 	Order_Interpreter();//생성자에선 단지 기본으로 불러들일 파일이름만 init_person()에 던져준다.
