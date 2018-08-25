@@ -29,6 +29,7 @@ private:
 	void show_site_in_number();
 	void show_site_in_site_name();
 	bool change_person(Person * person_to_change);
+	void order_forwarding(argument::order_type op, bool * is_exit);
 public:
 	Order_Interpreter();//생성자에선 단지 기본으로 불러들일 파일이름만 init_person()에 던져준다.
 	~Order_Interpreter();//동적할당된 person을 제거하기 위해 person kill()

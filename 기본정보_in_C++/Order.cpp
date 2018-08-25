@@ -17,19 +17,18 @@ void Order::clear()
 
 void Order::set(Order_token * order)
 {
-	if (Order::order != nullptr)
-		delete Order::order;
+	Order::clear();
 	if (order == nullptr)
 		assert(0);
 	Order::order = order;
 }
 
-void Order::change_content(const int index, const std::string value)
+void Order::set_content(const int index, const std::string value)
 {
 	Order::order->tokens[index] = value;
 }
 
-void Order::change_count(const int count)
+void Order::set_token_count(const int count)
 {
 	Order::order->token_count = count;
 }

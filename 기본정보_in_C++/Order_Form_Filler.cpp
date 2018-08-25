@@ -87,8 +87,8 @@ void Order_Form_Filler::add_new_site()
 		//정상진행
 		{
 			using namespace argument::instruction::add;
-			Order::change_content(new_site_name_position, new_site_name);
-			Order::change_count(add_site_only);
+			Order::set_content(new_site_name_position, new_site_name);
+			Order::set_token_count(add_site_only);
 		}
 	}
 }
@@ -121,11 +121,11 @@ void Order_Form_Filler::add_new_account(Site * site)
 		//정상진행
 		{
 			using namespace argument::instruction::add;
-			Order::change_content(new_site_name_position, site->get_site_name());
-			Order::change_content(new_id_position, ID_input);
-			Order::change_content(new_pw_position, PW_input);
-			Order::change_content(new_memo_position, memo_input);
-			Order::change_count(add_account_with_memo);
+			Order::set_content(new_site_name_position, site->get_site_name());
+			Order::set_content(new_id_position, ID_input);
+			Order::set_content(new_pw_position, PW_input);
+			Order::set_content(new_memo_position, memo_input);
+			Order::set_token_count(add_account_with_memo);
 		}
 	}
 	return;
@@ -210,8 +210,8 @@ void Order_Form_Filler::del_form_filler()
 void Order_Form_Filler::del_site(Site * site)
 {
 	using namespace argument::instruction::del;
-	Order::change_content(site_name_position, site->get_site_name());
-	Order::change_count(delete_site);
+	Order::set_content(site_name_position, site->get_site_name());
+	Order::set_token_count(delete_site);
 	return;
 }
 
@@ -219,9 +219,9 @@ void Order_Form_Filler::del_account(Site * site)
 {
 	using namespace argument::instruction::del;
 	Account * temp_account = site->find_account_with_account_number(this->selection_2);
-	Order::change_content(site_name_position, site->get_site_name());
-	Order::change_content(id_position, temp_account->get_attribute("ID"));
-	Order::change_count(delete_account);
+	Order::set_content(site_name_position, site->get_site_name());
+	Order::set_content(id_position, temp_account->get_attribute("ID"));
+	Order::set_token_count(delete_account);
 	return;
 }
 
@@ -332,9 +332,9 @@ void Order_Form_Filler::update_site_name(Site * site)
 		}
 		//정상진행
 		{
-			Order::change_content(update::site_name_position, site->get_site_name());
-			Order::change_content(update::new_site_name_position, new_site_name);
-			Order::change_count(update::modify_site_name);
+			Order::set_content(update::site_name_position, site->get_site_name());
+			Order::set_content(update::new_site_name_position, new_site_name);
+			Order::set_token_count(update::modify_site_name);
 		}
 	}//UPDATE-3-UpdateSiteName 페이지 (사이트 자체(0) 혹은 계정 선택)
 	return;
@@ -375,19 +375,19 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//정상진행
 		{
-			Order::change_content(update::site_name_position, site->get_site_name());
-			Order::change_content(update::id_position, account->get_attribute("ID"));
+			Order::set_content(update::site_name_position, site->get_site_name());
+			Order::set_content(update::id_position, account->get_attribute("ID"));
 
 			switch (this->selection_3)
 			{
 			case 1:
-				Order::change_content(update::attribute_select_position, "ID");
+				Order::set_content(update::attribute_select_position, "ID");
 				break;
 			case 2:
-				Order::change_content(update::attribute_select_position, "PW");
+				Order::set_content(update::attribute_select_position, "PW");
 				break;
 			case 3:
-				Order::change_content(update::attribute_select_position, "memo");
+				Order::set_content(update::attribute_select_position, "memo");
 				break;
 			}
 		}
@@ -424,8 +424,8 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//정상진행
 		{
-			Order::change_content(update::new_attribute_value_position, new_attribute_value);
-			Order::change_count(update::modify_account_attribute);
+			Order::set_content(update::new_attribute_value_position, new_attribute_value);
+			Order::set_token_count(update::modify_account_attribute);
 		}
 	}//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)
 	
@@ -460,7 +460,7 @@ void Order_Form_Filler::load_form_filler()
 		//정상진행
 		{
 			using namespace argument::instruction::load;
-			Order::change_content(file_name_position, this->selection);
+			Order::set_content(file_name_position, this->selection);
 		}
 	}//LOAD-1 페이지 (파일 이름 입력)
 	return;

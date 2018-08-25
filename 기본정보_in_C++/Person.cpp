@@ -100,8 +100,8 @@ void Person::add()
 		}
 		else { //사이트에 계정 추가
 			if (Order::get_type() == add_account_without_memo) {
-				Order::change_content(new_memo_position, "");
-				Order::change_count(Order::get_token_count()+1);  // -> type이  add_account_with_memo ( ↙ )가 된다.
+				Order::set_content(new_memo_position, "");
+				Order::set_token_count(Order::get_token_count()+1);  // -> type이  add_account_with_memo ( ↙ )가 된다.
 			}
 			if (Order::get_type() == add_account_with_memo) {
 				add_account(
@@ -131,6 +131,7 @@ Site * Person::add_site(std::string site_name)
 			throw err_exp::msg_cant_make_site;
 		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
 		*(this) += temp_site;
+		Log_Recorder::add_log(Order::get());
 		return temp_site;
 	}
 	catch (std::string error_message) {
@@ -175,6 +176,7 @@ void Person::del_site(std::string site_name)
 	{
 		if ((*each)->get_site_name() == site_name)
 		{
+			Log_Recorder::add_log(Order::get(),  std::to_string((*each)->get_account_count()) + " 계정 보유");
 			(*each)->clean_itself();
 			delete (*each);
 			this->sites.erase(each);
@@ -238,7 +240,10 @@ void Person::update_site_name(std::string site_name, std::string new_site_name)
 		std::cout << error_message << std::endl;
 		return;
 	}
+
+	Log_Recorder::add_log(Order::get(), "바꾸기 전의 사이트 이름 : " + temp_site->get_site_name());
 	temp_site->update_site_name("site_name", new_site_name);
+
 }
 
 void Person::update_account_attribute(std::string site_name, std::string ID, std::string what_attribute, std::string new_value)

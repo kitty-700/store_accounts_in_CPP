@@ -58,7 +58,9 @@ void Account::update_attribute(string what_attribute, string new_value)
 	what_attribute = Natural_language::account_attribute_translate(what_attribute);
 	if (what_attribute == "ID") {
 		if (is_proper_string(what_attribute, new_value) == true)
+		{
 			strcpy_s(this->ID, buffer::id_length, new_value.c_str());
+		}
 		else
 			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}

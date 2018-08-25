@@ -63,6 +63,12 @@ argument::order_type Natural_language::operation_translate(std::string query_op)
 		|| query_op == "clear")
 		interpreted_op = arg::order_type::clear_screen_;
 
+	else if (query_op == "log"
+		|| query_op == "logs"
+		|| query_op == "Logs"
+		|| query_op == "Log")
+		interpreted_op = arg::order_type::log_;
+
 	else if (query_op == "update"
 		|| query_op == "UPDATE"
 		|| query_op == "Update"

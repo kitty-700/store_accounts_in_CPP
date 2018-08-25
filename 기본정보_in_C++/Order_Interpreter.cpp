@@ -26,12 +26,11 @@ Order_Interpreter::Order_Interpreter() : person(nullptr)
 	{
 		if (init_person(load_file_name) == false)
 		{
-			std::string reload_file_name;
 			std::cout << "새 파일 이름을 입력해주시겠습니까? ";
 			std::cout << "( 원래 불러오려던 파일 이름 : " << load_file_name << " )" << std::endl;
 			std::cout << "새 파일 이름 > ";
-			std::cin >> reload_file_name;
-			std::cin.ignore();
+			std::string reload_file_name;
+			General_Function::order_color_input(reload_file_name);
 			load_file_name = reload_file_name;
 			continue;
 		}
@@ -62,50 +61,90 @@ std::string Order_Interpreter::excute_order(std::string order)///★★★★★★★�
 	{
 		if (error_message != err_exp::msg_no_order_input)
 			std::cout << error_message << std::endl;
-		Order::clear();
 		return err_exp::msg_no_special_thing;
 	}
 
 	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
-	if (op == arg::order_type::clear_screen_)
+	bool is_exit = false;
+	order_forwarding(op,&is_exit);
+	using namespace err_exp;
+	if (is_exit == true)
+		return std::string("exit");
+	else
+		return msg_no_special_thing; //에러는 아니지만 error_expression에 넣어둠. 나중에 expression이라는 namespace 내에서 분리할 것.
+}
+
+void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit)
+{
+	switch (op)
+	{
+	case arg::order_type::clear_screen_:
 		system("cls");
-	else if (op == arg::order_type::add_)
+		break;
+	case arg::order_type::add_:
 		add();
-	else if (op == arg::order_type::del_)
+		break;
+	case arg::order_type::del_:
 		del();
-	else if (op == arg::order_type::update_)
+		break;
+	case arg::order_type::update_:
 		update();
-	else if (op == arg::order_type::load_)
+		break;
+	case arg::order_type::log_:
+		Log_Recorder::print_log();
+		break;
+	case arg::order_type::load_:
 		load();
-	else if (op == arg::order_type::reload_)
+		break;
+	case arg::order_type::reload_:
 		init_person(this->now_loaded_file_name);
-
-	else if (
-		op == arg::order_type::show_site_list_ ||
-		op == arg::order_type::show_all_site_information_ ||
-		op == arg::order_type::show_one_site_information_with_site_name_ ||
-		op == arg::order_type::show_one_site_information_with_number_)
+		break;
+	case arg::order_type::show_site_list_:
+	case arg::order_type::show_all_site_information_:
+	case arg::order_type::show_one_site_information_with_site_name_:
+	case arg::order_type::show_one_site_information_with_number_:
 		show(op);
-
-	else if (op == arg::order_type::save_) {
+		break;
+	case arg::order_type::save_:
+	{
 		Exporter exp(this->person, this->now_loaded_file_name);
 		exp.save();
+		Log_Recorder::clear_itself();
 	}
-
-	else if (op == arg::order_type::help_)
+	break;
+	case arg::order_type::help_:
 		General_Function::help();
-
-	else if (op == arg::order_type::exit_) {
-		Order::clear();
-		return std::string("exit");
-	}
-	else if (/*추후 추가 order를 분석해서 Person 내의 모든 객체에 포함된 문자열을 찾아낸다.*/0) {}///
-
-	else
+		break;
+	case arg::order_type::exit_:
+		Status::set_is_person_loaded(false);
+		/* (디버그됨)
+		로그 기록 때 set_is_person_loaded 이걸 반영 안 하니까 프로그램을 종료하면서
+		delete_~종류의 함수들이 소멸자로써 계속 호출될 때 계속 로그를 남기는 add_log()함수가 덩달아 호출됐는데,
+		Order가 초기화된 상태에서 로그를 남기려 했으므로 에러가 떴다..
+		다행히 호출스택구조 분석을 통해 디버깅을 하였다.
+		*/
+		*is_exit = true;
+		break;
+	default:
 		std::cout << err_exp::msg_not_defined_operation << std::endl;
-	Order::clear();
-	using namespace err_exp;
-	return msg_no_special_thing; //에러는 아니지만 error_expression에 넣어둠. 나중에 expression이라는 namespace 내에서 분리할 것.
+	}
+}
+
+arg::order_type Order_Interpreter::operation_translate(std::string query_op)
+{
+	arg::order_type interpreted_op = Natural_language::operation_translate(query_op);
+	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
+	{
+		if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
+			interpreted_op = arg::order_type::show_one_site_information_with_site_name_;
+
+		else if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력
+			interpreted_op = arg::order_type::show_one_site_information_with_number_;
+
+		else
+			interpreted_op = arg::order_type::no_operation_input_;
+	}
+	return interpreted_op;
 }
 
 void Order_Interpreter::add()
@@ -259,21 +298,4 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 			return true;
 		}
 	}
-}
-
-arg::order_type Order_Interpreter::operation_translate(std::string query_op)
-{
-	arg::order_type interpreted_op = Natural_language::operation_translate(query_op);
-	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
-	{
-		if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
-			interpreted_op = arg::order_type::show_one_site_information_with_site_name_;
-
-		else if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력
-			interpreted_op = arg::order_type::show_one_site_information_with_number_;
-
-		else
-			interpreted_op = arg::order_type::no_operation_input_;
-	}
-	return interpreted_op;
 }

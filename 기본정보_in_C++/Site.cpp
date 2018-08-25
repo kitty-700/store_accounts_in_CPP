@@ -122,6 +122,7 @@ Account * Site::add_account(string ID, string PW, string memo)
 	}
 	else {
 		*(this) += temp_account;
+		Log_Recorder::add_log(Order::get());
 		return temp_account;
 	}
 }
@@ -136,6 +137,7 @@ void Site::del_account(std::string ID)
 			delete (*each);
 			this->accounts.erase(each);
 			this->account_count--;
+			Log_Recorder::add_log(Order::get());
 			return;
 		}
 	}

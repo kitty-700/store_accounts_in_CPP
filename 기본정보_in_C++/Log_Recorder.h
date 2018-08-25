@@ -5,16 +5,17 @@
 #include <vector>
 #include <assert.h>
 #include "Structs.h"
+#include "Status.h"
 #include "General_Function.h"
 #include "Natural_language.h"
 class Log_Recorder {
-	int log_count;
-	std::stack <Log*> logstack;
+	static int log_count;
+	static std::stack <Log*> logstack;
 public:
-	Log_Recorder();
 	~Log_Recorder();
-	void clear_itself();
-	void add_log(const Order_token * order,std::string original_value);
-	void print_log();
+	static void clear_itself();
+	static void add_log(const Order_token * order,std::string original_value="");
+	static void print_log();
+	static bool has_log();
 };
 #endif

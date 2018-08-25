@@ -7,6 +7,8 @@
 #include <windows.h>
 #include "Options.h"
 #include "Account.h"
+#include "Log_Recorder.h"
+#include "Order.h"
 #include "Natural_language.h"
 
 class Site {

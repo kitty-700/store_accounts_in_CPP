@@ -9,8 +9,8 @@ public:
 	static Order_token * get();
 	static void clear();
 	static void set(Order_token*order);
-	static void change_content(const int index, const std::string value);
-	static void change_count(const int count);
+	static void set_content(const int index, const std::string value);
+	static void set_token_count(const int count);
 	static std::string get_content(const int index);
 	static int get_type();
 	static int get_token_count();
