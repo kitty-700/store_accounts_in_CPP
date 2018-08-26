@@ -7,12 +7,12 @@
 
 #include"Options.h"
 #include"Order.h"
+#include "Order_Token_Refiner.h"
+#include "Order_Form_Filler.h"
 #include "File_IO_Class.h"
 #include "Status.h"
 #include "Structs.h"
 #include "General_Function.h"
-#include "Order_Token_Refiner.h"
-#include "Order_Form_Filler.h"
 
 class Person;
 class Order_Interpreter {

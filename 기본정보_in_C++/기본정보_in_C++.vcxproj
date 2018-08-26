@@ -176,13 +176,17 @@
     <ClInclude Include="Del.h" />
     <ClInclude Include="Error_Expression.h" />
     <ClInclude Include="Exporter.h" />
+    <ClInclude Include="Expression.h" />
     <ClInclude Include="File_IO_parameter.h" />
     <ClInclude Include="File_IO_Class.h" />
     <ClInclude Include="General_Function.h" />
     <ClInclude Include="Importer.h" />
     <ClInclude Include="Information_Organizing_Class.h" />
+    <ClInclude Include="Instruction.h" />
     <ClInclude Include="Log_Recorder.h" />
     <ClInclude Include="Module_Tester.h" />
+    <ClInclude Include="Normal_Expression.h" />
+    <ClInclude Include="Parameters.h" />
     <ClInclude Include="Translation.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Order.h" />

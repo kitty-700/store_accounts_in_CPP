@@ -139,7 +139,7 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 {	
-	arg::order_type interpreted_op = expression::Translation::operation_translate(query_op);
+	arg::order_type interpreted_op = option::Translation::operation_translate(query_op);
 	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
 	{
 		if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력

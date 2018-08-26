@@ -11,7 +11,6 @@
 
 #include"Options.h"
 #include "Structs.h"
-#include "Console_Color.h"
 class General_Function {
 public:
 	static bool is_natural_number(std::string str);

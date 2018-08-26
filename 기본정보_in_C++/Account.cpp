@@ -55,8 +55,8 @@ void Account::show_account_information() const
 }
 void Account::update_attribute(string what_attribute, string new_value)
 {
-	what_attribute = expression::Translation::account_attribute_translate(what_attribute);
-	argument::order_type op = expression::Translation::operation_translate(Order::get_content(argument::operation_position));
+	what_attribute = option::Translation::account_attribute_translate(what_attribute);
+	argument::order_type op = option::Translation::operation_translate(Order::get_content(argument::operation_position));
 	if (what_attribute == "ID") {
 		if (is_proper_string(what_attribute, new_value) == true)
 		{
@@ -97,7 +97,7 @@ void Account::update_attribute(string what_attribute, string new_value)
 }
 string Account::get_attribute(std::string what_info) const
 {
-	what_info = expression::Translation::account_attribute_translate(what_info);
+	what_info = option::Translation::account_attribute_translate(what_info);
 	if (what_info == "ID")
 		return string(this->ID);
 	else if (what_info == "PW")

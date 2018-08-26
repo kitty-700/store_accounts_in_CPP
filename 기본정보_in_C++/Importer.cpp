@@ -66,7 +66,7 @@ bool Importer::is_proper_transition(const int before_state, const int now_state)
 
 bool Importer::change_state(bool * is_successful)
 {	//상태변경함수. 상태란? #0 ~ #9 .,
-	int state_will = this->data[this->di] - char_to_int_fix;
+	int state_will = this->data[this->di] - normal_expression::char_to_int_fix;
 	switch (state_will)
 	{
 	case fiop::site_assemblying_started:
@@ -196,7 +196,7 @@ void Importer::boot_load(bool * load_start, bool * op_active)
 	if ((*op_active) == true)
 	{
 		*(op_active) = false;
-		if (this->data[this->di] - char_to_int_fix == fiop::load_started)
+		if (this->data[this->di] - normal_expression::char_to_int_fix == fiop::load_started)
 		{
 			*(load_start) = true;
 			this->state_was = fiop::load_started;

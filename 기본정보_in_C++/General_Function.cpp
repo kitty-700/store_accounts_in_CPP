@@ -122,12 +122,12 @@ void General_Function::show_order(Order_token * order)
 
 void General_Function::print_thick_line()
 {
-	cout << thick_line << endl;
+	cout << normal_expression::thick_line << endl;
 }
 
 void General_Function::print_thin_line()
 {
-	cout << thin_line << endl;
+	cout << normal_expression::thin_line << endl;
 }
 
 void General_Function::help()

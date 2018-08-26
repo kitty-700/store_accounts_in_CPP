@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #ifndef _CONSOLE_COLOR_H_
 #define _CONSOLE_COLOR_H_
 #include <Windows.h>

@@ -56,7 +56,7 @@ Site * Person::find_Site(int site_number)
 		each != this->sites.end();
 		each++, count++)
 	{
-		if (count == site_number - index_fix)
+		if (count == site_number - normal_expression::index_fix)
 			return *(each);
 	}
 	return nullptr;

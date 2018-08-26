@@ -1,6 +1,6 @@
 #include "Translation.h"
 namespace err_exp = option::error_expression;
-namespace expression {
+namespace option {
 	std::string Translation::site_attribute_translate(std::string str)
 	{	//site attribute (사실 하나뿐인 속성)
 		const std::string site_name_similary[] = \

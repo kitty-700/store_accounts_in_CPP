@@ -16,12 +16,6 @@
     <Filter Include="헤더 파일\Option">
       <UniqueIdentifier>{68a921b6-9abb-44a8-b660-c260a1dcad4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Option\argument">
-      <UniqueIdentifier>{18b61aa5-4f1f-4967-9ab0-cff42b794247}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\Option\argument\Instruction">
-      <UniqueIdentifier>{c5b8fee0-658b-4437-a78f-0915b2f9376b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\Order_Handler">
       <UniqueIdentifier>{da4f9df3-c598-4aa4-93c7-d0382c45facd}</UniqueIdentifier>
     </Filter>
@@ -46,10 +40,22 @@
     <Filter Include="소스 파일\Log">
       <UniqueIdentifier>{dc00eee6-d585-4edb-bf93-e68a4237021e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Expression">
+    <Filter Include="헤더 파일\Option\Expression">
       <UniqueIdentifier>{32655bc9-fd30-483c-b5aa-235bf50495af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Expression">
+    <Filter Include="헤더 파일\Option\Parameters">
+      <UniqueIdentifier>{5a449c69-5163-4ade-b192-bae5cb681787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Option\Argument">
+      <UniqueIdentifier>{18b61aa5-4f1f-4967-9ab0-cff42b794247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Option\Argument\Instruction">
+      <UniqueIdentifier>{c5b8fee0-658b-4437-a78f-0915b2f9376b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Option">
+      <UniqueIdentifier>{1d872f71-d86b-4893-967e-df73a04177b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Option\Expression">
       <UniqueIdentifier>{f8f393f0-d542-4cdb-a990-25af1c27ad50}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -88,7 +94,7 @@
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
     <ClCompile Include="Load.h">
-      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClCompile>
     <ClCompile Include="Log_Recorder.cpp">
       <Filter>소스 파일\Log</Filter>
@@ -100,7 +106,7 @@
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
     <ClCompile Include="Translation.cpp">
-      <Filter>소스 파일\Expression</Filter>
+      <Filter>소스 파일\Option\Expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,12 +118,6 @@
     </ClInclude>
     <ClInclude Include="Structs.h">
       <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Compile.h">
-      <Filter>헤더 파일\Option</Filter>
-    </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>헤더 파일\Option</Filter>
     </ClInclude>
     <ClInclude Include="Exporter.h">
       <Filter>헤더 파일\FILE_IO_Class</Filter>
@@ -144,31 +144,22 @@
       <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="Argument.h">
-      <Filter>헤더 파일\Option\argument</Filter>
+      <Filter>헤더 파일\Option\Argument</Filter>
     </ClInclude>
     <ClInclude Include="Update.h">
-      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClInclude>
     <ClInclude Include="Del.h">
-      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClInclude>
     <ClInclude Include="Add.h">
-      <Filter>헤더 파일\Option\argument\Instruction</Filter>
-    </ClInclude>
-    <ClInclude Include="Console_Color.h">
-      <Filter>헤더 파일\Option</Filter>
-    </ClInclude>
-    <ClInclude Include="Error_Expression.h">
-      <Filter>헤더 파일\Option</Filter>
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClInclude>
     <ClInclude Include="Information_Organizing_Class.h">
       <Filter>헤더 파일\Information_Organizing_Class</Filter>
     </ClInclude>
     <ClInclude Include="File_IO_Class.h">
       <Filter>헤더 파일\FILE_IO_Class</Filter>
-    </ClInclude>
-    <ClInclude Include="File_IO_parameter.h">
-      <Filter>헤더 파일\Option</Filter>
     </ClInclude>
     <ClInclude Include="Options.h">
       <Filter>헤더 파일\Option</Filter>
@@ -183,10 +174,37 @@
       <Filter>헤더 파일\Order_Handler</Filter>
     </ClInclude>
     <ClInclude Include="Show.h">
-      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClInclude>
     <ClInclude Include="Translation.h">
-      <Filter>헤더 파일\Expression</Filter>
+      <Filter>헤더 파일\Option\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>헤더 파일\Option\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Error_Expression.h">
+      <Filter>헤더 파일\Option\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="Compile.h">
+      <Filter>헤더 파일\Option\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Console_Color.h">
+      <Filter>헤더 파일\Option\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="File_IO_parameter.h">
+      <Filter>헤더 파일\Option\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Instruction.h">
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Expression.h">
+      <Filter>헤더 파일\Option\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="Parameters.h">
+      <Filter>헤더 파일\Option\Parameters</Filter>
+    </ClInclude>
+    <ClInclude Include="Normal_Expression.h">
+      <Filter>헤더 파일\Option\Expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

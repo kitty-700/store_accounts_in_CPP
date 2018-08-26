@@ -2,6 +2,7 @@
 #ifndef _ARGUMENT_H_
 #define _ARGUMENT_H_
 #include <string>
+#include "Instruction.h"
 namespace option {
 	namespace argument { //Structs.h 에 정의된 Order_token 구조체를 제어하기 위한 매직넘버를 모아두었다.
 #define type token_count

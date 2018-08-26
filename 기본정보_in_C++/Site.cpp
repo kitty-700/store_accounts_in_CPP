@@ -154,8 +154,8 @@ void Site::del_account(std::string ID)
 }
 void Site::update_site_name(string what_attribute, string new_site_name)
 {	//사실 여기에 attribute 하나밖에 필요없는데, Account 클래스랑 모양 비슷하게 맞춘것 뿐임.
-	what_attribute = expression::Translation::site_attribute_translate(what_attribute);
-	argument::order_type op = expression::Translation::operation_translate(Order::get_content(argument::operation_position));
+	what_attribute = option::Translation::site_attribute_translate(what_attribute);
+	argument::order_type op = option::Translation::operation_translate(Order::get_content(argument::operation_position));
 	if (what_attribute == "site_name") //ID 업데이트
 	{
 		if (is_proper_string(what_attribute, new_site_name) == true)
@@ -178,7 +178,7 @@ void Site::update_account_attribute(std::string ID, std::string what_attribute, 
 	try {
 		if (temp_account == nullptr)
 			throw err_exp::msg_no_existing_ID;
-		if (expression::Translation::account_attribute_translate(what_attribute) == "ID")
+		if (option::Translation::account_attribute_translate(what_attribute) == "ID")
 		{
 			if (is_redundancy_ID(new_value) == true)
 				throw new_value + err_exp::msg_already_existing_ID;

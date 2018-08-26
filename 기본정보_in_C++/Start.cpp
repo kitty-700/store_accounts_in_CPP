@@ -2,7 +2,6 @@
 #include <string>
 #include <windows.h>
 #include "Options.h"
-#include "Compile.h"
 #include "Order_Interpreter.h"
 #include "Module_Tester.h"
 #include "Status.h"
