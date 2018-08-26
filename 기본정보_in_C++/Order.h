@@ -2,9 +2,11 @@
 #ifndef _ORDER_H_
 #define _ORDER_H_
 #include <assert.h>
+#include "Argument.h"
 #include "Structs.h"
 class Order {
 	static Order_token * order;
+	static argument::order_type op;
 public:
 	static Order_token * get();
 	static void clear();

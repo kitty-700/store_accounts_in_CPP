@@ -49,10 +49,9 @@ void Log_Recorder::print_log()
 			switch (dump.top()->order_type)
 			{
 			case argument::order_type::add_:
-				break;
 			case argument::order_type::del_:
 			case argument::order_type::update_:
-				std::cout << "    ( " << dump.top()->original_value << " )" << std::endl;
+				std::cout << dump.top()->original_value << std::endl;
 				break;
 			default:
 				assert(0);

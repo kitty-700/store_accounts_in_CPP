@@ -56,23 +56,35 @@ void Account::show_account_information() const
 void Account::update_attribute(string what_attribute, string new_value)
 {
 	what_attribute = expression::Translation::account_attribute_translate(what_attribute);
+	argument::order_type op = expression::Translation::operation_translate(Order::get_content(argument::operation_position));
 	if (what_attribute == "ID") {
 		if (is_proper_string(what_attribute, new_value) == true)
 		{
+			std::string before_ID = this->ID;
 			strcpy_s(this->ID, buffer::id_length, new_value.c_str());
+			if (op == argument::update_)
+				Log_Recorder::add_log(Order::get(), "바꾸기 전의 ID : " + before_ID);
 		}
 		else
 			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "PW") {
-		if (is_proper_string(what_attribute, new_value) == true)
+		if (is_proper_string(what_attribute, new_value) == true) {
+			std::string before_PW = this->PW;
 			strcpy_s(this->PW, buffer::password_length, new_value.c_str());
+			if (op == argument::update_)
+				Log_Recorder::add_log(Order::get(), "바꾸기 전의 PW : " + before_PW);
+		}
 		else
 			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "memo") {
-		if (is_proper_string(what_attribute, new_value) == true)
+		if (is_proper_string(what_attribute, new_value) == true) {
+			std::string before_memo = this->memo;
 			strcpy_s(this->memo, buffer::memo_length, new_value.c_str());
+			if (op == argument::update_)
+				Log_Recorder::add_log(Order::get(), "바꾸기 전의 메모 : " + before_memo);
+		}
 		else
 			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
 	}

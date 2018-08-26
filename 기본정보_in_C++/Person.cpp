@@ -131,7 +131,10 @@ Site * Person::add_site(std::string site_name)
 			throw err_exp::msg_cant_make_site;
 		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
 		*(this) += temp_site;
-		Log_Recorder::add_log(Order::get());
+		if (Order::get_type() == argument::instruction::add::add_account_with_memo)
+			Log_Recorder::add_log(Order::get(), "사이트 추가 선행, " + site_name);
+		else
+			Log_Recorder::add_log(Order::get(), "사이트 추가, " + site_name);
 		return temp_site;
 	}
 	catch (std::string error_message) {
@@ -176,11 +179,14 @@ void Person::del_site(std::string site_name)
 	{
 		if ((*each)->get_site_name() == site_name)
 		{
-			Log_Recorder::add_log(Order::get(),  std::to_string((*each)->get_account_count()) + " 계정 보유");
+			int account_count = (*each)->get_account_count();
+			std::string to_record =
+				"삭제된 사이트 이름 : " + site_name + ", " + std::to_string(account_count) + "개의 계정을 보유했었음.";
 			(*each)->clean_itself();
 			delete (*each);
 			this->sites.erase(each);
 			this->site_count--;
+			Log_Recorder::add_log(Order::get(), to_record);
 			return;
 		}
 		each++;
@@ -240,10 +246,7 @@ void Person::update_site_name(std::string site_name, std::string new_site_name)
 		std::cout << error_message << std::endl;
 		return;
 	}
-
-	Log_Recorder::add_log(Order::get(), "바꾸기 전의 사이트 이름 : " + temp_site->get_site_name());
 	temp_site->update_site_name("site_name", new_site_name);
-
 }
 
 void Person::update_account_attribute(std::string site_name, std::string ID, std::string what_attribute, std::string new_value)
