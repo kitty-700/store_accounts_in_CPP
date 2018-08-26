@@ -91,24 +91,24 @@ Site * Person::make_site(std::string site_name)
 	}
 	return temp_site;
 }
-void Person::add(Order_token *order)
+void Person::add()
 {
 	using namespace option::argument::instruction::add;
 	try {
-		if (order->type == add_site_only) { //사이트만 추가
-			add_site(order->content[new_site_name_position]);
+		if (Order::get_type() == add_site_only) { //사이트만 추가
+			add_site(Order::get_content(new_site_name_position));
 		}
 		else { //사이트에 계정 추가
-			if (order->type == add_account_without_memo) {
-				order->content[new_memo_position] = "";
-				order->type++;  // -> order->type 이 add_account_with_memo ( ↙ )가 된다.
+			if (Order::get_type() == add_account_without_memo) {
+				Order::set_content(new_memo_position, "");
+				Order::set_token_count(Order::get_token_count()+1);  // -> type이  add_account_with_memo ( ↙ )가 된다.
 			}
-			if (order->type == add_account_with_memo) {
+			if (Order::get_type() == add_account_with_memo) {
 				add_account(
-					order->content[new_site_name_position],
-					order->content[new_id_position],
-					order->content[new_pw_position],
-					order->content[new_memo_position]
+					Order::get_content(new_site_name_position),
+					Order::get_content(new_id_position),
+					Order::get_content(new_pw_position),
+					Order::get_content(new_memo_position)
 				);
 			}
 			else {
@@ -131,6 +131,10 @@ Site * Person::add_site(std::string site_name)
 			throw err_exp::msg_cant_make_site;
 		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
 		*(this) += temp_site;
+		if (Order::get_type() == argument::instruction::add::add_account_with_memo)
+			Log_Recorder::add_log(Order::get(), "사이트 추가 선행, " + site_name);
+		else
+			Log_Recorder::add_log(Order::get(), "사이트 추가, " + site_name);
 		return temp_site;
 	}
 	catch (std::string error_message) {
@@ -149,15 +153,15 @@ void Person::add_account(std::string site_name, std::string ID, std::string PW, 
 	}
 	temp_site->add_account(ID, PW, memo);
 }
-void Person::del(Order_token * order)
+void Person::del()
 {
 	using namespace option::argument::instruction::del;
 	try {
-		if (order->type == delete_site) {
-			del_site(order->content[site_name_position]);
+		if (Order::get_type() == delete_site) {
+			del_site(Order::get_content(site_name_position));
 		}
-		else if (order->type == delete_account) {
-			del_account(order->content[site_name_position], order->content[id_position]);
+		else if (Order::get_type() == delete_account) {
+			del_account(Order::get_content(site_name_position), Order::get_content(id_position));
 		}
 		else {
 			throw err_exp::msg_unsupport_order_form;
@@ -175,10 +179,14 @@ void Person::del_site(std::string site_name)
 	{
 		if ((*each)->get_site_name() == site_name)
 		{
+			int account_count = (*each)->get_account_count();
+			std::string to_record =
+				"삭제된 사이트 이름 : " + site_name + ", " + std::to_string(account_count) + "개의 계정을 보유했었음.";
 			(*each)->clean_itself();
 			delete (*each);
 			this->sites.erase(each);
 			this->site_count--;
+			Log_Recorder::add_log(Order::get(), to_record);
 			return;
 		}
 		each++;
@@ -204,21 +212,21 @@ void Person::del_account(std::string site_name, std::string ID)
 	}
 	temp_site->del_account(ID);
 }
-void Person::update(Order_token *order)
+void Person::update()
 {
 	using namespace option::argument::instruction::update;
-	if (order->type == modify_site_name) {
+	if (Order::get_type() == modify_site_name) {
 		update_site_name(
-			order->content[site_name_position],
-			order->content[new_site_name_position]
+			Order::get_content(site_name_position),
+			Order::get_content(new_site_name_position)
 		);
 	}
-	else if (order->type == modify_account_attribute) {
+	else if (Order::get_type() == modify_account_attribute) {
 		update_account_attribute(
-			order->content[site_name_position],
-			order->content[id_position],
-			order->content[attribute_select_position],
-			order->content[new_attribute_value_position]
+			Order::get_content(site_name_position),
+			Order::get_content(id_position),
+			Order::get_content(attribute_select_position),
+			Order::get_content(new_attribute_value_position)
 		);
 	}
 	else {

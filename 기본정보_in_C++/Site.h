@@ -7,7 +7,9 @@
 #include <windows.h>
 #include "Options.h"
 #include "Account.h"
-#include "Natural_language.h"
+#include "Log_Recorder.h"
+#include "Order.h"
+#include "Translation.h"
 
 class Site {
 	friend class Importer;

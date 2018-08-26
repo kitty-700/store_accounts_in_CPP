@@ -25,6 +25,7 @@ namespace option {
 			order_color = red,
 			zero_selection = green,
 			site_name_color = yellow,
+			history_color = pink,
 			account_attribute_color = dark_yellow
 		};
 	}// namespace console_color

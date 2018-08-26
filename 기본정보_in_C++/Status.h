@@ -2,6 +2,8 @@
 #ifndef _STATUS_H_ 
 #define _STATUS_H_ 
 #include"Options.h"
+#include"Structs.h"
+#include"Log_Recorder.h"
 class Status {	//protect해서 상속시키는건 어떨까?
 	static bool is_person_loaded;
 	static bool is_argument_input;

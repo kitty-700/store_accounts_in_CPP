@@ -3,15 +3,15 @@
 #include <windows.h>
 #include "Options.h"
 #include "Compile.h"
-#include "General_Function.h"
 #include "Order_Interpreter.h"
+#include "Module_Tester.h"
 #include "Status.h"
 void init(bool * do_more, Order_Interpreter * p_slave, const int argc);
 int main(int argc, char ** argv)
 {
 	if (compile::module_test == true)
 	{	//단순한 모듈테스트. compile_option에서 토글 가능
-		General_Function::function_test();
+		module_test();
 		exit(0);
 	}
 	Order_Interpreter slave;
@@ -21,6 +21,7 @@ int main(int argc, char ** argv)
 	init(&do_more, &slave, argc);
 	do
 	{
+		std::cout << "["<<slave.get_loaded_file_name()<<"]";
 		General_Function::print_thick_line();
 		std::cout << "> ";
 		if (Status::get_is_argument_input() == false) {//보통의 경우엔 콘솔에서 명령어 입력을 받고 명령을 실행한다.

@@ -28,7 +28,7 @@ int Site::get_account_count() const
 	return this->account_count;
 }
 bool Site::is_proper_string(string what_attribute, string str) const
-{	// what_attribute 문자열은 translate_natural_language() 를 거침.
+{
 	try { //1.변경하려는 속성이 site_name이 맞는지, 2.길이가 적절한지, 3. 공백은 아닌지 4.특수문자가 포함되어있지는 않은지
 		if (what_attribute != "site_name")
 			throw err_exp::msg_undefined_site_attribute;
@@ -117,11 +117,13 @@ Account * Site::add_account(string ID, string PW, string memo)
 	//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Account::update_attribute () 내에서 경고는 띄워준다.)
 	if (temp_account->get_attribute("ID") == error_expression::abnormal_Account_ID)
 	{
+		std::cout << "Account 를 만들 수 없습니다." << std::endl;
 		delete temp_account;
 		return nullptr;
 	}
 	else {
 		*(this) += temp_account;
+		Log_Recorder::add_log(Order::get(),"계정 추가," + ID);
 		return temp_account;
 	}
 }
@@ -133,9 +135,12 @@ void Site::del_account(std::string ID)
 	{
 		if ((*each)->get_attribute("ID") == ID)
 		{
+			std::string to_record =
+				"삭제된 계정의 ID : " + (*each)->get_attribute("ID");
 			delete (*each);
 			this->accounts.erase(each);
 			this->account_count--;
+			Log_Recorder::add_log(Order::get(), to_record);
 			return;
 		}
 	}
@@ -149,11 +154,17 @@ void Site::del_account(std::string ID)
 }
 void Site::update_site_name(string what_attribute, string new_site_name)
 {	//사실 여기에 attribute 하나밖에 필요없는데, Account 클래스랑 모양 비슷하게 맞춘것 뿐임.
-	what_attribute = Natural_language::site_attribute_translate(what_attribute);
+	what_attribute = expression::Translation::site_attribute_translate(what_attribute);
+	argument::order_type op = expression::Translation::operation_translate(Order::get_content(argument::operation_position));
 	if (what_attribute == "site_name") //ID 업데이트
 	{
 		if (is_proper_string(what_attribute, new_site_name) == true)
+		{
+			std::string before_site_name = this->site_name;
 			strcpy_s(this->site_name, option::buffer::site_name_length, new_site_name.c_str());
+			if (op == argument::update_)
+				Log_Recorder::add_log(Order::get(), "바꾸기 전의 사이트 이름 : " + before_site_name);
+		}
 		else
 			strcpy_s(this->site_name, option::buffer::site_name_length, error_expression::abnormal_Site_site_name.c_str());
 	}
@@ -167,12 +178,10 @@ void Site::update_account_attribute(std::string ID, std::string what_attribute, 
 	try {
 		if (temp_account == nullptr)
 			throw err_exp::msg_no_existing_ID;
-		if (Natural_language::account_attribute_translate(what_attribute) == "ID")
+		if (expression::Translation::account_attribute_translate(what_attribute) == "ID")
 		{
-			
 			if (is_redundancy_ID(new_value) == true)
 				throw new_value + err_exp::msg_already_existing_ID;
-
 		}
 	}
 	catch (std::string error_message) {

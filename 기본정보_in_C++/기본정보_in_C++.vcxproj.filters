@@ -40,6 +40,18 @@
     <Filter Include="헤더 파일\Information_Organizing_Class">
       <UniqueIdentifier>{dd00e0c0-2c77-4032-8042-6754b1f34c6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Log">
+      <UniqueIdentifier>{f19ad405-d286-4a5f-a043-29c317b88ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Log">
+      <UniqueIdentifier>{dc00eee6-d585-4edb-bf93-e68a4237021e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Expression">
+      <UniqueIdentifier>{32655bc9-fd30-483c-b5aa-235bf50495af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Expression">
+      <UniqueIdentifier>{f8f393f0-d542-4cdb-a990-25af1c27ad50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Start.cpp">
@@ -72,14 +84,23 @@
     <ClCompile Include="Order_Token_Refiner.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
-    <ClCompile Include="Natural_language.cpp">
-      <Filter>소스 파일\Information_Organizing_Class</Filter>
-    </ClCompile>
     <ClCompile Include="Order_Form_Filler.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
     </ClCompile>
     <ClCompile Include="Load.h">
       <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClCompile>
+    <ClCompile Include="Log_Recorder.cpp">
+      <Filter>소스 파일\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Module_Tester.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Order.cpp">
+      <Filter>소스 파일\Order_Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Translation.cpp">
+      <Filter>소스 파일\Expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,8 +173,20 @@
     <ClInclude Include="Options.h">
       <Filter>헤더 파일\Option</Filter>
     </ClInclude>
-    <ClInclude Include="Natural_language.h">
-      <Filter>헤더 파일\Information_Organizing_Class</Filter>
+    <ClInclude Include="Log_Recorder.h">
+      <Filter>헤더 파일\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Module_Tester.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Order.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Show.h">
+      <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Translation.h">
+      <Filter>헤더 파일\Expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

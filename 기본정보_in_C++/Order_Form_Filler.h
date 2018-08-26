@@ -5,11 +5,11 @@
 #include<string>
 
 #include"Options.h"
+#include"Order.h"
 #include"Information_Organizing_Class.h"
 #include"Structs.h"
 class Order_Form_Filler {
 	Person * person;
-	Order_token * order;
 
 	std::string selection;
 	int selection_1;
@@ -17,7 +17,7 @@ class Order_Form_Filler {
 	int selection_3;
 
 public:
-	Order_Form_Filler(Person * person, Order_token * order);
+	Order_Form_Filler(Person * person);
 
 	void add_form_filler();
 	void del_form_filler();
