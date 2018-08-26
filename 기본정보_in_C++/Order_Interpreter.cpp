@@ -8,7 +8,10 @@ bool Order_Interpreter::init_person(std::string file_name)
 	Person * imported_person = importer.return_person();
 	bool is_success = change_person(imported_person);
 	if (is_success == true)
+	{
 		init_person_success_action(file_name);
+		Log_Recorder::clear_itself();
+	}
 	return is_success;
 }
 void Order_Interpreter::init_person_success_action(std::string loaded_file_name)
@@ -74,6 +77,11 @@ std::string Order_Interpreter::excute_order(std::string order)///★★★★★★★�
 		return msg_no_special_thing; //에러는 아니지만 error_expression에 넣어둠. 나중에 expression이라는 namespace 내에서 분리할 것.
 }
 
+std::string Order_Interpreter::get_loaded_file_name()
+{
+	return this->now_loaded_file_name;
+}
+
 void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit)
 {
 	switch (op)
@@ -109,7 +117,6 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	{
 		Exporter exp(this->person, this->now_loaded_file_name);
 		exp.save();
-		Log_Recorder::clear_itself();
 	}
 	break;
 	case arg::order_type::help_:
@@ -132,7 +139,7 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 {
-	arg::order_type interpreted_op = Natural_language::operation_translate(query_op);
+	arg::order_type interpreted_op = expression::Translation::operation_translate(query_op);
 	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
 	{
 		if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
@@ -280,8 +287,8 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 	}
 	else
 	{
-		if (this->person != nullptr)
-		{	//맨 처음 적재되는게 아니라면 작업 도중 변경되는것을 의미하므로 확인 절차를 거친다.
+		if (Log_Recorder::has_log()==true)
+		{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
 			if (General_Function::ask_do_or_not(error_expression::msg_job_reset_warning + " 진행하시겠습니까?") == true)
 			{
 				this->person = person_to_change;

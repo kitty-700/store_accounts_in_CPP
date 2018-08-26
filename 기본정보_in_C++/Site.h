@@ -9,7 +9,7 @@
 #include "Account.h"
 #include "Log_Recorder.h"
 #include "Order.h"
-#include "Natural_language.h"
+#include "Translation.h"
 
 class Site {
 	friend class Importer;

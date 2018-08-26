@@ -19,7 +19,7 @@ void Log_Recorder::add_log(const Order_token * order, std::string original_value
 	if (order->token_count <= 0) assert(0);
 	Log * log = new Log();
 	using namespace option::argument;
-	log->order_type = Natural_language::operation_translate(order->content[operation_position]);
+	log->order_type = expression::Translation::operation_translate(order->content[operation_position]);
 	log->order.token_count = order->token_count;
 	for (int i = 0; i < order->token_count; i++) //order copy
 		log->order.tokens[i] = order->tokens[i];
@@ -30,6 +30,11 @@ void Log_Recorder::add_log(const Order_token * order, std::string original_value
 
 void Log_Recorder::print_log()
 {
+	if (Log_Recorder::has_log() == false)
+	{
+		std::cout << "현재 기록된 로그가 없습니다."<<std::endl;
+		return;
+	}
 	SET_CONSOLE_COLOR(console_color::history_color);
 	int count = Log_Recorder::log_count;
 	for (std::stack<Log*> dump = Log_Recorder::logstack; !dump.empty(); dump.pop())

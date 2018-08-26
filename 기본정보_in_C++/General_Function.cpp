@@ -137,15 +137,15 @@ void General_Function::help()
 	if (compile::is_show_the_source == true)
 		cout << compile::source_message << endl;
 	General_Function::print_thin_line();
-	printf("%-10s (s)\t:리스트 보기\n", "ls");
-	printf("%-10s (a)\t:사이트 혹은 계정 추가하기\n", "add");
-	printf("%-10s (d)\t:사이트 혹은 계정 삭제하기\n", "del");
-	printf("%-10s (u)\t:사이트 혹은 계정 변경하기\n", "upate");
+	printf("%-10s \t:리스트 보기\n", "ls");
+	printf("%-10s \t:사이트 혹은 계정 추가하기\n", "add");
+	printf("%-10s \t:사이트 혹은 계정 삭제하기\n", "del");
+	printf("%-10s \t:사이트 혹은 계정 변경하기\n", "upate");
 	//printf("%-10s (w)\t:사이트 순서 변경\n", "swap");
-	printf("%-10s (l)\t:변경 사항 출력\n", "history");
-	printf("%-10s (c)\t:화면을 깨끗하게 지우기\n", "cls");
-	printf("%-10s (v)\t:모든 정보를 파일에 저장\n", "save");
-	printf("%-10s (q)\t:프로그램 종료\n", "exit");
+	printf("%-10s \t:변경 사항 출력\n", "log");
+	printf("%-10s \t:화면을 깨끗하게 지우기\n", "cls");
+	printf("%-10s \t:모든 정보를 파일에 저장\n", "save");
+	printf("%-10s \t:프로그램 종료\n", "exit");
 	printf("\n");
 	printf("보통의 상황에서 아무 입력도 안 하고 엔터를 누르면 작업취소를 의미합니다.\n");
 	printf("진행중인 작업을 취소하는 것이 이상한 데이터를 집어넣는 것보다 낫습니다.\n");
@@ -153,7 +153,5 @@ void General_Function::help()
 	printf("Tip. [Win + R] 단축키 (실행창) 를 통해 빠르게 실행하는 방법\n");
 	printf("\t\t환경변수 - 사용자변수 - Path 에 새로만들기 - 이 프로그램이 들어있는 폴더 경로를 추가\n");
 	printf("\t\t이 프로그램 이름을 accounts로 해두었다면 실행 창에서 accounts 를 입력하면 바로 실행.\n");
-	printf("\n");
-	printf("명령어 \"c\" -> 화면 클리어.\n");
 }
 

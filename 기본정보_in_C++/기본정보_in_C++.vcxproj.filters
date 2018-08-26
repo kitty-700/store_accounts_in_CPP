@@ -96,11 +96,11 @@
     <ClCompile Include="Module_Tester.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Natural_language.cpp">
-      <Filter>소스 파일\Expression</Filter>
-    </ClCompile>
     <ClCompile Include="Order.cpp">
       <Filter>소스 파일\Order_Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="Translation.cpp">
+      <Filter>소스 파일\Expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,14 +179,14 @@
     <ClInclude Include="Module_Tester.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Natural_language.h">
-      <Filter>헤더 파일\Expression</Filter>
-    </ClInclude>
     <ClInclude Include="Order.h">
       <Filter>헤더 파일\Order_Handler</Filter>
     </ClInclude>
     <ClInclude Include="Show.h">
       <Filter>헤더 파일\Option\argument\Instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="Translation.h">
+      <Filter>헤더 파일\Expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

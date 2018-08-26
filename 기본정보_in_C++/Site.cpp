@@ -28,7 +28,7 @@ int Site::get_account_count() const
 	return this->account_count;
 }
 bool Site::is_proper_string(string what_attribute, string str) const
-{	// what_attribute 문자열은 translate_natural_language() 를 거침.
+{
 	try { //1.변경하려는 속성이 site_name이 맞는지, 2.길이가 적절한지, 3. 공백은 아닌지 4.특수문자가 포함되어있지는 않은지
 		if (what_attribute != "site_name")
 			throw err_exp::msg_undefined_site_attribute;
@@ -151,7 +151,7 @@ void Site::del_account(std::string ID)
 }
 void Site::update_site_name(string what_attribute, string new_site_name)
 {	//사실 여기에 attribute 하나밖에 필요없는데, Account 클래스랑 모양 비슷하게 맞춘것 뿐임.
-	what_attribute = Natural_language::site_attribute_translate(what_attribute);
+	what_attribute = expression::Translation::site_attribute_translate(what_attribute);
 	if (what_attribute == "site_name") //ID 업데이트
 	{
 		if (is_proper_string(what_attribute, new_site_name) == true)
@@ -169,7 +169,7 @@ void Site::update_account_attribute(std::string ID, std::string what_attribute, 
 	try {
 		if (temp_account == nullptr)
 			throw err_exp::msg_no_existing_ID;
-		if (Natural_language::account_attribute_translate(what_attribute) == "ID")
+		if (expression::Translation::account_attribute_translate(what_attribute) == "ID")
 		{
 			
 			if (is_redundancy_ID(new_value) == true)

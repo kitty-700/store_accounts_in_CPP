@@ -3,7 +3,7 @@ using namespace std;
 namespace err_exp = error_expression;
 
 bool Account::is_proper_string(std::string what_attribute, std::string str) const
-{	// what_attribute 문자열은 translate_natural_language() 를 거침.
+{
 	try {
 		if (what_attribute == "ID") {
 			if (str.size() > buffer::id_length)
@@ -55,7 +55,7 @@ void Account::show_account_information() const
 }
 void Account::update_attribute(string what_attribute, string new_value)
 {
-	what_attribute = Natural_language::account_attribute_translate(what_attribute);
+	what_attribute = expression::Translation::account_attribute_translate(what_attribute);
 	if (what_attribute == "ID") {
 		if (is_proper_string(what_attribute, new_value) == true)
 		{
@@ -85,7 +85,7 @@ void Account::update_attribute(string what_attribute, string new_value)
 }
 string Account::get_attribute(std::string what_info) const
 {
-	what_info = Natural_language::account_attribute_translate(what_info);
+	what_info = expression::Translation::account_attribute_translate(what_info);
 	if (what_info == "ID")
 		return string(this->ID);
 	else if (what_info == "PW")

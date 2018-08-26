@@ -7,7 +7,7 @@
 #include "Structs.h"
 #include "Status.h"
 #include "General_Function.h"
-#include "Natural_language.h"
+#include "Translation.h"
 class Log_Recorder {
 	static int log_count;
 	static std::stack <Log*> logstack;
