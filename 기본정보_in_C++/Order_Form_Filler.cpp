@@ -1,5 +1,5 @@
 #include "Order_Form_Filler.h"
-namespace err_exp = error_expression;
+namespace err_exp = option::expression::error;
 Order_Form_Filler::Order_Form_Filler(Person * person) 
 	: person(person) { }
 /* 입력 양식
@@ -482,7 +482,7 @@ bool Order_Form_Filler::exception_no_sites(int site_count)
 
 void Order_Form_Filler::exception_no_input(int selection)
 {
-	if (selection == error_expression::string_to_be_int_wasnt_entered)
+	if (selection == err_exp::string_to_be_int_wasnt_entered)
 		throw err_exp::msg_no_input_form_filling_cancel;
 }
 

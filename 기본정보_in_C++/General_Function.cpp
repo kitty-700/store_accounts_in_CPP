@@ -1,5 +1,6 @@
 #include "General_Function.h"
 using namespace std;
+namespace err_exp = option::expression::error;
 
 bool General_Function::is_natural_number(string str)
 {
@@ -16,7 +17,7 @@ bool General_Function::is_natural_number(string str)
 int General_Function::string_to_integer(string str)
 {
 	if (str == "")
-		return error_expression::string_to_be_int_wasnt_entered;
+		return expression::error::string_to_be_int_wasnt_entered;
 	else if (str.size() > 0) {
 		const char * c_style_string = str.c_str();
 		return atoi(c_style_string);
@@ -122,12 +123,12 @@ void General_Function::show_order(Order_token * order)
 
 void General_Function::print_thick_line()
 {
-	cout << normal_expression::thick_line << endl;
+	cout << option::expression::normal::thick_line << endl;
 }
 
 void General_Function::print_thin_line()
 {
-	cout << normal_expression::thin_line << endl;
+	cout << option::expression::normal::thin_line << endl;
 }
 
 void General_Function::help()

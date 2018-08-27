@@ -19,7 +19,7 @@ void Log_Recorder::add_log(const Order_token * order, std::string original_value
 	if (order->token_count <= 0) assert(0);
 	Log * log = new Log();
 	using namespace option::argument;
-	log->order_type = option::Translation::operation_translate(order->content[operation_position]);
+	log->order_type = option::expression::Translation::operation_translate(order->content[operation_position]);
 	log->order.token_count = order->token_count;
 	for (int i = 0; i < order->token_count; i++) //order copy
 		log->order.tokens[i] = order->tokens[i];

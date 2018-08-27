@@ -1,5 +1,5 @@
 #include "Person.h"
-namespace err_exp = option::error_expression;
+namespace err_exp = option::expression::error;
 Person::Person() : 
 	site_count(0), 
 	is_alive(false) {}
@@ -56,7 +56,7 @@ Site * Person::find_Site(int site_number)
 		each != this->sites.end();
 		each++, count++)
 	{
-		if (count == site_number - normal_expression::index_fix)
+		if (count == site_number - option::expression::normal::index_fix)
 			return *(each);
 	}
 	return nullptr;
@@ -84,7 +84,7 @@ Site * Person::make_site(std::string site_name)
 {	//site_name을 가지고 Site를 못 만들 시엔 nullptr을 반환. 만들었으면 그 사이트의 주소를 반환한다.
 	Site * temp_site = new Site();
 	temp_site->update_site_name("site_name", site_name);
-	if (temp_site->get_site_name() == error_expression::abnormal_Site_site_name)
+	if (temp_site->get_site_name() == err_exp::abnormal_Site_site_name)
 	{
 		delete temp_site;
 		return nullptr;

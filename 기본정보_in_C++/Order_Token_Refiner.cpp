@@ -1,5 +1,5 @@
 #include "Order_Token_Refiner.h"
-
+namespace normal_exp = option::expression::normal;
 Order_Token_Refiner::Order_Token_Refiner(Order_token * order_token)
 {
 	this->order_token = order_token;
@@ -82,8 +82,8 @@ std::string Order_Token_Refiner::extract_package(std::string order__string)
 	namespace package_macro = option::argument::package;
 	using namespace package_macro;
 	int order_size = (int)order__string.size();
-	char * order__char = new char[order_size + normal_expression::index_fix];
-	strcpy_s(order__char, order_size + normal_expression::index_fix, order__string.c_str());
+	char * order__char = new char[order_size + normal_exp::index_fix];
+	strcpy_s(order__char, order_size + normal_exp::index_fix, order__string.c_str());
 	bool possible_to_include_package = false;
 	int then_standard_index;
 
@@ -110,8 +110,8 @@ MAYBE_IT_CONTAINS_PACKAGE:
 			&& (each_char != package_start) /* ' 과 " 처럼 여는 문자와 닫는 문자가 같은 경우를 위해서.*/)
 		{
 			const int package_end = each_char;
-			int return_order_size = package_end - package_start + normal_expression::index_fix;
-			char * new_order__char = new char[return_order_size + normal_expression::null_fix];
+			int return_order_size = package_end - package_start + normal_exp::index_fix;
+			char * new_order__char = new char[return_order_size + normal_exp::null_fix];
 			for (int i = 0; i < return_order_size; i++)
 				new_order__char[i] = order__char[i + package_start];
 			new_order__char[return_order_size] = NULL;
@@ -137,8 +137,8 @@ std::string Order_Token_Refiner::unpackaging(std::string arg)
 		for (int i = 0; i < kinds_of_tip; i++)
 		{
 			if (arg[0] == package_standard[left_tip][i] && \
-				arg[arg.length() - normal_expression::index_fix] == package_standard[right_tip][i])
-				return arg.substr(1, arg.length() - normal_expression::index_fix - 1);
+				arg[arg.length() - normal_exp::index_fix] == package_standard[right_tip][i])
+				return arg.substr(1, arg.length() - normal_exp::index_fix - 1);
 		}
 	}
 	return arg;

@@ -4,6 +4,7 @@
 #include <string>
 #include"Options.h"
 namespace option {
+	namespace expression {
 		class Translation
 		{
 		public:
@@ -11,6 +12,7 @@ namespace option {
 			static std::string account_attribute_translate(std::string str);
 			static argument::order_type operation_translate(std::string query_op);
 		};
-}//namespace expression 
+	}//namespace expression 
+}//namespace option 
 
 #endif

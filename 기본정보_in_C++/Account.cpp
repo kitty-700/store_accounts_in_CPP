@@ -1,6 +1,6 @@
 #include "Account.h"
 using namespace std;
-namespace err_exp = error_expression;
+namespace err_exp = option::expression::error;
 
 bool Account::is_proper_string(std::string what_attribute, std::string str) const
 {
@@ -49,14 +49,14 @@ void Account::show_account_information() const
 	cout << "     UD : " << this->update_time << endl;
 	cout << "     MM : ";
 	if (!strcmp(this->memo, "") == true)
-		cout << normal_expression::msg_null << endl;
+		cout << option::expression::normal::msg_null << endl;
 	else
 		cout << this->memo << endl;
 }
 void Account::update_attribute(string what_attribute, string new_value)
 {
-	what_attribute = option::Translation::account_attribute_translate(what_attribute);
-	argument::order_type op = option::Translation::operation_translate(Order::get_content(argument::operation_position));
+	what_attribute = option::expression::Translation::account_attribute_translate(what_attribute);
+	argument::order_type op = option::expression::Translation::operation_translate(Order::get_content(argument::operation_position));
 	if (what_attribute == "ID") {
 		if (is_proper_string(what_attribute, new_value) == true)
 		{
@@ -66,7 +66,7 @@ void Account::update_attribute(string what_attribute, string new_value)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 ID : " + before_ID);
 		}
 		else
-			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
+			strcpy_s(this->ID, buffer::id_length, err_exp::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "PW") {
 		if (is_proper_string(what_attribute, new_value) == true) {
@@ -76,7 +76,7 @@ void Account::update_attribute(string what_attribute, string new_value)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 PW : " + before_PW);
 		}
 		else
-			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
+			strcpy_s(this->ID, buffer::id_length, err_exp::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "memo") {
 		if (is_proper_string(what_attribute, new_value) == true) {
@@ -86,7 +86,7 @@ void Account::update_attribute(string what_attribute, string new_value)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 메모 : " + before_memo);
 		}
 		else
-			strcpy_s(this->ID, buffer::id_length, error_expression::abnormal_Account_ID.c_str());
+			strcpy_s(this->ID, buffer::id_length, err_exp::abnormal_Account_ID.c_str());
 	}
 	else {  /*    return error_expression::translation_error;    */
 		cout << err_exp::msg_undefined_account_attribute << endl;
@@ -97,7 +97,7 @@ void Account::update_attribute(string what_attribute, string new_value)
 }
 string Account::get_attribute(std::string what_info) const
 {
-	what_info = option::Translation::account_attribute_translate(what_info);
+	what_info = option::expression::Translation::account_attribute_translate(what_info);
 	if (what_info == "ID")
 		return string(this->ID);
 	else if (what_info == "PW")

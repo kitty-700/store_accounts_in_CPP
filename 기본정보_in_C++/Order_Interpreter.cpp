@@ -1,8 +1,8 @@
 #include "Order_Interpreter.h"
 
 namespace arg = option::argument;
-namespace err_exp = option::error_expression;
-namespace normal_exp = option::normal_expression;
+namespace err_exp = option::expression::error;
+namespace normal_exp = option::expression::normal;
 bool Order_Interpreter::init_person(std::string file_name)
 {
 	Importer importer(file_name);
@@ -65,7 +65,7 @@ bool Order_Interpreter::excute_order(std::string order)///★★★★★★★★★★★
 	{
 		if (error_message != err_exp::msg_no_order_input)
 			std::cout << error_message << std::endl;
-		return normal_expression::no_exit;
+		return option::expression::normal::no_exit;
 	}
 
 	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
@@ -136,7 +136,7 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 {	
-	arg::order_type interpreted_op = option::Translation::operation_translate(query_op);
+	arg::order_type interpreted_op = option::expression::Translation::operation_translate(query_op);
 	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
 	{
 		if (this->person->find_Site(query_op) != nullptr) //사이트 이름 입력
@@ -286,7 +286,7 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 	{
 		if (Log_Recorder::has_log()==true)
 		{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
-			if (General_Function::ask_do_or_not(error_expression::msg_job_reset_warning + " 진행하시겠습니까?") == true)
+			if (General_Function::ask_do_or_not(err_exp::msg_job_reset_warning + " 진행하시겠습니까?") == true)
 			{
 				this->person = person_to_change;
 				return true;

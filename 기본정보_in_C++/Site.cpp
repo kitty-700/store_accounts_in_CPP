@@ -1,6 +1,6 @@
 #include "Site.h"
 using namespace std;
-namespace err_exp = option::error_expression;
+namespace err_exp = option::expression::error;
 Site::Site() : account_count(0) {}
 Site::~Site()
 {
@@ -115,7 +115,7 @@ Account * Site::add_account(string ID, string PW, string memo)
 	temp_account->update_attribute("memo", memo);
 	//파일로부터 적재 시에 update_time 이 변경되지 않게 함수 내에서 조절한다.
 	//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Account::update_attribute () 내에서 경고는 띄워준다.)
-	if (temp_account->get_attribute("ID") == error_expression::abnormal_Account_ID)
+	if (temp_account->get_attribute("ID") == err_exp::abnormal_Account_ID)
 	{
 		std::cout << "Account 를 만들 수 없습니다." << std::endl;
 		delete temp_account;
@@ -154,8 +154,8 @@ void Site::del_account(std::string ID)
 }
 void Site::update_site_name(string what_attribute, string new_site_name)
 {	//사실 여기에 attribute 하나밖에 필요없는데, Account 클래스랑 모양 비슷하게 맞춘것 뿐임.
-	what_attribute = option::Translation::site_attribute_translate(what_attribute);
-	argument::order_type op = option::Translation::operation_translate(Order::get_content(argument::operation_position));
+	what_attribute = option::expression::Translation::site_attribute_translate(what_attribute);
+	argument::order_type op = option::expression::Translation::operation_translate(Order::get_content(argument::operation_position));
 	if (what_attribute == "site_name") //ID 업데이트
 	{
 		if (is_proper_string(what_attribute, new_site_name) == true)
@@ -166,7 +166,7 @@ void Site::update_site_name(string what_attribute, string new_site_name)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 사이트 이름 : " + before_site_name);
 		}
 		else
-			strcpy_s(this->site_name, option::buffer::site_name_length, error_expression::abnormal_Site_site_name.c_str());
+			strcpy_s(this->site_name, option::buffer::site_name_length, err_exp::abnormal_Site_site_name.c_str());
 	}
 	else { /*    return error_expression::translation_error;    */
 		cout << what_attribute << err_exp::msg_undefined_site_attribute << endl;
@@ -178,7 +178,7 @@ void Site::update_account_attribute(std::string ID, std::string what_attribute, 
 	try {
 		if (temp_account == nullptr)
 			throw err_exp::msg_no_existing_ID;
-		if (option::Translation::account_attribute_translate(what_attribute) == "ID")
+		if (option::expression::Translation::account_attribute_translate(what_attribute) == "ID")
 		{
 			if (is_redundancy_ID(new_value) == true)
 				throw new_value + err_exp::msg_already_existing_ID;
