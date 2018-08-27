@@ -2,6 +2,7 @@
 
 namespace arg = option::argument;
 namespace err_exp = option::error_expression;
+namespace normal_exp = option::normal_expression;
 bool Order_Interpreter::init_person(std::string file_name)
 {
 	Importer importer(file_name);
@@ -44,7 +45,7 @@ Order_Interpreter::~Order_Interpreter()
 {
 	delete this->person;
 }
-std::string Order_Interpreter::excute_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
+bool Order_Interpreter::excute_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
 {
 	Order::set( Order_Token_Refiner(new Order_token).refining(order)); //Order_Token_Refiner 임시객체 개념 사용
 	if (compile::debug::order_tokenizer_debug) { //확인 결과 정상동작
@@ -64,17 +65,13 @@ std::string Order_Interpreter::excute_order(std::string order)///★★★★★★★�
 	{
 		if (error_message != err_exp::msg_no_order_input)
 			std::cout << error_message << std::endl;
-		return err_exp::msg_no_special_thing;
+		return normal_expression::no_exit;
 	}
 
 	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
 	bool is_exit = false;
 	order_forwarding(op,&is_exit);
-	using namespace err_exp;
-	if (is_exit == true)
-		return std::string("exit");
-	else
-		return msg_no_special_thing; //에러는 아니지만 error_expression에 넣어둠. 나중에 expression이라는 namespace 내에서 분리할 것.
+	return is_exit;
 }
 
 std::string Order_Interpreter::get_loaded_file_name()

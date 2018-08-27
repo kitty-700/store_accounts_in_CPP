@@ -4,10 +4,10 @@
 #include <stack>
 #include <vector>
 #include <assert.h>
+#include "Options.h"
 #include "Structs.h"
 #include "Status.h"
 #include "General_Function.h"
-#include "Translation.h"
 class Log_Recorder {
 	static int log_count;
 	static std::stack <Log*> logstack;

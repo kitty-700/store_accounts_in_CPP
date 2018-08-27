@@ -49,7 +49,7 @@ void Account::show_account_information() const
 	cout << "     UD : " << this->update_time << endl;
 	cout << "     MM : ";
 	if (!strcmp(this->memo, "") == true)
-		cout << compile::msg_null << endl;
+		cout << normal_expression::msg_null << endl;
 	else
 		cout << this->memo << endl;
 }

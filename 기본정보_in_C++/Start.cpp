@@ -5,7 +5,7 @@
 #include "Order_Interpreter.h"
 #include "Module_Tester.h"
 #include "Status.h"
-void init(bool * do_more, Order_Interpreter * p_slave, const int argc);
+void init(const int argc);
 int main(int argc, char ** argv)
 {
 	if (compile::module_test == true)
@@ -16,13 +16,12 @@ int main(int argc, char ** argv)
 	Order_Interpreter slave;
 	std::string order;
 	std::string answer;
-	bool do_more;
-	init(&do_more, &slave, argc);
+	bool is_exit = false;
+	init(argc);
 	do
 	{
-		std::cout << "["<<slave.get_loaded_file_name()<<"]";
 		General_Function::print_thick_line();
-		std::cout << "> ";
+		std::cout << slave.get_loaded_file_name() << " > ";
 		if (Status::get_is_argument_input() == false) {//보통의 경우엔 콘솔에서 명령어 입력을 받고 명령을 실행한다.
 			General_Function::order_color_input(order);
 		}
@@ -30,19 +29,16 @@ int main(int argc, char ** argv)
 			order = General_Function::sum_of_argv(argc, argv);
 			Status::set_is_argument_input(false);
 		}
-		do_more = slave.excute_order(order) != "exit";
-	} while (do_more);
+		is_exit = slave.excute_order(order);
+	} while (!is_exit);
 	return 0;
 }
 
-void init(bool * do_more, Order_Interpreter * p_slave, const int argc)
+void init(const int argc)
 {
-
 	if (General_Function::login() == compile::login_fail)
 		exit(compile::login_fail);
-
 	srand((unsigned)time(NULL));
-	*do_more = true;
 	if (argc >= 2)
 		Status::set_is_argument_input(true);
 }

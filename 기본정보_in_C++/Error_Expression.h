@@ -52,7 +52,6 @@ namespace option {
 		static const std::string msg_string_in_file_was_too_long = "파일 내에서의 문자열들의 길이가 너무 깁니다. (암호화 문제일 수도 있습니다.)";
 		static const std::string msg_job_reset_warning = "파일을 다시 적재하기 전에 현재까지의 내용을 저장하지 않으면 작업하던 것들이 사라집니다.";
 		//answer
-		static const std::string msg_no_special_thing = "";
 		static const std::string msg_no_order_input = "";
 		//form fill
 		static const std::string msg_no_input_form_filling_cancel = "아무 입력도 없으므로 동작을 취소합니다.";
