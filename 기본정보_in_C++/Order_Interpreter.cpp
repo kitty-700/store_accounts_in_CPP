@@ -3,6 +3,7 @@
 namespace arg = option::argument;
 namespace err_exp = option::expression::error;
 namespace normal_exp = option::expression::normal;
+namespace compile = option::parameters::compile;
 bool Order_Interpreter::init_person(std::string file_name)
 {
 	Importer importer(file_name);
@@ -45,10 +46,10 @@ Order_Interpreter::~Order_Interpreter()
 {
 	delete this->person;
 }
-bool Order_Interpreter::excute_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
+bool Order_Interpreter::interprete_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
 {
 	Order::set( Order_Token_Refiner(new Order_token).refining(order)); //Order_Token_Refiner 임시객체 개념 사용
-	if (compile::debug::order_tokenizer_debug) { //확인 결과 정상동작
+	if (compile::debug::order_tokenizer) { //확인 결과 정상동작
 		General_Function::show_order(Order::get());
 	}
 	//매개변수로 받은 string 의 order를 잘라 Order_token 구조체를 초기화한다.
@@ -118,6 +119,9 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	break;
 	case arg::order_type::help_:
 		General_Function::help();
+		break;
+	case arg::order_type::test_:
+		module_test();
 		break;
 	case arg::order_type::exit_:
 		Status::set_is_person_loaded(false);

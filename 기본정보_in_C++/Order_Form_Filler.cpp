@@ -1,5 +1,6 @@
 #include "Order_Form_Filler.h"
 namespace err_exp = option::expression::error;
+namespace color = option::parameters::console_color;
 Order_Form_Filler::Order_Form_Filler(Person * person) 
 	: person(person) { }
 /* 입력 양식
@@ -506,7 +507,7 @@ void Order_Form_Filler::exception_range_out(int select, int count)
 
 void Order_Form_Filler::zero_selection_explain(std::string sentence)
 {
-	SET_CONSOLE_COLOR(console_color::zero_selection);
+	SET_CONSOLE_COLOR(color::zero_selection);
 	this->person->print_site_number(0);
 	std::cout << sentence << std::endl;
 	SET_CONSOLE_COLOR_DEFAULT;
@@ -514,24 +515,24 @@ void Order_Form_Filler::zero_selection_explain(std::string sentence)
 
 void Order_Form_Filler::zero_selection_explain(std::string sentence, Site * site)
 {	//사이트 이름을 추가로 출력
-	SET_CONSOLE_COLOR(console_color::zero_selection);
+	SET_CONSOLE_COLOR(color::zero_selection);
 	this->person->print_site_number(0);
 	print_colored_site_name(site);
-	SET_CONSOLE_COLOR(console_color::zero_selection);
+	SET_CONSOLE_COLOR(color::zero_selection);
 	std::cout << sentence << std::endl;
 	SET_CONSOLE_COLOR_DEFAULT;
 }
 
 void Order_Form_Filler::print_colored_site_name(Site * site)
 {
-	SET_CONSOLE_COLOR(console_color::site_name_color);
+	SET_CONSOLE_COLOR(color::site_name_color);
 	std::cout << site->get_site_name();
 	SET_CONSOLE_COLOR_DEFAULT;
 }
 
 void Order_Form_Filler::print_colored_account_attributes(Account * account)
 {
-	SET_CONSOLE_COLOR(console_color::account_attribute_color);
+	SET_CONSOLE_COLOR(color::account_attribute_color);
 	std::cout << "[1] ID : " << account->get_attribute("ID") << std::endl;
 	std::cout << "[2] PW : " << account->get_attribute("PW") << std::endl;
 	std::cout << "[3] memo : " << account->get_attribute("Memo") << std::endl;
@@ -540,7 +541,7 @@ void Order_Form_Filler::print_colored_account_attributes(Account * account)
 
 void Order_Form_Filler::print_colored_account_attribute(Account * account, std::string attribute)
 {
-	SET_CONSOLE_COLOR(console_color::account_attribute_color);
+	SET_CONSOLE_COLOR(color::account_attribute_color);
 	if (attribute == "ID")
 		std::cout <<  account->get_attribute("ID");
 	else if (attribute == "PW")

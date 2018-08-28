@@ -265,7 +265,8 @@ void Person::update_account_attribute(std::string site_name, std::string ID, std
 
 void Person::show_one_site_information(Site * site, int site_number)
 {
-	SET_CONSOLE_COLOR(option::console_color::site_name_color);
+	namespace color = option::parameters::console_color;
+	SET_CONSOLE_COLOR(color::site_name_color);
 	print_site_number(site_number);
 	std::cout << site->get_site_name() << std::endl;
 	SET_CONSOLE_COLOR_DEFAULT;
@@ -287,7 +288,8 @@ void Person::show_all_sites_information()
 void Person::show_site_name_list()
 {	// 명령어 ls 시에, 사이트 이름 목록을 출력한다.
 	int count = 1;
-	SET_CONSOLE_COLOR(option::console_color::site_name_color);
+	namespace color = option::parameters::console_color;
+	SET_CONSOLE_COLOR(color::site_name_color);
 	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); each++)
 	{
 		print_site_number(count);

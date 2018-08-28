@@ -35,7 +35,8 @@ void Log_Recorder::print_log()
 		std::cout << "현재 기록된 로그가 없습니다."<<std::endl;
 		return;
 	}
-	SET_CONSOLE_COLOR(console_color::history_color);
+	namespace color = option::parameters::console_color;
+	SET_CONSOLE_COLOR(color::history_color);
 	int count = Log_Recorder::log_count;
 	for (std::stack<Log*> dump = Log_Recorder::logstack; !dump.empty(); dump.pop())
 	{

@@ -13,6 +13,7 @@ namespace option {
 			return;
 			}
 			*/
+			namespace buff = option::parameters::buffer;
 			//arg
 			static const std::string msg_too_much_args = "인자가 너무 많습니다.";
 			static const std::string msg_not_defined_operation = "그런 명령어는 없습니다.";
@@ -30,7 +31,8 @@ namespace option {
 			static const std::string msg_no_existing_site_name = "그런 이름를 가진 사이트는 없습니다.";
 			static const std::string msg_site_hasnt_account = "사이트에 아무런 계정도 없습니다.";
 			static const std::string msg_too_long_site_name =
-				"입력한 사이트 이름의 길이가 너무 깁니다.  ( " + std::to_string(buffer::site_name_length) + " 자 이하로..)";
+				"입력한 사이트 이름의 길이가 너무 깁니다.  ( " + 
+				std::to_string(buff::site_name_length) + " 자 이하로..)";
 			//Account
 			static const std::string abnormal_Account_ID = "#$ID";
 			static const std::string msg_undefined_account_attribute = "Account 에 그런 속성은 없습니다..";
@@ -40,11 +42,11 @@ namespace option {
 			static const std::string msg_already_existing_ID = "은(/는) 이미 존재하는 ID입니다.";
 			static const std::string msg_no_existing_account_number = "그런 번호를 가진 계정은 없습니다.";
 			static const std::string msg_too_long_account_ID =
-				"입력한 계정의 ID의 길이가 너무 깁니다.  ( " + std::to_string(buffer::id_length) + " 자 이하로..)";
+				"입력한 계정의 ID의 길이가 너무 깁니다.  ( " + std::to_string(buff::id_length) + " 자 이하로..)";
 			static const std::string msg_too_long_account_PW =
-				"입력한 계정의 Password의 길이가 너무 깁니다.  ( " + std::to_string(buffer::password_length) + " 자 이하로..)";
+				"입력한 계정의 Password의 길이가 너무 깁니다.  ( " + std::to_string(buff::password_length) + " 자 이하로..)";
 			static const std::string msg_too_long_accout_memo =
-				"입력한 계정의 memo 의 길이가 너무 깁니다.  ( " + std::to_string(buffer::memo_length) + " 자 이하로..)";
+				"입력한 계정의 memo 의 길이가 너무 깁니다.  ( " + std::to_string(buff::memo_length) + " 자 이하로..)";
 			//translation
 			static const std::string translation_error = "TRANSLATION FAIL";
 			//file_io

@@ -6,9 +6,10 @@
 #include "Module_Tester.h"
 #include "Status.h"
 void init(const int argc);
+namespace compile = option::parameters::compile;
 int main(int argc, char ** argv)
 {
-	if (compile::module_test == true)
+	if (compile::do_module_test == true)
 	{	//단순한 모듈테스트. compile_option에서 토글 가능
 		module_test();
 		exit(0);
@@ -29,7 +30,7 @@ int main(int argc, char ** argv)
 			order = General_Function::sum_of_argv(argc, argv);
 			Status::set_is_argument_input(false);
 		}
-		is_exit = slave.excute_order(order);
+		is_exit = slave.interprete_order(order);
 	} while (!is_exit);
 	return 0;
 }

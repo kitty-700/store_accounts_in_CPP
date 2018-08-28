@@ -53,6 +53,10 @@ namespace option {
 				|| 0) interpreted_op = arg::order_type::show_all_site_information_;
 
 			else if (0
+				|| query_op == "test"
+				|| 0) interpreted_op = arg::order_type::test_;
+
+			else if (0
 				|| query_op == "add"
 				|| query_op == "Add"
 				|| query_op == "ADD"
@@ -99,6 +103,7 @@ namespace option {
 				|| query_op == "load"
 				|| query_op == "Load"
 				|| query_op == "LOAD"
+				|| query_op == "switch"
 				|| 0) interpreted_op = arg::order_type::load_;
 
 			else if (0

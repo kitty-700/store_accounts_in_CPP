@@ -16,7 +16,7 @@ class Site {
 	friend class Exporter;
 	int account_count;
 	std::list<Account*> accounts;
-	char site_name[buffer::site_name_length];
+	char site_name[option::parameters::buffer::site_name_length];
 private:
 	bool is_proper_string(std::string what_attribute, std::string str) const;
 

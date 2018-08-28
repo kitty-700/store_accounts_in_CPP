@@ -1,7 +1,7 @@
 #include "General_Function.h"
 using namespace std;
 namespace err_exp = option::expression::error;
-
+namespace compile = option::parameters::compile;
 bool General_Function::is_natural_number(string str)
 {
 	if (str.size() > 0)
@@ -72,7 +72,8 @@ bool General_Function::ask_do_or_not(std::string ask)
 }
 void General_Function::order_color_input(std::string &order)
 {
-	SET_CONSOLE_COLOR(console_color::order_color);
+	namespace color = option::parameters::console_color;
+	SET_CONSOLE_COLOR(color::order_color);
 	std::getline(std::cin, order, '\n');
 	SET_CONSOLE_COLOR_DEFAULT;
 }

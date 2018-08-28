@@ -1,24 +1,25 @@
 #include "Account.h"
 using namespace std;
 namespace err_exp = option::expression::error;
+namespace buff = option::parameters::buffer;
 
 bool Account::is_proper_string(std::string what_attribute, std::string str) const
 {
 	try {
 		if (what_attribute == "ID") {
-			if (str.size() > buffer::id_length)
+			if (str.size() > buff::id_length)
 				throw err_exp::msg_too_long_account_ID;
 			if (str == "")
 				throw err_exp::msg_ID_must_be_filled;
 		}
 		else if (what_attribute == "PW") {
-			if (str.size() > buffer::password_length)
+			if (str.size() > buff::password_length)
 				throw err_exp::msg_too_long_account_PW;
 			if (str == "")
 				throw err_exp::msg_PW_must_be_filled;
 		}
 		else if (what_attribute == "memo") {
-			if (str.size() > buffer::memo_length)
+			if (str.size() > buff::memo_length)
 				throw err_exp::msg_too_long_accout_memo; //메모는 공백이어도 된다.
 		}
 		else
@@ -34,12 +35,12 @@ bool Account::is_proper_string(std::string what_attribute, std::string str) cons
 	}
 	return true;
 }
-void Account::replace_account_update_time(char now_time[buffer::update_time_length])
+void Account::replace_account_update_time(char now_time[buff::update_time_length])
 {
 	time_t timer = time(NULL);
 	struct tm t;
 	localtime_s(&t, &timer);
-	sprintf_s(now_time, buffer::update_time_length, "%4d-%02d-%02d %02d:%02d:%02d",
+	sprintf_s(now_time, buff::update_time_length, "%4d-%02d-%02d %02d:%02d:%02d",
 		t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
 }
 void Account::show_account_information() const
@@ -61,32 +62,32 @@ void Account::update_attribute(string what_attribute, string new_value)
 		if (is_proper_string(what_attribute, new_value) == true)
 		{
 			std::string before_ID = this->ID;
-			strcpy_s(this->ID, buffer::id_length, new_value.c_str());
+			strcpy_s(this->ID, buff::id_length, new_value.c_str());
 			if (op == argument::update_)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 ID : " + before_ID);
 		}
 		else
-			strcpy_s(this->ID, buffer::id_length, err_exp::abnormal_Account_ID.c_str());
+			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "PW") {
 		if (is_proper_string(what_attribute, new_value) == true) {
 			std::string before_PW = this->PW;
-			strcpy_s(this->PW, buffer::password_length, new_value.c_str());
+			strcpy_s(this->PW, buff::password_length, new_value.c_str());
 			if (op == argument::update_)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 PW : " + before_PW);
 		}
 		else
-			strcpy_s(this->ID, buffer::id_length, err_exp::abnormal_Account_ID.c_str());
+			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
 	}
 	else if (what_attribute == "memo") {
 		if (is_proper_string(what_attribute, new_value) == true) {
 			std::string before_memo = this->memo;
-			strcpy_s(this->memo, buffer::memo_length, new_value.c_str());
+			strcpy_s(this->memo, buff::memo_length, new_value.c_str());
 			if (op == argument::update_)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 메모 : " + before_memo);
 		}
 		else
-			strcpy_s(this->ID, buffer::id_length, err_exp::abnormal_Account_ID.c_str());
+			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
 	}
 	else {  /*    return error_expression::translation_error;    */
 		cout << err_exp::msg_undefined_account_attribute << endl;

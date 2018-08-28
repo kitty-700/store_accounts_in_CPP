@@ -1,5 +1,6 @@
 #include "Exporter.h"
-namespace fiop = option::file_io_parameter;
+namespace fiop = option::parameters::file_io;
+namespace compile = option::parameters::compile;
 Exporter::Exporter(Person * person, std::string save_file_name) : person_to_export(person), save_file_name(save_file_name)
 {
 	this->fp.open(this->save_file_name, std::ios::binary);

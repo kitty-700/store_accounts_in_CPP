@@ -3,10 +3,8 @@
 #define _NORMAL_EXPRESSION_H_
 #include <string>
 namespace option {
-	namespace expression
-	{
-		namespace normal
-		{
+	namespace expression {
+		namespace normal {
 			static const std::string thick_line = "==============================";
 			static const std::string thin_line = "------------------------------";
 			static int index_fix = 1;
@@ -15,7 +13,7 @@ namespace option {
 			static const std::string msg_null = "(null)";
 			static const std::string msg_no_special_thing = "";
 			static const bool no_exit = false;
-		}// namespace normal_expression
-	}
+		}// namespace normal
+	}// namespace expression
 }//namespace option
 #endif

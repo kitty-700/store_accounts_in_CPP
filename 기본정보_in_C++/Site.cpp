@@ -1,6 +1,7 @@
 #include "Site.h"
 using namespace std;
 namespace err_exp = option::expression::error;
+namespace buff = option::parameters::buffer;
 Site::Site() : account_count(0) {}
 Site::~Site()
 {
@@ -33,7 +34,7 @@ bool Site::is_proper_string(string what_attribute, string str) const
 		if (what_attribute != "site_name")
 			throw err_exp::msg_undefined_site_attribute;
 		else {
-			if (str.size() > option::buffer::site_name_length)
+			if (str.size() > buff::site_name_length)
 				throw err_exp::msg_too_long_site_name;
 			if (str == "")
 				throw err_exp::msg_site_name_must_be_filled;
@@ -79,7 +80,8 @@ bool Site::is_redundancy_ID(std::string ID)
 void Site::show_account_information()
 {
 	int count = 1;
-	SET_CONSOLE_COLOR(option::console_color::account_attribute_color);
+	namespace color = option::parameters::console_color;
+	SET_CONSOLE_COLOR(color::account_attribute_color);
 	for (list<Account*>::iterator each = this->accounts.begin(); each != this->accounts.end(); each++)
 	{
 		std::cout << "[";
@@ -161,12 +163,12 @@ void Site::update_site_name(string what_attribute, string new_site_name)
 		if (is_proper_string(what_attribute, new_site_name) == true)
 		{
 			std::string before_site_name = this->site_name;
-			strcpy_s(this->site_name, option::buffer::site_name_length, new_site_name.c_str());
+			strcpy_s(this->site_name, buff::site_name_length, new_site_name.c_str());
 			if (op == argument::update_)
 				Log_Recorder::add_log(Order::get(), "바꾸기 전의 사이트 이름 : " + before_site_name);
 		}
 		else
-			strcpy_s(this->site_name, option::buffer::site_name_length, err_exp::abnormal_Site_site_name.c_str());
+			strcpy_s(this->site_name, buff::site_name_length, err_exp::abnormal_Site_site_name.c_str());
 	}
 	else { /*    return error_expression::translation_error;    */
 		cout << what_attribute << err_exp::msg_undefined_site_attribute << endl;

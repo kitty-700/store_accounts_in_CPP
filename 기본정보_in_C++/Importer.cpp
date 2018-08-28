@@ -1,6 +1,8 @@
 #include "Importer.h"
-namespace fiop = option::file_io_parameter;
+namespace fiop = option::parameters::file_io;
 namespace err_exp = option::expression::error;
+namespace buff = option::parameters::buffer;
+namespace compile = option::parameters::compile;
 Importer::Importer(std::string load_file_name) :
 	load_file_name(load_file_name),
 	temp_person(nullptr),
@@ -129,33 +131,33 @@ bool Importer::fill_proper_place(const int state_was)
 	switch (state_was)
 	{
 	case fiop::site_assemblying_started:
-		if (this->temp_str.size() > buffer::site_name_length)
+		if (this->temp_str.size() > buff::site_name_length)
 			return false;
-		strcpy_s(this->temp_site->site_name, buffer::site_name_length, this->temp_str.c_str());
+		strcpy_s(this->temp_site->site_name, buff::site_name_length, this->temp_str.c_str());
 		break;
 
 	case fiop::account_id_assemblying:
-		if (this->temp_str.size() > buffer::id_length)
+		if (this->temp_str.size() > buff::id_length)
 			return false;
-		strcpy_s(this->temp_account->ID, buffer::id_length, this->temp_str.c_str());
+		strcpy_s(this->temp_account->ID, buff::id_length, this->temp_str.c_str());
 		break;
 
 	case fiop::account_pw_assemblying:
-		if (this->temp_str.size() > buffer::password_length)
+		if (this->temp_str.size() > buff::password_length)
 			return false;
-		strcpy_s(this->temp_account->PW, buffer::password_length, this->temp_str.c_str());
+		strcpy_s(this->temp_account->PW, buff::password_length, this->temp_str.c_str());
 		break;
 
 	case fiop::account_ud_assemblying:
-		if (this->temp_str.size() > buffer::update_time_length)
+		if (this->temp_str.size() > buff::update_time_length)
 			return false;
-		strcpy_s(this->temp_account->update_time, buffer::update_time_length, this->temp_str.c_str());
+		strcpy_s(this->temp_account->update_time, buff::update_time_length, this->temp_str.c_str());
 		break;
 
 	case fiop::account_memo_assemblying://여까지 성공하면 계정 하나 만들어지는 것
-		if (this->temp_str.size() > buffer::memo_length)
+		if (this->temp_str.size() > buff::memo_length)
 			return false;
-		strcpy_s(this->temp_account->memo, buffer::memo_length, this->temp_str.c_str());
+		strcpy_s(this->temp_account->memo, buff::memo_length, this->temp_str.c_str());
 
 		this->temp_site->accounts.push_back(this->temp_account);
 		this->temp_site->account_count++;
@@ -313,7 +315,7 @@ void Importer::make_a_person()
 				this->temp_person->set_is_alive(false);
 		}
 	}
-	if (compile::debug::load_raw_data_debug) //파일로드가 의미있는 B번과 C-2번 케이스에 대해서만 실행된다.
+	if (compile::debug::load_raw_data) //파일로드가 의미있는 B번과 C-2번 케이스에 대해서만 실행된다.
 		show_now_data();
 	return;
 }
