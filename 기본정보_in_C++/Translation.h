@@ -2,7 +2,9 @@
 #ifndef _TRANSLATION_H_
 #define _TRANSLATION_H_
 #include <string>
-#include"Options.h"
+#include "Expression.h"
+#include "Argument.h"
+//여기서 Option을 include 해버리면 순환호출이 되어버림.
 namespace option {
 	namespace expression {
 		class Translation
