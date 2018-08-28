@@ -206,6 +206,9 @@
     <ClInclude Include="Normal_Expression.h">
       <Filter>헤더 파일\Option\Expression</Filter>
     </ClInclude>
+    <ClInclude Include="Sort.h">
+      <Filter>헤더 파일\Option\Argument\Instruction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="diary.txt">

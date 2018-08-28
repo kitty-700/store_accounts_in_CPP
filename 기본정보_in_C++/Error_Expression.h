@@ -17,7 +17,7 @@ namespace option {
 			//arg
 			static const std::string msg_too_much_args = "인자가 너무 많습니다.";
 			static const std::string msg_not_defined_operation = "그런 명령어는 없습니다.";
-			static const std::string msg_unsupport_order_form = "명령어는 존재하지만, 지원하지 않는 명령 양식입니다..";
+			static const std::string msg_unsupport_order_form = "명령어는 존재하지만, 지원하지 않는 명령 양식입니다.";
 			static const std::string msg_forbidden_character = "금지된 특수 문자 입력를 입력하셨습니다.";
 			//Person
 			static const std::string msg_person_hasnt_site = "아무 사이트도 등록되어있지 않습니다.";

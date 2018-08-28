@@ -187,6 +187,7 @@
     <ClInclude Include="Module_Tester.h" />
     <ClInclude Include="Normal_Expression.h" />
     <ClInclude Include="Parameters.h" />
+    <ClInclude Include="Sort.h" />
     <ClInclude Include="Translation.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="Order.h" />

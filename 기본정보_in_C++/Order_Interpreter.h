@@ -26,6 +26,7 @@ private:
 	void del();
 	void update();
 	void load();
+	void sort(bool is_ascending);
 	void show(int what_type_of_showing);
 	void show_site_in_number();
 	void show_site_in_site_name();

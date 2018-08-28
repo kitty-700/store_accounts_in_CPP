@@ -5,7 +5,6 @@
 #include "Order_Interpreter.h"
 #include "Module_Tester.h"
 #include "Status.h"
-
 void init_program(const int argc);
 void exit_program();
 namespace compile = option::parameters::compile;
@@ -33,7 +32,7 @@ int main(int argc, char ** argv)
 			Status::set_is_argument_input(false);
 		}
 		is_exit = slave.interprete_order(order);
-	} while (!is_exit);
+	} while (is_exit == option::expression::normal::no_exit);
 	exit_program();
 	return 0;
 }

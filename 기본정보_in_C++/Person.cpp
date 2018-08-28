@@ -173,6 +173,14 @@ void Person::del()
 	}
 }
 
+void Person::sort(bool is_ascending)
+{
+	if(is_ascending)
+		this->sites.sort([](Site*A_site, Site* B_site) {return A_site->get_site_name()[0] < B_site->get_site_name()[0]; });
+	else
+		this->sites.sort([](Site*A_site, Site* B_site) {return A_site->get_site_name()[0] > B_site->get_site_name()[0]; });
+}
+
 void Person::del_site(std::string site_name)
 {
 	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); )

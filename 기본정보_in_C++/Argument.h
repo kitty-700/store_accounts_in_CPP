@@ -43,10 +43,12 @@ namespace option {
 			clear_screen_ = 11,
 			log_ = 12,
 			test_ = 13,
+			sort_ = 14,
+			sort_reverse_ = 15,
 			exit_ = -1,
 			no_operation_input_ = -2,
 			not_translate_but_should_calculated_ = -3 //단순히 자연어로만 번역되는게 아니라 계산되어야 알 수 있는 명령어의 경우
-		};
+		};//이 외에도 Translation, Interpreter 수정해야함. 
 	}//namespace argument
 }//option
 #endif

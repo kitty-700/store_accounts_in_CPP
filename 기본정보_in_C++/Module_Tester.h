@@ -11,7 +11,7 @@
 class Module_tester {
 	static Person  * person;
 
-	static Account * make_account(std::string ID, std::string PW, std::string memo);
+	static void add_account(Site * site,std::string ID, std::string PW, std::string memo);
 	static Site* make_site(std::string site_name);
 	static void init_person();
 public:

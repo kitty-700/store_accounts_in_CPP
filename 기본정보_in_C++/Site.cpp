@@ -12,6 +12,7 @@ void Site::operator+=(Account * account)
 	this->accounts.push_back(account);
 	this->account_count++;
 }
+
 void Site::clean_itself()
 {	//Site 가 지닌, 동적할당한 모든 대상에 대해서 할당 해제한다.
 	for (std::list<Account*>::iterator position = this->accounts.begin(); position != this->accounts.end(); )

@@ -99,6 +99,12 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	case arg::order_type::log_:
 		Log_Recorder::print_log();
 		break;
+	case arg::order_type::sort_:
+		sort(option::argument::instruction::sort::ascending);
+		break;
+	case arg::order_type::sort_reverse_:
+		sort(option::argument::instruction::sort::descending);
+		break;
 	case arg::order_type::load_:
 		load();
 		break;
@@ -179,6 +185,11 @@ void Order_Interpreter::load()
 	{
 		init_person(Order::get_content(file_name_position));
 	}
+}
+
+void Order_Interpreter::sort(bool is_ascending)
+{
+	this->person->sort(is_ascending);
 }
 
 void Order_Interpreter::del()

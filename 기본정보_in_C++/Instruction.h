@@ -5,5 +5,6 @@
 #include "Del.h"
 #include "Update.h"
 #include "Show.h"
+#include "Sort.h"
 #include "Load.h"
 #endif

@@ -87,6 +87,18 @@ namespace option {
 				|| 0)	interpreted_op = arg::order_type::log_;
 
 			else if (0
+				|| query_op == "sort"
+				|| query_op == "Sort"
+				|| query_op == "SORT"
+				|| 0)	interpreted_op = arg::order_type::sort_;
+						
+			else if (0
+				|| query_op == "sort-"
+				|| query_op == "Sort-"
+				|| query_op == "SORT-"
+				|| 0)	interpreted_op = arg::order_type::sort_reverse_;
+
+			else if (0
 				|| query_op == "update"
 				|| query_op == "UPDATE"
 				|| query_op == "Update"
