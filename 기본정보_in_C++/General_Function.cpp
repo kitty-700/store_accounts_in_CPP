@@ -62,7 +62,7 @@ int General_Function::get_random(int min, int max)
 bool General_Function::ask_do_or_not(std::string ask)
 {
 	cout << ask << std::endl;
-	cout << "yes 혹은 no 를 입력하세요. (입력이 \"yes\" 가 아니면 전부 \"no\"로 취급함)" << std::endl;
+	cout << "( yes / no )" << std::endl;
 	cout << "> ";
 	string answer;
 	order_color_input(answer);

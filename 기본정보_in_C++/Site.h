@@ -14,6 +14,7 @@
 class Site {
 	friend class Importer;
 	friend class Exporter;
+	friend class Module_tester;
 	int account_count;
 	std::list<Account*> accounts;
 	char site_name[option::parameters::buffer::site_name_length];

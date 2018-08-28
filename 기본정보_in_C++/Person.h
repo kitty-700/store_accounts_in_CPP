@@ -12,6 +12,7 @@ class Importer;
 class Person {
 	friend class Importer;
 	friend class Exporter;
+	friend class Module_tester;
 	//	friend void Importer::make_a_person(); //이건 왜 안 되는지? Importer의 멤버변수로 존재해서 클래스단에서 friend 해줘야하나?
 	std::list<Site*> sites;
 	int site_count;
@@ -20,7 +21,7 @@ private:
 	bool is_redundancy_site_name(std::string site_name);
 	Site * make_site(std::string site_name);	//사이트 하나를 생성
 	Site * add_site(std::string site_name);	//사이트 하나를 추가 (여기서 make_site호출)
-	void add_account(std::string site_name, std::string ID, std::string PW, std::string memo);	//계정 하나를 추가
+	void add_account(std::string site_name, std::string ID, std::string PW, std::string memo = "");	//계정 하나를 추가
 	void del_site(std::string site_name);	//사이트 하나를 삭제
 	void del_account(std::string site_name, std::string ID);	//계정 하나를 삭제
 	void update_site_name(std::string site_name, std::string new_site_name); //사이트 이름 업데이트

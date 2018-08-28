@@ -142,7 +142,7 @@ Site * Person::add_site(std::string site_name)
 		return nullptr;
 	}
 }
-void Person::add_account(std::string site_name, std::string ID, std::string PW, std::string memo)
+void Person::add_account(std::string site_name, std::string ID, std::string PW, std::string memo )
 {	//계정을 추가하는 함수이지만, 만약 사이트가 없다면 사이트를 생성한 후에 추가한다.
 	Site * temp_site;
 	if ((temp_site = find_Site(site_name)) == nullptr)

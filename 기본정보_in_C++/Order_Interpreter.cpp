@@ -121,7 +121,7 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 		General_Function::help();
 		break;
 	case arg::order_type::test_:
-		module_test();
+		Module_tester::module_test();
 		break;
 	case arg::order_type::exit_:
 		Status::set_is_person_loaded(false);
@@ -281,22 +281,20 @@ void Order_Interpreter::show_site_in_site_name()
 
 bool Order_Interpreter::change_person(Person * person_to_change)
 {
-	if (person_to_change->get_is_alive() == false)
-	{
+	if (person_to_change->get_is_alive() == false) {
 		delete person_to_change;
 		return false;
 	}
 	else
 	{
-		if (Log_Recorder::has_log()==true)
+		if (Log_Recorder::has_log() == true)
 		{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
-			if (General_Function::ask_do_or_not(err_exp::msg_job_reset_warning + " 진행하시겠습니까?") == true)
-			{
+			if (General_Function::ask_do_or_not(err_exp::msg_job_reset_warning + " 진행하시겠습니까?") == true)	{
+				if (this->person != nullptr) delete this->person;
 				this->person = person_to_change;
 				return true;
 			}
-			else
-			{
+			else	{
 				std::cout << "취소되었습니다." << std::endl;
 				return false;
 			}

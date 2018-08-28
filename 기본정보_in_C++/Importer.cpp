@@ -3,6 +3,7 @@ namespace fiop = option::parameters::file_io;
 namespace err_exp = option::expression::error;
 namespace buff = option::parameters::buffer;
 namespace compile = option::parameters::compile;
+
 Importer::Importer(std::string load_file_name) :
 	load_file_name(load_file_name),
 	temp_person(nullptr),

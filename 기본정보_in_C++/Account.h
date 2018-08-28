@@ -12,6 +12,7 @@
 class Account {
 	friend class Importer; //이렇게, 맨처음에 다른 클래스에의해 강제로 초기화될 필요가 있을 때 friend는 유용한듯 
 	friend class Exporter;
+	friend class Module_tester;
 	char ID[option::parameters::buffer::id_length];
 	char PW[option::parameters::buffer::password_length];
 	char update_time[option::parameters::buffer::update_time_length];	//마지막 업데이트 일자
