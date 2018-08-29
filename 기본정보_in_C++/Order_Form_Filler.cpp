@@ -491,6 +491,6 @@ void Order_Form_Filler::print_colored_account_attribute(Account * account, std::
 }
 
 bool Order_Form_Filler::is_count_range(int select, int count)
-{	//0까지는 정상범주로 취급
+{	//0번 선택지까지는 정상범주로 취급
 	return (0 <= select && select <= count) ? true : false;
 }

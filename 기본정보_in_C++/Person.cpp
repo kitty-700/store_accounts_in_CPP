@@ -44,7 +44,7 @@ void Person::clean_itself()
 Site* Person::find_Site(std::string site_name)
 {
 	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); each++)
-		if ((*each)->get_site_name() == site_name)
+		if (*(*each) == site_name)
 			return (*each);
 	return nullptr;
 }
@@ -69,7 +69,7 @@ int Person::find_Site_number(std::string site_name)
 		each != this->sites.end();
 		each++, count++)
 	{
-		if ((*each)->get_site_name() == site_name)
+		if (*(*each) == site_name)
 			return count;
 	}
 	return -1;
@@ -84,7 +84,7 @@ Site * Person::make_site(std::string site_name)
 {	//site_name을 가지고 Site를 못 만들 시엔 nullptr을 반환. 만들었으면 그 사이트의 주소를 반환한다.
 	Site * temp_site = new Site();
 	temp_site->update_site_name("site_name", site_name);
-	if (temp_site->get_site_name() == err_exp::abnormal_Site_site_name)
+	if (*temp_site == err_exp::abnormal_Site_site_name)
 	{
 		delete temp_site;
 		return nullptr;
@@ -175,17 +175,17 @@ void Person::del()
 
 void Person::sort(bool is_ascending)
 {
-	if(is_ascending)
-		this->sites.sort([](Site*A_site, Site* B_site) {return A_site->get_site_name()[0] < B_site->get_site_name()[0]; });
+	if (is_ascending)
+		this->sites.sort([](Site*A_site, Site* B_site) {return *A_site < *B_site; });
 	else
-		this->sites.sort([](Site*A_site, Site* B_site) {return A_site->get_site_name()[0] > B_site->get_site_name()[0]; });
+		this->sites.sort([](Site*A_site, Site* B_site) {return *A_site > *B_site; });
 }
 
 void Person::del_site(std::string site_name)
 {
 	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); )
 	{
-		if ((*each)->get_site_name() == site_name)
+		if (*(*each) == site_name)
 		{
 			int account_count = (*each)->get_account_count();
 			std::string to_record =

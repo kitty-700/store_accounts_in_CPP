@@ -13,6 +13,32 @@ void Site::operator+=(Account * account)
 	this->account_count++;
 }
 
+bool Site::operator<(const Site & other)
+{
+	if (this->site_name[0] < other.site_name[0])
+		return true;
+	return false;
+}
+bool Site::operator>(const Site & other)
+{
+	return !(*this < other);
+}
+
+bool Site::operator==(const Site & site)
+{
+	if (this->site_name == std::string(site.site_name))
+		return true;
+	return false;
+}
+
+bool Site::operator==(const std::string & site_name)
+{
+	if (std::string(this->site_name) == site_name)
+		return true;
+	return false;
+}
+
+
 void Site::clean_itself()
 {	//Site 가 지닌, 동적할당한 모든 대상에 대해서 할당 해제한다.
 	for (std::list<Account*>::iterator position = this->accounts.begin(); position != this->accounts.end(); )
@@ -89,7 +115,7 @@ void Site::show_account_information()
 		std::cout.fill('0');
 		std::cout.width(General_Function::get_cipher(this->account_count));
 		std::cout << count << "]↘" << std::endl;
-		(*each)->show_account_information();
+		std::cout << (*each);
 		count++;
 	}
 	SET_CONSOLE_COLOR_DEFAULT;

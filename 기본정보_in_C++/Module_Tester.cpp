@@ -3,7 +3,9 @@ Person* Module_tester::person;
 void Module_tester::module_test()
 {
 	std::cout << ">> MODULE TESTING <<" << std::endl;
-
+	Site * site = Module_tester::person->find_Site(1);
+	Account * account = site->find_account_with_account_number(1);
+	std::cout << *account;
 }
 
 void Module_tester::init()

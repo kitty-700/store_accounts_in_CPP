@@ -26,6 +26,10 @@ public:
 	Site();
 	~Site();
 	void operator+=(Account * account);
+	bool operator<(const Site& other);
+	bool operator>(const Site& other);
+	bool operator==(const Site& site);
+	bool operator==(const std::string& site_name);
 	std::string get_site_name();
 	int get_account_count() const;
 	void show_account_information();

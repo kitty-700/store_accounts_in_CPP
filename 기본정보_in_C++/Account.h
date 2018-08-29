@@ -21,8 +21,9 @@ private:
 	bool is_proper_string(std::string what_attribute, std::string str) const;
 	void replace_account_update_time(char now_time[option::parameters::buffer::update_time_length]);
 public:
-	void show_account_information() const;
+	void show_accounts() const;
 	std::string get_attribute(std::string what_attribute) const;
 	void update_attribute(std::string what_attribute, std::string new_value);//다만 고유값인 ID의 중복검사는 Site 클래스에서 해주자...
+	friend std::ostream& operator<<(std::ostream& os, const Account& account);
 };
 #endif

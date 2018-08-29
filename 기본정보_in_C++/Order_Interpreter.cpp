@@ -48,7 +48,7 @@ Order_Interpreter::~Order_Interpreter()
 }
 bool Order_Interpreter::interprete_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
 {
-	Order::set( Order_Token_Refiner(new Order_token).refining(order)); //Order_Token_Refiner 임시객체 개념 사용
+	Order::set(Order_Token_Refiner(new Order_token).refining(order)); //Order_Token_Refiner 임시객체 개념 사용
 	if (compile::debug::order_tokenizer) { //확인 결과 정상동작
 		General_Function::show_order(Order::get());
 	}
@@ -71,7 +71,7 @@ bool Order_Interpreter::interprete_order(std::string order)///★★★★★★★★★
 
 	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
 	bool is_exit = false;
-	order_forwarding(op,&is_exit);
+	order_forwarding(op, &is_exit);
 	return is_exit;
 }
 
@@ -102,7 +102,6 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	case arg::order_type::sort_reverse_:
 		sort(option::argument::instruction::sort::descending);
 		break;
-
 	case arg::order_type::reload_:
 		init_person(this->now_loaded_file_name);
 		break;
@@ -166,7 +165,7 @@ void Order_Interpreter::wanna_filling_sometimse(argument::order_type op)
 }
 
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
-{	
+{
 	arg::order_type interpreted_op = option::expression::Translation::operation_translate(query_op);
 	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
 	{
@@ -321,12 +320,12 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 	{
 		if (Log_Recorder::has_log() == true)
 		{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
-			if (General_Function::ask_do_or_not(err_exp::msg_job_reset_warning + " 진행하시겠습니까?") == true)	{
+			if (General_Function::ask_do_or_not(err_exp::msg_job_reset_warning + " 진행하시겠습니까?") == true) {
 				if (this->person != nullptr) delete this->person;
 				this->person = person_to_change;
 				return true;
 			}
-			else	{
+			else {
 				std::cout << "취소되었습니다." << std::endl;
 				return false;
 			}
