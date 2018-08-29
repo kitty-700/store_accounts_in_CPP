@@ -1,7 +1,7 @@
 #include "Order_Form_Filler.h"
 namespace err_exp = option::expression::error;
 namespace color = option::parameters::console_color;
-Order_Form_Filler::Order_Form_Filler(Person * person) 
+Order_Form_Filler::Order_Form_Filler(Person * person)
 	: person(person) { }
 /* 입력 양식
 
@@ -9,7 +9,7 @@ Order_Form_Filler::Order_Form_Filler(Person * person)
 	{
 		//메뉴출력
 		{
-		
+
 		}
 		//메뉴 중에서 선택 or 입력
 		{
@@ -29,7 +29,7 @@ Order_Form_Filler::Order_Form_Filler(Person * person)
 void Order_Form_Filler::add_form_filler()
 {	//"add" 명령에 대한 양식을 받는다. 
 	//ADD-1 페이지 (사이트 선택)
-	{	
+	{
 		//메뉴 출력
 		{
 			General_Function::print_thin_line();
@@ -45,15 +45,8 @@ void Order_Form_Filler::add_form_filler()
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection_1);
-				exception_range_out(this->selection_1, this->person->get_site_count());
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
+			exception_no_input(this->selection_1);
+			exception_range_out(this->selection_1, this->person->get_site_count());
 		}
 		//정상진행
 		{
@@ -153,16 +146,9 @@ void Order_Form_Filler::del_form_filler()
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection_1);
-				exception_zero_to_quit(this->selection_1);
-				exception_range_out(this->selection_1, this->person->get_site_count());
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
+			exception_no_input(this->selection_1);
+			exception_zero_to_quit(this->selection_1);
+			exception_range_out(this->selection_1, this->person->get_site_count());
 		}
 		//정상진행
 		{
@@ -187,15 +173,8 @@ void Order_Form_Filler::del_form_filler()
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection_2);
-				exception_range_out(this->selection_2, temp_site->get_account_count());
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
+			exception_no_input(this->selection_2);
+			exception_range_out(this->selection_2, temp_site->get_account_count());
 		}
 		//정상 진행
 		{
@@ -232,7 +211,7 @@ void Order_Form_Filler::update_form_filler()
 		return;
 	Site * temp_site;
 	//UPDATE-1 페이지 (사이트 선택)
-	{	
+	{
 		//메뉴 출력
 		{
 			std::cout << "사이트 이름 혹은 계정 속성을 변경하고자 하는 사이트의 번호를 선택해주세요." << std::endl;
@@ -247,16 +226,9 @@ void Order_Form_Filler::update_form_filler()
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection_1);
-				exception_zero_to_quit(this->selection_1);
-				exception_range_out(this->selection_1, this->person->get_site_count());
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
+			exception_no_input(this->selection_1);
+			exception_zero_to_quit(this->selection_1);
+			exception_range_out(this->selection_1, this->person->get_site_count());
 		}
 		//정상진행
 		{
@@ -281,15 +253,8 @@ void Order_Form_Filler::update_form_filler()
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection_2);
-				exception_range_out(this->selection_2, temp_site->get_account_count());
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
+			exception_no_input(this->selection_2);
+			exception_range_out(this->selection_2, temp_site->get_account_count());
 		}
 		//정상진행
 		{
@@ -322,14 +287,7 @@ void Order_Form_Filler::update_site_name(Site * site)
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(new_site_name);
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;;
-				return;
-			}
+			exception_no_input(new_site_name);
 		}
 		//정상진행
 		{
@@ -363,16 +321,9 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection_3);
-				exception_range_out(this->selection_3, 3);
-				exception_zero_to_quit(this->selection_3);
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;;
-				return;
-			}
+			exception_no_input(this->selection_3);
+			exception_range_out(this->selection_3, 3);
+			exception_zero_to_quit(this->selection_3);
 		}
 		//정상진행
 		{
@@ -403,7 +354,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 			std::cout << "변경할 ";
 			std::cout << Order::get_content(update::attribute_select_position);
 			std::cout << "( ";
-			print_colored_account_attribute(account, Order::get_content(update::attribute_select_position)); 
+			print_colored_account_attribute(account, Order::get_content(update::attribute_select_position));
 			std::cout << " ->  ? )" << std::endl;
 		}
 		//입력
@@ -413,15 +364,8 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				if (Order::get_content(update::attribute_select_position) != "memo")
-					exception_no_input(new_attribute_value);
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;;
-				return;
-			}
+			if (Order::get_content(update::attribute_select_position) != "memo")
+				exception_no_input(new_attribute_value);
 		}
 		//정상진행
 		{
@@ -429,7 +373,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 			Order::set_token_count(update::modify_account_attribute);
 		}
 	}//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)
-	
+
 	return;
 }
 
@@ -449,14 +393,7 @@ void Order_Form_Filler::load_form_filler()
 		}
 		//선택에 대한 예외처리
 		{
-			try {
-				exception_no_input(this->selection);
-			}
-			catch (std::string error_message) {
-				Status::set_is_form_filling_successful(false);
-				std::cout << error_message << std::endl;
-				return;
-			}
+			exception_no_input(this->selection);
 		}
 		//정상진행
 		{
@@ -484,25 +421,25 @@ bool Order_Form_Filler::exception_no_sites(int site_count)
 void Order_Form_Filler::exception_no_input(int selection)
 {
 	if (selection == err_exp::string_to_be_int_wasnt_entered)
-		throw err_exp::msg_no_input_form_filling_cancel;
+		throw Form_Filling_Exception(err_exp::msg_no_input_form_filling_cancel);
 }
 
 void Order_Form_Filler::exception_no_input(std::string selection)
 {
 	if (selection == "")
-		throw err_exp::msg_no_input_form_filling_cancel;
+		throw Form_Filling_Exception(err_exp::msg_no_input_form_filling_cancel);
 }
 
 void Order_Form_Filler::exception_zero_to_quit(int selection)
 {
 	if (selection == argument::zero_selection)
-		throw err_exp::msg_form_filling_cancel;
+		throw Form_Filling_Exception(err_exp::msg_form_filling_cancel_on_purpose);
 }
 
 void Order_Form_Filler::exception_range_out(int select, int count)
 {
 	if (is_count_range(select, count) == false)
-		throw err_exp::msg_ineffective_select;
+		throw Form_Filling_Exception(err_exp::msg_ineffective_select);
 }
 
 void Order_Form_Filler::zero_selection_explain(std::string sentence)
@@ -543,11 +480,11 @@ void Order_Form_Filler::print_colored_account_attribute(Account * account, std::
 {
 	SET_CONSOLE_COLOR(color::account_attribute_color);
 	if (attribute == "ID")
-		std::cout <<  account->get_attribute("ID");
+		std::cout << account->get_attribute("ID");
 	else if (attribute == "PW")
-		std::cout <<  account->get_attribute("PW");
+		std::cout << account->get_attribute("PW");
 	else if (attribute == "memo")
-		std::cout <<  account->get_attribute("Memo") ;
+		std::cout << account->get_attribute("Memo");
 	else
 		assert(0);
 	SET_CONSOLE_COLOR_DEFAULT;

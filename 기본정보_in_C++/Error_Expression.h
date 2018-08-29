@@ -58,7 +58,7 @@ namespace option {
 			static const std::string msg_no_order_input = "";
 			//form fill
 			static const std::string msg_no_input_form_filling_cancel = "아무 입력도 없으므로 동작을 취소합니다.";
-			static const std::string msg_form_filling_cancel = "동작을 취소합니다.";
+			static const std::string msg_form_filling_cancel_on_purpose = "동작을 취소합니다.";
 			static const std::string msg_ineffective_select = "선택지에 없습니다.";
 			//string to int
 			enum convert_error {

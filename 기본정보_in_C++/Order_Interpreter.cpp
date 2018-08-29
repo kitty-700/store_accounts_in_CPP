@@ -88,13 +88,10 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 		system("cls");
 		break;
 	case arg::order_type::add_:
-		add();
-		break;
 	case arg::order_type::del_:
-		del();
-		break;
 	case arg::order_type::update_:
-		update();
+	case arg::order_type::load_:
+		wanna_filling_sometimse(op);
 		break;
 	case arg::order_type::log_:
 		Log_Recorder::print_log();
@@ -105,9 +102,7 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	case arg::order_type::sort_reverse_:
 		sort(option::argument::instruction::sort::descending);
 		break;
-	case arg::order_type::load_:
-		load();
-		break;
+
 	case arg::order_type::reload_:
 		init_person(this->now_loaded_file_name);
 		break;
@@ -144,6 +139,32 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	}
 }
 
+void Order_Interpreter::wanna_filling_sometimse(argument::order_type op)
+{
+	try {
+		switch (op)
+		{
+		case arg::order_type::add_:
+			add();
+			break;
+		case arg::order_type::del_:
+			del();
+			break;
+		case arg::order_type::update_:
+			update();
+			break;
+		case arg::order_type::load_:
+			load();
+			break;
+		default:
+			assert(0);
+		}
+	}
+	catch (Form_Filling_Exception& ex) {
+		ex.error_reporting();
+	}
+}
+
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 {	
 	arg::order_type interpreted_op = option::expression::Translation::operation_translate(query_op);
@@ -171,25 +192,6 @@ void Order_Interpreter::add()
 	}
 	if (Status::get_is_form_filling_successful() == true)
 		this->person->add();
-}
-
-void Order_Interpreter::load()
-{
-	Status::set_is_form_filling_successful(true);
-	using namespace arg::instruction::load;
-	if (Order::get_type() == load_in_default_file_name)
-	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		Order_Form_Filler(this->person).load_form_filler();
-	}
-	if (Status::get_is_form_filling_successful() == true)
-	{
-		init_person(Order::get_content(file_name_position));
-	}
-}
-
-void Order_Interpreter::sort(bool is_ascending)
-{
-	this->person->sort(is_ascending);
 }
 
 void Order_Interpreter::del()
@@ -240,6 +242,25 @@ void Order_Interpreter::show(int what_type_of_showing)
 		assert(0);
 	}
 }
+void Order_Interpreter::load()
+{
+	Status::set_is_form_filling_successful(true);
+	using namespace arg::instruction::load;
+	if (Order::get_type() == load_in_default_file_name)
+	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
+		Order_Form_Filler(this->person).load_form_filler();
+	}
+	if (Status::get_is_form_filling_successful() == true)
+	{
+		init_person(Order::get_content(file_name_position));
+	}
+}
+
+void Order_Interpreter::sort(bool is_ascending)
+{
+	this->person->sort(is_ascending);
+}
+
 
 void Order_Interpreter::show_site_in_number()//숫자로 사이트 찾아주기
 {	//"12" 처럼 사이트 번호만으로 정보를 찾는다.

@@ -209,6 +209,9 @@
     <ClInclude Include="Sort.h">
       <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClInclude>
+    <ClInclude Include="Order_Form_Filler_Exception.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="diary.txt">

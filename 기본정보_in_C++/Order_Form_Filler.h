@@ -7,7 +7,9 @@
 #include"Options.h"
 #include"Order.h"
 #include"Information_Organizing_Class.h"
+#include"Order_Form_Filler_Exception.h"
 #include"Structs.h"
+class Form_Filling_Exception;
 class Order_Form_Filler {
 	Person * person;
 
@@ -47,5 +49,7 @@ private:
 	void print_colored_account_attributes(Account *account);
 	void print_colored_account_attribute(Account *account, std::string attribute);
 	bool is_count_range(int select, int count);
+
+
 };
 #endif

@@ -186,6 +186,7 @@
     <ClInclude Include="Log_Recorder.h" />
     <ClInclude Include="Module_Tester.h" />
     <ClInclude Include="Normal_Expression.h" />
+    <ClInclude Include="Order_Form_Filler_Exception.h" />
     <ClInclude Include="Parameters.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="Translation.h" />

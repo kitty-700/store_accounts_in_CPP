@@ -5,9 +5,10 @@
 #include <cstring>
 #include <windows.h>
 
-#include"Options.h"
-#include"Order.h"
+#include "Options.h"
+#include "Order.h"
 #include "Order_Token_Refiner.h"
+#include "Order_Form_Filler_Exception.h"
 #include "Order_Form_Filler.h"
 #include "File_IO_Class.h"
 #include "Module_Tester.h"
@@ -32,12 +33,15 @@ private:
 	void show_site_in_site_name();
 	bool change_person(Person * person_to_change);
 	void order_forwarding(argument::order_type op, bool * is_exit);
+	void wanna_filling_sometimse(argument::order_type op);
 	option::argument::order_type operation_translate(std::string query_op);
 public:
 	Order_Interpreter();//생성자에선 단지 기본으로 불러들일 파일이름만 init_person()에 던져준다.
 	~Order_Interpreter();//동적할당된 person을 제거하기 위해 person kill()
-	bool interprete_order(std::string order);//사용자가 내린 명령은 실제로 이 함수에서 처리된다.
+	bool interprete_order(std::string order);//★★★★사용자가 내린 명령은 실제로 이 함수에서 처리된다.
 	std::string get_loaded_file_name();
 	//do_order()는 Person 객체에 더 정확한 명령을 내림으로써 구현된다.
+
+	
 };
 #endif
