@@ -93,6 +93,9 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	case arg::order_type::load_:
 		wanna_filling_sometimse(op);
 		break;
+	case arg::order_type::reload_:
+		init_person(this->now_loaded_file_name);
+		break;
 	case arg::order_type::log_:
 		Log_Recorder::print_log();
 		break;
@@ -101,9 +104,6 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 		break;
 	case arg::order_type::sort_reverse_:
 		sort(option::argument::instruction::sort::descending);
-		break;
-	case arg::order_type::reload_:
-		init_person(this->now_loaded_file_name);
 		break;
 	case arg::order_type::show_site_list_:
 	case arg::order_type::show_all_site_information_:
@@ -124,14 +124,13 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 		Module_tester::module_test();
 		break;
 	case arg::order_type::exit_:
-		Status::set_is_person_loaded(false);
+		exit_precess(is_exit);
 		/* (디버그됨)
 		로그 기록 때 set_is_person_loaded 이걸 반영 안 하니까 프로그램을 종료하면서
 		delete_~종류의 함수들이 소멸자로써 계속 호출될 때 계속 로그를 남기는 add_log()함수가 덩달아 호출됐는데,
 		Order가 초기화된 상태에서 로그를 남기려 했으므로 에러가 떴다..
 		다행히 호출스택구조 분석을 통해 디버깅을 하였다.
 		*/
-		*is_exit = true;
 		break;
 	default:
 		std::cout << err_exp::msg_not_defined_operation << std::endl;
@@ -162,6 +161,18 @@ void Order_Interpreter::wanna_filling_sometimse(argument::order_type op)
 	catch (Form_Filling_Exception& ex) {
 		ex.error_reporting();
 	}
+}
+
+void Order_Interpreter::exit_precess(bool * is_exit)
+{
+	if (Log_Recorder::has_log() == true)
+	{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
+		if (General_Function::ask_do_or_not(err_exp::msg_job_unset_warning + " 종료하시겠습니까?") == false) {
+			return;
+		}
+	}
+	Status::set_is_person_loaded(false);
+	*is_exit = true;
 }
 
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)

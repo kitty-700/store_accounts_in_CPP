@@ -115,7 +115,7 @@ void Site::show_account_information()
 		std::cout.fill('0');
 		std::cout.width(General_Function::get_cipher(this->account_count));
 		std::cout << count << "]¢Ù" << std::endl;
-		std::cout << (*each);
+		std::cout << *(*each);
 		count++;
 	}
 	SET_CONSOLE_COLOR_DEFAULT;

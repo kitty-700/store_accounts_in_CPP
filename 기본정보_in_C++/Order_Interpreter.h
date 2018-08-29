@@ -34,6 +34,7 @@ private:
 	bool change_person(Person * person_to_change);
 	void order_forwarding(argument::order_type op, bool * is_exit);
 	void wanna_filling_sometimse(argument::order_type op);
+	void exit_precess(bool * is_exit);
 	option::argument::order_type operation_translate(std::string query_op);
 public:
 	Order_Interpreter();//생성자에선 단지 기본으로 불러들일 파일이름만 init_person()에 던져준다.

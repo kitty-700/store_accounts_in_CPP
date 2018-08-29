@@ -42,7 +42,7 @@ void init_program(const int argc)
 	if (General_Function::login() == compile::login_fail)
 		exit(compile::login_fail);
 	Module_tester::init();
-	system("mode con:cols=80 lines=50");
+	//system("mode con:cols=80 lines=50");
 	SetConsoleTitle(L"info edit");
 	srand((unsigned)time(NULL));
 	if (argc >= 2)
