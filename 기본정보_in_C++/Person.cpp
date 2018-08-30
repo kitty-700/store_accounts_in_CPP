@@ -194,7 +194,8 @@ void Person::del_site(std::string site_name)
 			delete (*each);
 			this->sites.erase(each);
 			this->site_count--;
-			Log_Recorder::add_log(Order::get(), to_record);
+			if (Order::get_type() == argument::instruction::del::delete_site)
+				Log_Recorder::add_log(Order::get(), to_record);
 			return;
 		}
 		each++;

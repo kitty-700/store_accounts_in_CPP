@@ -169,7 +169,11 @@ void Site::del_account(std::string ID)
 			delete (*each);
 			this->accounts.erase(each);
 			this->account_count--;
-			Log_Recorder::add_log(Order::get(), to_record);
+
+			if (
+				Order::get_type() == argument::instruction::del::delete_site ||
+				Order::get_type() == argument::instruction::del::delete_account)
+				Log_Recorder::add_log(Order::get(), to_record);
 			return;
 		}
 	}
