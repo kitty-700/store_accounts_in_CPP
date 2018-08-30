@@ -17,7 +17,7 @@ public:
 	static int string_to_integer(std::string str);
 	static int get_cipher(int number);
 	static int get_random(int min, int max);
-	static bool ask_do_or_not(std::string ask);
+	static bool ask_continue_or_not(std::string ask);
 	static void order_color_input(std::string &order);
 	static std::string sum_of_argv(int argc, char ** argv);
 	static void get_string_without_overflow(char *string, const int string_length);

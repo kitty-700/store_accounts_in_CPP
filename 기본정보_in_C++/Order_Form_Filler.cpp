@@ -32,16 +32,13 @@ void Order_Form_Filler::add_form_filler()
 	{
 		//메뉴 출력
 		{
-			General_Function::print_thin_line();
-			std::cout << "계정을 추가하고자 하는 사이트의 번호를 선택해주세요." << std::endl;
+			menu_print(false, "계정을 추가하고자 하는 사이트의 번호를 선택해주세요.");
 			zero_selection_explain("사이트 추가");
 			this->person->show_site_name_list();
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "선택 > ";
-			General_Function::order_color_input(this->selection);
-			this->selection_1 = General_Function::string_to_integer(this->selection);
+			input_number(&this->selection_1, "선택");
 		}
 		//선택에 대한 예외처리
 		{
@@ -68,13 +65,12 @@ void Order_Form_Filler::add_new_site()
 	{
 		//메뉴출력
 		{
-			General_Function::print_thin_line();
+			menu_print(true, "");
 			this->person->show_site_name_list();
 		}
 		//입력
 		{
-			std::cout << "새 사이트 이름 > ";
-			General_Function::order_color_input(new_site_name);
+			input_string(false, new_site_name, "새 사이트 이름");
 		}
 		//선택에 대한 예외처리
 		{		}
@@ -96,19 +92,14 @@ void Order_Form_Filler::add_new_account(Site * site)
 	{
 		//메뉴 출력
 		{
-			General_Function::print_thin_line();
+			menu_print(true, "");
 			site->show_account_information();
 		}
 		//입력
 		{
-			std::cout << "새 계정의 ID > ";
-			General_Function::order_color_input(ID_input);
-
-			std::cout << "새 계정의 PW > ";
-			General_Function::order_color_input(PW_input);
-
-			std::cout << "새 계정에 대한 메모 > ";
-			General_Function::order_color_input(memo_input);
+			input_string(false, ID_input, "새 계정의 ID");
+			input_string(false, PW_input, "새 계정의 PW");
+			input_string(false, memo_input, "새 계정에 대한 메모");
 		}
 		//선택에 대한 예외처리
 		{		}
@@ -127,22 +118,20 @@ void Order_Form_Filler::add_new_account(Site * site)
 
 void Order_Form_Filler::del_form_filler()
 {	//"del" 명령에 대한 양식을 받는다.
-	if (exception_no_sites(this->person->get_site_count()) == true)
-		return;
+	exception_no_sites(this->person->get_site_count());
+
 	Site * temp_site;
 	//DEL-1-SiteSelect 페이지 (사이트 선택)
 	{
 		//메뉴 출력
 		{
-			std::cout << "사이트 자체 혹은 계정을 삭제하고자 하는 사이트의 번호를 선택해주세요." << std::endl;
+			menu_print(false, "사이트 자체 혹은 계정을 삭제하고자 하는 사이트의 번호를 선택해주세요.");
 			zero_selection_explain("동작 취소");
 			this->person->show_site_name_list();
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "선택 > ";
-			General_Function::order_color_input(this->selection);
-			this->selection_1 = General_Function::string_to_integer(this->selection);
+			input_number(&this->selection_1, "선택");
 		}
 		//선택에 대한 예외처리
 		{
@@ -160,16 +149,13 @@ void Order_Form_Filler::del_form_filler()
 	{
 		//메뉴 출력
 		{
-			General_Function::print_thin_line();
-			std::cout << "삭제할 계정의 번호를 선택해주세요." << std::endl;
+			menu_print(true, "삭제할 계정의 번호를 선택해주세요.");
 			zero_selection_explain("사이트 삭제", temp_site);
 			temp_site->show_account_information();
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "선택 > ";
-			General_Function::order_color_input(this->selection);
-			this->selection_2 = General_Function::string_to_integer(this->selection);
+			input_number(&this->selection_2, "선택");
 		}
 		//선택에 대한 예외처리
 		{
@@ -207,8 +193,8 @@ void Order_Form_Filler::del_account(Site * site)
 
 void Order_Form_Filler::update_form_filler()
 {	//"update" 명령에 대한 양식을 받는다.
-	if (exception_no_sites(this->person->get_site_count()) == true)
-		return;
+	exception_no_sites(this->person->get_site_count());
+
 	Site * temp_site;
 	//UPDATE-1 페이지 (사이트 선택)
 	{
@@ -220,9 +206,7 @@ void Order_Form_Filler::update_form_filler()
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "선택 > ";
-			General_Function::order_color_input(this->selection);
-			this->selection_1 = General_Function::string_to_integer(this->selection);
+			input_number(&this->selection_1, "선택");
 		}
 		//선택에 대한 예외처리
 		{
@@ -247,9 +231,7 @@ void Order_Form_Filler::update_form_filler()
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "선택 > ";
-			General_Function::order_color_input(this->selection);
-			this->selection_2 = General_Function::string_to_integer(this->selection);
+			input_number(&this->selection_2, "선택");
 		}
 		//선택에 대한 예외처리
 		{
@@ -275,15 +257,12 @@ void Order_Form_Filler::update_site_name(Site * site)
 	{
 		//메뉴출력
 		{
-			General_Function::print_thin_line();
-			std::cout << "변경할 사이트 이름 ( ";
-			print_colored_site_name(site);
-			std::cout << " ->  ? )" << std::endl;
+			menu_print(true, "변경할 사이트 이름 입력");
 		}
 		//입력
 		{
-			std::cout << "└ > ";
-			General_Function::order_color_input(new_site_name);
+			print_colored_site_name(site);
+			input_string(true, new_site_name);
 		}
 		//선택에 대한 예외처리
 		{
@@ -308,16 +287,13 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 	{
 		//메뉴출력
 		{
-			General_Function::print_thin_line();
-			std::cout << "변경할 속성을 선택해주세요." << std::endl;
+			menu_print(true, "변경할 속성을 선택해주세요.");
 			zero_selection_explain("동작 취소");
 			print_colored_account_attributes(account);
 		}
 		//메뉴 중에서 선택
 		{
-			std::cout << "선택 > ";
-			General_Function::order_color_input(this->selection);
-			this->selection_3 = General_Function::string_to_integer(this->selection);
+			input_number(&this->selection_3, "선택");
 		}
 		//선택에 대한 예외처리
 		{
@@ -350,17 +326,14 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 	{
 		//메뉴출력
 		{
-			General_Function::print_thin_line();
-			std::cout << "변경할 ";
-			std::cout << Order::get_content(update::attribute_select_position);
-			std::cout << "( ";
-			print_colored_account_attribute(account, Order::get_content(update::attribute_select_position));
-			std::cout << " ->  ? )" << std::endl;
+			menu_print(true, "변경할 속성의 내용을 입력해주세요.");
 		}
 		//입력
 		{
-			std::cout << "변경할 내용 > ";
-			General_Function::order_color_input(new_attribute_value);
+			std::string attribute____ = Order::get_content(update::attribute_select_position);
+			std::cout << attribute____ << ") ";
+			print_colored_account_attribute(account, attribute____);
+			input_string(true, new_attribute_value);
 		}
 		//선택에 대한 예외처리
 		{
@@ -379,43 +352,34 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 
 void Order_Form_Filler::load_form_filler()
 {	// "load" 명령에 대한 양식을 받는다.
+	std::string file_name;
 	//LOAD-1 페이지 (파일 이름 입력)
 	{
 		//메뉴 출력
 		{
-			General_Function::print_thin_line();
-			std::cout << "새로 로드하고자 하는 파일의 이름을 입력해주세요." << std::endl;
+			menu_print(true, "새로 로드하고자 하는 파일의 이름을 입력해주세요.");
 		}
 		//입력
 		{
-			std::cout << "파일 이름 > ";
-			General_Function::order_color_input(this->selection);
+			input_string(false, file_name, "파일 이름");
 		}
 		//선택에 대한 예외처리
 		{
-			exception_no_input(this->selection);
+			exception_no_input(file_name);
 		}
 		//정상진행
 		{
 			using namespace argument::instruction::load;
-			Order::set_content(file_name_position, this->selection);
+			Order::set_content(file_name_position, file_name);
 		}
 	}//LOAD-1 페이지 (파일 이름 입력)
 	return;
 }
 
-bool Order_Form_Filler::exception_no_sites(int site_count)
+void Order_Form_Filler::exception_no_sites(int site_count)
 {	//site가 없으면 동작이 의미가 없는 DEL, UPDATE 와 같은 명령에 쓰인다.
-	try {
 		if (site_count == 0)	//사이트가 없으면 del의 의미가 없다.
 			throw err_exp::msg_person_hasnt_site;
-	}
-	catch (std::string error_message) {
-		Status::set_is_form_filling_successful(false);
-		std::cout << error_message << std::endl;
-		return true;
-	}
-	return false;
 }
 
 void Order_Form_Filler::exception_no_input(int selection)
@@ -438,7 +402,7 @@ void Order_Form_Filler::exception_zero_to_quit(int selection)
 
 void Order_Form_Filler::exception_range_out(int select, int count)
 {
-	if (is_count_range(select, count) == false)
+	if (is_within_count_range(select, count) == false)
 		throw Form_Filling_Exception(err_exp::msg_ineffective_select);
 }
 
@@ -461,7 +425,7 @@ void Order_Form_Filler::zero_selection_explain(std::string sentence, Site * site
 }
 
 void Order_Form_Filler::print_colored_site_name(Site * site)
-{
+{	
 	SET_CONSOLE_COLOR(color::site_name_color);
 	std::cout << site->get_site_name();
 	SET_CONSOLE_COLOR_DEFAULT;
@@ -490,7 +454,32 @@ void Order_Form_Filler::print_colored_account_attribute(Account * account, std::
 	SET_CONSOLE_COLOR_DEFAULT;
 }
 
-bool Order_Form_Filler::is_count_range(int select, int count)
+bool Order_Form_Filler::is_within_count_range(int select, int count)
 {	//0번 선택지까지는 정상범주로 취급
 	return (0 <= select && select <= count) ? true : false;
 }
+
+
+void Order_Form_Filler::menu_print(const bool line_devide, std::string sign)
+{
+	if (line_devide == true)
+		General_Function::print_thin_line();
+	if (sign != "")
+		std::cout << sign << std::endl;
+}
+void Order_Form_Filler::input_string(const bool change, std::string & str, const std::string message)
+{
+	if(change==true) std::cout << " ─> "; //이 경우 앞에 바뀌기 전의 값이 무엇인지 출력해놔야한다.
+	else {
+		std::cout << message << " > ";
+	}
+	General_Function::order_color_input(str);
+}
+
+void Order_Form_Filler::input_number(int * number, const std::string message)
+{
+	std::cout << message << " > ";
+	General_Function::order_color_input(this->selection);
+	*number = General_Function::string_to_integer(this->selection);
+}
+

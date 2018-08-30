@@ -59,7 +59,7 @@ int General_Function::get_random(int min, int max)
 	*/
 }
 
-bool General_Function::ask_do_or_not(std::string ask)
+bool General_Function::ask_continue_or_not(std::string ask)
 {
 	cout << ask << std::endl;
 	cout << "( yes / no )" << std::endl;

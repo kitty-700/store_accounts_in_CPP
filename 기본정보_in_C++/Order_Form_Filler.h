@@ -37,18 +37,27 @@ private:
 	void update_account_attribute(Site * site);
 
 	//////////////////////////////////////뒷받침되는 함수들
-	bool exception_no_sites(int site_count);
+	//1.예외처리
+	void exception_no_sites(int site_count);
 	void exception_no_input(int selection);
 	void exception_no_input(std::string selection);
 	void exception_zero_to_quit(int selection);
 	void exception_range_out(int select, int count);
-
+	//2. 0번 선택에 관한 설명
 	void zero_selection_explain(std::string sentence);
 	void zero_selection_explain(std::string sentence, Site * site);
+	//3. 색깔있는 출력
 	void print_colored_site_name(Site *site);
 	void print_colored_account_attributes(Account *account);
 	void print_colored_account_attribute(Account *account, std::string attribute);
-	bool is_count_range(int select, int count);
+	//4. 메뉴 출력
+	void menu_print(const bool line_devide, std::string sign);
+	//5. 입력 함수
+	void input_string(const bool change, std::string&str, const std::string message = "");
+	void input_number(int * number, const std::string message);
+	//and so on
+	bool is_within_count_range(int select, int count);
+	
 
 
 };

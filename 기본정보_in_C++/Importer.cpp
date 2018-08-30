@@ -294,7 +294,7 @@ void Importer::make_a_person()
 		if (error_message == err_exp::msg_file_doesnt_exist)
 		{	//A 번의 예외처리 (파일 없음)
 			std::cout << this->load_file_name << " 라는 파일이 없습니다." << std::endl;
-			if (General_Function::ask_do_or_not("새로 만드시겠습니까?") == true)
+			if (General_Function::ask_continue_or_not("새로 만드시겠습니까?") == true)
 				//A 번의 예외처리  - 1 : 새로 만든다.
 				this->temp_person->set_is_alive(true); //사실상 파일이 없는건 오류가 아니기에 return 하지 않는다.
 			else
@@ -305,7 +305,7 @@ void Importer::make_a_person()
 		else if (error_message == err_exp::msg_wrong_file_detected)
 		{	//C 번의 예외처리 (파일 잘못됨)
 			std::cout << error_message << std::endl;
-			if (General_Function::ask_do_or_not("기존 파일을 무시하고 새로 만드시겠습니까?") == true)
+			if (General_Function::ask_continue_or_not("기존 파일을 무시하고 새로 만드시겠습니까?") == true)
 			{	//C 번의 예외처리  - 1 : 새로 다시만들 경우 person 할당 및 해제 이후 A번의 예외처리랑 같게 된다. 
 				delete this->temp_person;
 				this->temp_person = new Person();

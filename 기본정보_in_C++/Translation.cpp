@@ -37,8 +37,21 @@ namespace option {
 		{
 			namespace arg = argument;
 			arg::order_type interpreted_op;
-			if (0
+			if (0) "UNEDUCATED";
+
+			else if (0
 				|| query_op == "exit"
+				|| query_op == "exti"
+				|| query_op == "eixt"
+				|| query_op == "eitx"
+				|| query_op == "etxi"
+				|| query_op == "etix"
+				|| query_op == "xei"
+				|| query_op == "xie"
+				|| query_op == "exi"
+				|| query_op == "eix"
+				|| query_op == "iex"
+				|| query_op == "ixe"
 				|| query_op == "-1"
 				|| 0) interpreted_op = arg::order_type::exit_;
 

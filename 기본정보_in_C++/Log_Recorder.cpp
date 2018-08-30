@@ -9,7 +9,10 @@ Log_Recorder::~Log_Recorder()
 void Log_Recorder::clear_itself()
 {
 	for (std::stack<Log*> dump = Log_Recorder::logstack; !dump.empty(); dump.pop())
-		delete dump.top();
+	{
+		Log * log = dump.top();
+		delete log;
+	}
 	Log_Recorder::log_count = 0;
 }
 
@@ -38,8 +41,9 @@ void Log_Recorder::print_log()
 	namespace color = option::parameters::console_color;
 	SET_CONSOLE_COLOR(color::history_color);
 	int count = Log_Recorder::log_count;
+	
 	for (std::stack<Log*> dump = Log_Recorder::logstack; !dump.empty(); dump.pop())
-	{
+	{	//스택을 복사한다. 포인터만 복사하는거라 실제 포인터에 위치한 값은 변하지 않는다.
 		std::cout << "[";
 		std::cout.fill('0');
 		std::cout.width(General_Function::get_cipher(Log_Recorder::log_count));
@@ -68,4 +72,21 @@ bool Log_Recorder::has_log()
 {
 	if (Log_Recorder::log_count > 0)		return true;
 	else		return false;
+}
+
+bool Log_Recorder::continue_although_unsaved()
+{
+	if (Log_Recorder::has_log() == true)
+	{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
+		if (General_Function::ask_continue_or_not(option::expression::error::msg_job_reset_warning + " 진행하시겠습니까?") == true) {
+			return true;
+		}
+		else {
+			std::cout << option::expression::error::msg_cancel << std::endl;
+			return false;
+		}
+	}
+	else {
+		return true;
+	}
 }

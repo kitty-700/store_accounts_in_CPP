@@ -167,7 +167,7 @@ void Order_Interpreter::exit_precess(bool * is_exit)
 {
 	if (Log_Recorder::has_log() == true)
 	{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
-		if (General_Function::ask_do_or_not(err_exp::msg_job_unset_warning + " 종료하시겠습니까?") == false) {
+		if (General_Function::ask_continue_or_not(err_exp::msg_job_unset_warning + " 종료하시겠습니까?") == false) {
 			return;
 		}
 	}
@@ -329,21 +329,12 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 	}
 	else
 	{
-		if (Log_Recorder::has_log() == true)
-		{	//작업 도중에 작업 진행 상황을 잃게 될 수도 있으므로 경고한다.
-			if (General_Function::ask_do_or_not(err_exp::msg_job_reset_warning + " 진행하시겠습니까?") == true) {
-				if (this->person != nullptr) delete this->person;
-				this->person = person_to_change;
-				return true;
-			}
-			else {
-				std::cout << "취소되었습니다." << std::endl;
-				return false;
-			}
-		}
-		else {
+		if (Log_Recorder::continue_although_unsaved() == true)
+		{
+			if (this->person != nullptr) delete this->person;
 			this->person = person_to_change;
 			return true;
 		}
+		return false;
 	}
 }

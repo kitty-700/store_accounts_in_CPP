@@ -17,5 +17,6 @@ public:
 	static void add_log(const Order_token * order,std::string original_value="");
 	static void print_log();
 	static bool has_log();
+	static bool continue_although_unsaved();
 };
 #endif
