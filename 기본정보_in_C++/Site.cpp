@@ -19,16 +19,17 @@ bool Site::operator<(const Site & other)
 		return true;
 	return false;
 }
-bool Site::operator>(const Site & other)
-{
-	return !(*this < other);
-}
 
 bool Site::operator==(const Site & site)
 {
 	if (this->site_name == std::string(site.site_name))
 		return true;
 	return false;
+}
+
+bool Site::operator>(const Site & other)
+{
+	return !(*this < other) && !(*this == other);
 }
 
 bool Site::operator==(const std::string & site_name)

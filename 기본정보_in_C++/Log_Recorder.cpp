@@ -8,9 +8,9 @@ Log_Recorder::~Log_Recorder()
 
 void Log_Recorder::clear_itself()
 {
-	for (std::stack<Log*> dump = Log_Recorder::logstack; !dump.empty(); dump.pop())
+	for (; !Log_Recorder::logstack.empty(); Log_Recorder::logstack.pop())
 	{
-		Log * log = dump.top();
+		Log * log = Log_Recorder::logstack.top();
 		delete log;
 	}
 	Log_Recorder::log_count = 0;

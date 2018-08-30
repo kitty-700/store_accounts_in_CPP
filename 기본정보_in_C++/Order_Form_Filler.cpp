@@ -331,7 +331,7 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		//입력
 		{
 			std::string attribute____ = Order::get_content(update::attribute_select_position);
-			std::cout << attribute____ << ") ";
+			std::cout << attribute____ << "/ ";
 			print_colored_account_attribute(account, attribute____);
 			input_string(true, new_attribute_value);
 		}
@@ -375,7 +375,7 @@ void Order_Form_Filler::load_form_filler()
 	}//LOAD-1 페이지 (파일 이름 입력)
 	return;
 }
-
+///////////////////////////////////////////////////////////////뒷받침되는 함수들///////////////////////////////
 void Order_Form_Filler::exception_no_sites(int site_count)
 {	//site가 없으면 동작이 의미가 없는 DEL, UPDATE 와 같은 명령에 쓰인다.
 		if (site_count == 0)	//사이트가 없으면 del의 의미가 없다.
