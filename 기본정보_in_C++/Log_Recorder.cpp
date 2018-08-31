@@ -22,10 +22,9 @@ void Log_Recorder::add_log(const Order_token * order, std::string original_value
 	if (order->token_count <= 0) assert(0);
 	Log * log = new Log();
 	using namespace option::argument;
-	log->order_type = option::expression::Translation::operation_translate(order->content[operation_position]);
-	log->order.token_count = order->token_count;
-	for (int i = 0; i < order->token_count; i++) //order copy
-		log->order.tokens[i] = order->tokens[i];
+	using namespace option::expression;
+	log->order_type = Translation::operation_translate(order->content[operation_position]);
+	Log_Recorder::order_copy(&log->order_was, order);
 	log->original_value = original_value;
 	Log_Recorder::logstack.push(log);
 	Log_Recorder::log_count++;
@@ -48,7 +47,7 @@ void Log_Recorder::print_log()
 		std::cout.fill('0');
 		std::cout.width(General_Function::get_cipher(Log_Recorder::log_count));
 		std::cout << count << "] ";
-		General_Function::show_order(&dump.top()->order);
+		General_Function::show_order(&dump.top()->order_was);
 		if (dump.top()->original_value != "")
 		{
 			switch (dump.top()->order_type)
@@ -72,6 +71,13 @@ bool Log_Recorder::has_log()
 {
 	if (Log_Recorder::log_count > 0)		return true;
 	else		return false;
+}
+
+void Log_Recorder::order_copy(Order_token * destination_order, const Order_token * source_order)
+{
+	for (int i = 0; i < source_order->token_count; i++) //order copy
+		destination_order->tokens[i] = source_order->tokens[i];
+	destination_order->token_count = source_order->token_count;
 }
 
 bool Log_Recorder::continue_although_unsaved()

@@ -154,6 +154,7 @@
     <ClCompile Include="General_Function.cpp" />
     <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Load.h" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="Log_Recorder.cpp" />
     <ClCompile Include="Module_Tester.cpp" />
     <ClCompile Include="Translation.cpp" />
@@ -183,6 +184,10 @@
     <ClInclude Include="Importer.h" />
     <ClInclude Include="Information_Organizing_Class.h" />
     <ClInclude Include="Instruction.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Log_of_Add.h" />
+    <ClInclude Include="Log_of_Del.h" />
+    <ClInclude Include="Log_of_Update.h" />
     <ClInclude Include="Log_Recorder.h" />
     <ClInclude Include="Module_Tester.h" />
     <ClInclude Include="Normal_Expression.h" />
