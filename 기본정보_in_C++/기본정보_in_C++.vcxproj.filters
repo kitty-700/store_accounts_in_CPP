@@ -227,6 +227,9 @@
     <ClInclude Include="Log_of_Update.h">
       <Filter>헤더 파일\Log_Handler</Filter>
     </ClInclude>
+    <ClInclude Include="Log_Set.h">
+      <Filter>헤더 파일\Log_Handler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="diary.txt">

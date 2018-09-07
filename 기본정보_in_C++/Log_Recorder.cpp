@@ -1,4 +1,5 @@
 #include "Log_Recorder.h"
+#include "Site.h"
 int Log_Recorder::log_count = 0;
 std::stack <Log*> Log_Recorder::logstack;
 Log_Recorder::~Log_Recorder()
@@ -16,18 +17,63 @@ void Log_Recorder::clear_itself()
 	Log_Recorder::log_count = 0;
 }
 
-void Log_Recorder::add_log(const Order_token * order, std::string original_value)
-{
-	if (Status::get_is_person_loaded() == false) return;
-	if (order->token_count <= 0) assert(0);
+Log* Log_Recorder::pre_recording_procedure()
+{	//로그를 기록할 대상인지 확인한 후에 현재의 Order를 Log 멤버에 복사한다.
+	if (Status::get_is_person_loaded() == false) return nullptr;
+	if (Order::get_token_count() <= 0) assert(0);
 	Log * log = new Log();
 	using namespace option::argument;
-	using namespace option::expression;
-	log->order_type = Translation::operation_translate(order->content[operation_position]);
-	Log_Recorder::order_copy(&log->order_was, order);
-	log->original_value = original_value;
+	log->order_type = option::expression::Translation::operation_translate(Order::get_content(operation_position));
+	Log_Recorder::order_copy(&log->order_was, Order::get());
+	return log;
+}
+
+void  Log_Recorder::after_recording_procedure(Log * log)
+{
 	Log_Recorder::logstack.push(log);
 	Log_Recorder::log_count++;
+}
+
+void Log_Recorder::record_add_site(const Order_token * order, std::string site_name)
+{
+	Log * log = pre_recording_procedure();
+	if (log == nullptr) return;
+	after_recording_procedure(log);
+}
+
+void Log_Recorder::record_add_account(const Order_token * order, std::string site_name, std::string account_ID)
+{
+	Log * log = pre_recording_procedure();
+	if (log == nullptr) return;
+	after_recording_procedure(log);
+}
+
+void Log_Recorder::record_del_site(const Order_token * order, Site * site)
+{
+	Log * log = pre_recording_procedure();
+	if (log == nullptr) return;
+	after_recording_procedure(log);
+}
+
+void Log_Recorder::record_del_account(const Order_token * order, std::string site_name, std::string account_ID)
+{
+	Log * log = pre_recording_procedure();
+	if (log == nullptr) return;
+	after_recording_procedure(log);
+}
+
+void Log_Recorder::record_update_site_name(const Order_token * order, std::string site_name, std::string account_ID, std::string original)
+{
+	Log * log = pre_recording_procedure();
+	if (log == nullptr) return;
+	after_recording_procedure(log);
+}
+
+void Log_Recorder::record_update_account_attribute(const Order_token * order, std::string site_name, std::string account_ID, std::string attribute, std::string original)
+{
+	Log * log = pre_recording_procedure();
+	if (log == nullptr) return;
+	after_recording_procedure(log);
 }
 
 void Log_Recorder::print_log()

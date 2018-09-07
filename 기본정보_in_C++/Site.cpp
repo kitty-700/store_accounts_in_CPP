@@ -91,7 +91,7 @@ Account * Site::find_account_with_account_number(int account_number)
 	for (
 		std::list<Account*>::iterator each = this->accounts.begin();
 		each != this->accounts.end();
-		each++, count++) 
+		each++, count++)
 	{
 		if (count == account_number)
 			return *(each);
@@ -153,7 +153,7 @@ Account * Site::add_account(string ID, string PW, string memo)
 	}
 	else {
 		*(this) += temp_account;
-		Log_Recorder::add_log(Order::get(),"계정 추가," + ID);
+		Log_Recorder::pre_recording_procedure();
 		return temp_account;
 	}
 }
@@ -174,7 +174,7 @@ void Site::del_account(std::string ID)
 			if (
 				Order::get_type() == argument::instruction::del::delete_site ||
 				Order::get_type() == argument::instruction::del::delete_account)
-				Log_Recorder::add_log(Order::get(), to_record);
+				Log_Recorder::pre_recording_procedure();
 			return;
 		}
 	}
@@ -197,7 +197,7 @@ void Site::update_site_name(string what_attribute, string new_site_name)
 			std::string before_site_name = this->site_name;
 			strcpy_s(this->site_name, buff::site_name_length, new_site_name.c_str());
 			if (op == argument::update_)
-				Log_Recorder::add_log(Order::get(), "바꾸기 전의 사이트 이름 : " + before_site_name);
+				Log_Recorder::pre_recording_procedure();
 		}
 		else
 			strcpy_s(this->site_name, buff::site_name_length, err_exp::abnormal_Site_site_name.c_str());

@@ -132,9 +132,9 @@ Site * Person::add_site(std::string site_name)
 		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
 		*(this) += temp_site;
 		if (Order::get_type() == argument::instruction::add::add_account_with_memo)
-			Log_Recorder::add_log(Order::get(), "사이트 추가 선행, " + site_name);
+			Log_Recorder::pre_recording_procedure();
 		else
-			Log_Recorder::add_log(Order::get(), "사이트 추가, " + site_name);
+			Log_Recorder::pre_recording_procedure();
 		return temp_site;
 	}
 	catch (std::string error_message) {
@@ -195,7 +195,7 @@ void Person::del_site(std::string site_name)
 			this->sites.erase(each);
 			this->site_count--;
 			if (Order::get_type() == argument::instruction::del::delete_site)
-				Log_Recorder::add_log(Order::get(), to_record);
+				Log_Recorder::pre_recording_procedure();
 			return;
 		}
 		each++;

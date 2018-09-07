@@ -63,7 +63,7 @@ void Account::update_attribute(std::string what_attribute, std::string new_value
 			std::string before_ID = this->ID;
 			strcpy_s(this->ID, buff::id_length, new_value.c_str());
 			if (op == argument::update_)
-				Log_Recorder::add_log(Order::get(), "바꾸기 전의 ID : " + before_ID);
+				Log_Recorder::pre_recording_procedure();
 		}
 		else
 			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
@@ -73,7 +73,7 @@ void Account::update_attribute(std::string what_attribute, std::string new_value
 			std::string before_PW = this->PW;
 			strcpy_s(this->PW, buff::password_length, new_value.c_str());
 			if (op == argument::update_)
-				Log_Recorder::add_log(Order::get(), "바꾸기 전의 PW : " + before_PW);
+				Log_Recorder::pre_recording_procedure( );
 		}
 		else
 			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
@@ -83,7 +83,7 @@ void Account::update_attribute(std::string what_attribute, std::string new_value
 			std::string before_memo = this->memo;
 			strcpy_s(this->memo, buff::memo_length, new_value.c_str());
 			if (op == argument::update_)
-				Log_Recorder::add_log(Order::get(), "바꾸기 전의 메모 : " + before_memo);
+				Log_Recorder::pre_recording_procedure();
 		}
 		else
 			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());

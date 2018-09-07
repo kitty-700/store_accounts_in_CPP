@@ -4,7 +4,7 @@
 #include <assert.h>
 #include "Options.h"
 #include "Structs.h"
-class Order {
+class Order {	//많은 함수로부터 중심처리의 중심이
 	static Order_token * order;
 	static argument::order_type op;
 public:

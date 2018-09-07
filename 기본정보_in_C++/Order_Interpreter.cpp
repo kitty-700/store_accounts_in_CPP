@@ -48,13 +48,12 @@ Order_Interpreter::~Order_Interpreter()
 }
 bool Order_Interpreter::interprete_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
 {
+	//매개변수로 받은 string 의 order를 잘라 Order_token 구조체를 초기화한다.
 	Order::set(Order_Token_Refiner(new Order_token).refining(order)); //Order_Token_Refiner 임시객체 개념 사용
 	if (compile::debug::order_tokenizer) { //확인 결과 정상동작
 		General_Function::show_order(Order::get());
 	}
-	//매개변수로 받은 string 의 order를 잘라 Order_token 구조체를 초기화한다.
-	try //매개변수 인자가 유효한지?
-	{
+	try { //매개변수 인자가 유효한지?
 		assert(Order::get_token_count() >= 0);
 		if (Order::get_token_count() == arg::no_arg)
 			throw err_exp::msg_no_order_input;
@@ -62,13 +61,11 @@ bool Order_Interpreter::interprete_order(std::string order)///★★★★★★★★★
 			throw err_exp::msg_too_much_args;
 		else;
 	}
-	catch (std::string error_message)
-	{
+	catch (std::string error_message) {
 		if (error_message != err_exp::msg_no_order_input)
 			std::cout << error_message << std::endl;
 		return option::expression::normal::no_exit;
 	}
-
 	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
 	bool is_exit = false;
 	order_forwarding(op, &is_exit);
