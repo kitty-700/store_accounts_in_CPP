@@ -5,7 +5,7 @@
 #include "Order_Interpreter.h"
 #include "Module_Tester.h"
 #include "Status.h"
-void init_program(const int argc);
+void init_program();
 void argument_excute(Order_Interpreter * slave, int argc, char ** argv);
 void exit_program();
 namespace compile = option::parameters::compile;
@@ -20,7 +20,7 @@ int main(int argc, char ** argv)
 	std::string order_string;
 	std::string answer;
 	bool is_exit = false;
-	init_program(argc);
+	init_program();
 	argument_excute(&slave, argc, argv);
 	do
 	{
@@ -45,7 +45,7 @@ int main(int argc, char ** argv)
 	return 0;
 }
 
-void init_program(const int argc)
+void init_program()
 {
 	if (General_Function::login() == compile::login_fail)
 		exit(compile::login_fail);
