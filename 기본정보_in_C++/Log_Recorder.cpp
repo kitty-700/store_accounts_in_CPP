@@ -1,7 +1,8 @@
 #include "Log_Recorder.h"
 #include "Site.h"
 int Log_Recorder::log_count = 0;
-std::stack <Log*> Log_Recorder::logstack;
+std::stack <Log*> Log_Recorder::undo_stack;
+std::stack <Log*> Log_Recorder::redo_stack;
 Log_Recorder::~Log_Recorder()
 {
 	clear_itself();
@@ -9,9 +10,9 @@ Log_Recorder::~Log_Recorder()
 
 void Log_Recorder::clear_itself()
 {
-	for (; !Log_Recorder::logstack.empty(); Log_Recorder::logstack.pop())
+	for (; !Log_Recorder::undo_stack.empty(); Log_Recorder::undo_stack.pop())
 	{
-		Log * log = Log_Recorder::logstack.top();
+		Log * log = Log_Recorder::undo_stack.top();
 		delete log;
 	}
 	Log_Recorder::log_count = 0;
@@ -19,26 +20,22 @@ void Log_Recorder::clear_itself()
 
 Log* Log_Recorder::pre_recording_procedure()
 {	//로그를 기록할 대상인지 확인한 후에 현재의 Order를 Log 멤버에 복사한다.
-	if (Status::get_is_person_loaded() == false) return nullptr;
-	if (Order::get_token_count() <= 0) assert(0);
-	Log * log = new Log();
-	using namespace option::argument;
-	log->order_type = option::expression::Translation::operation_translate(Order::get_content(operation_position));
-	Log_Recorder::order_copy(&log->order_was, Order::get());
-	return log;
+
 }
 
 void  Log_Recorder::after_recording_procedure(Log * log)
 {
-	Log_Recorder::logstack.push(log);
-	Log_Recorder::log_count++;
 }
 
 void Log_Recorder::record_add_site(const Order_token * order, std::string site_name)
 {
-	Log * log = pre_recording_procedure();
-	if (log == nullptr) return;
-	after_recording_procedure(log);
+	if (Status::get_is_person_loaded() == false) return;
+	if (Order::get_token_count() <= 0) assert(0);
+	Log_of_add * add_log = new Log_of_add;
+	add_log->order_type = option::expression::Translation::operation_translate(Order::get_content(option::argument::operation_position));
+	Log_Recorder::order_copy(&add_log->order_was, Order::get());
+	Log_Recorder::undo_stack.push(add_log);
+	Log_Recorder::log_count++;
 }
 
 void Log_Recorder::record_add_account(const Order_token * order, std::string site_name, std::string account_ID)
@@ -87,26 +84,13 @@ void Log_Recorder::print_log()
 	SET_CONSOLE_COLOR(color::history_color);
 	int count = Log_Recorder::log_count;
 	
-	for (std::stack<Log*> dump = Log_Recorder::logstack; !dump.empty(); dump.pop())
+	for (std::stack<Log*> dump = Log_Recorder::undo_stack; !dump.empty(); dump.pop())
 	{	//스택을 복사한다. 포인터만 복사하는거라 실제 포인터에 위치한 값은 변하지 않는다.
 		std::cout << "[";
 		std::cout.fill('0');
 		std::cout.width(General_Function::get_cipher(Log_Recorder::log_count));
 		std::cout << count << "] ";
 		General_Function::show_order(&dump.top()->order_was);
-		if (dump.top()->original_value != "")
-		{
-			switch (dump.top()->order_type)
-			{
-			case argument::order_type::add_:
-			case argument::order_type::del_:
-			case argument::order_type::update_:
-				std::cout << dump.top()->original_value << std::endl;
-				break;
-			default:
-				assert(0);
-			}
-		}
 		std::cout << std::endl;
 		count--;
 	}

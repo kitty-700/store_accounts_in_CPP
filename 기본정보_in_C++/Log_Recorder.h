@@ -12,7 +12,8 @@
 class Site;
 class Log_Recorder {
 	static int log_count;
-	static std::stack <Log*> logstack;
+	static std::stack <Log*> undo_stack;
+	static std::stack <Log*> redo_stack;
 public:
 	~Log_Recorder();
 	static void clear_itself();
