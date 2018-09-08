@@ -4,10 +4,10 @@
 #include <list>
 #include <string>
 #include <windows.h>
+#include "Order.h"
 #include "Options.h"
 #include "Site.h"
 #include "Structs.h"
-#include "Order.h"
 class Importer;
 class Person {
 	friend class Importer;
