@@ -56,42 +56,29 @@ void Account::show_accounts() const
 void Account::update_attribute(std::string what_attribute, std::string new_value)
 {
 	what_attribute = option::expression::Translation::account_attribute_translate(what_attribute);
-	argument::order_type op = option::expression::Translation::operation_translate(Order::get_content(argument::operation_position));
-	if (what_attribute == "ID") {
-		if (is_proper_string(what_attribute, new_value) == true)
-		{
+	if (is_proper_string(what_attribute, new_value) == true)
+	{
+		if (Main_Order::get_opcode() == argument::update_)
+			Log_Recorder::pre_recording_procedure();
+		if (what_attribute == "ID") {
 			std::string before_ID = this->ID;
 			strcpy_s(this->ID, buff::id_length, new_value.c_str());
-			if (op == argument::update_)
-				Log_Recorder::pre_recording_procedure();
 		}
-		else
-			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
-	}
-	else if (what_attribute == "PW") {
-		if (is_proper_string(what_attribute, new_value) == true) {
+		else if (what_attribute == "PW") {
 			std::string before_PW = this->PW;
 			strcpy_s(this->PW, buff::password_length, new_value.c_str());
-			if (op == argument::update_)
-				Log_Recorder::pre_recording_procedure( );
 		}
-		else
-			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
-	}
-	else if (what_attribute == "memo") {
-		if (is_proper_string(what_attribute, new_value) == true) {
+		else if (what_attribute == "memo") {
 			std::string before_memo = this->memo;
 			strcpy_s(this->memo, buff::memo_length, new_value.c_str());
-			if (op == argument::update_)
-				Log_Recorder::pre_recording_procedure();
 		}
-		else
-			strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
+		else {  /*    return error_expression::translation_error;    */
+			std::cout << err_exp::msg_undefined_account_attribute << std::endl;
+			return;
+		}
 	}
-	else {  /*    return error_expression::translation_error;    */
-		std::cout << err_exp::msg_undefined_account_attribute << std::endl;
-		return;
-	}
+	else
+		strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
 	if (Status::get_is_person_loaded() == true)
 		replace_account_update_time(this->update_time);
 }

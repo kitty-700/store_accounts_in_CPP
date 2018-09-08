@@ -1,5 +1,8 @@
 #include "Order_Token_Refiner.h"
 namespace normal_exp = option::expression::normal;
+namespace arg = option::argument;
+namespace err_exp = option::expression::error;
+namespace compile = option::parameters::compile;
 Order_Token_Refiner::Order_Token_Refiner(Order_token * order_token)
 {
 	this->order_token = order_token;
@@ -9,6 +12,23 @@ Order_Token_Refiner::Order_Token_Refiner(Order_token * order_token)
 Order_token * Order_Token_Refiner::refining(std::string order)
 {
 	order_tokenizer(order);
+	if (option::parameters::compile::debug::order_tokenizer) { //확인 결과 정상동작
+		General_Function::show_order(this->order_token);
+	}
+	try { //매개변수 인자가 유효한지?
+		assert(this->order_token->token_count >= 0);
+		if (this->order_token->token_count == arg::no_arg)
+			throw err_exp::msg_no_order_input;
+		else if (this->order_token->token_count == arg::too_much_args)
+			throw err_exp::msg_too_much_args;
+		else;
+	}
+	catch (std::string error_message) {
+		if (error_message != err_exp::msg_no_order_input)
+			std::cout << error_message << std::endl;
+		delete this->order_token;
+		return nullptr;
+	}
 	return this->order_token;
 }
 

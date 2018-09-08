@@ -42,10 +42,10 @@ public:
 	Site * find_Site(std::string site_name);
 	Site * find_Site(int site_number);
 	int find_Site_number(std::string site_name);
-	void add();
-	void del();
+	void add(Order_token * order);
+	void del(Order_token * order);
+	void update(Order_token * order);
 	void sort(bool is_ascending);
-	void update();
 	void clean_itself();	//Person 객체가 가진 모든 사이트 정보와 계정 정보를 해체한다. (삭제되는 것이 아니라 프로그램 종료)
 };
 #endif

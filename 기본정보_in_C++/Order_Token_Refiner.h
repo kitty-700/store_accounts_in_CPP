@@ -4,8 +4,10 @@
 #include <string>
 #include <cstring>
 #include <iostream>
+#include <assert.h>
 
 #include"Options.h"
+#include"General_Function.h"
 #include "Structs.h"
 class Order_Token_Refiner { //통 문자열 형태의 명령을 Order_token구조체 양식으로 토큰화하는 클래스.
 	Order_token* order_token; 	//본 클래스에서 동적할당되어서 

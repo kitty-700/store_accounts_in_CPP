@@ -77,8 +77,8 @@ void Order_Form_Filler::add_new_site()
 		//정상진행
 		{
 			using namespace argument::instruction::add;
-			Order::set_content(new_site_name_position, new_site_name);
-			Order::set_token_count(add_site_only);
+			Main_Order::set_content(new_site_name_position, new_site_name);
+			Main_Order::set_token_count(add_site_only);
 		}
 	}
 }
@@ -106,11 +106,11 @@ void Order_Form_Filler::add_new_account(Site * site)
 		//정상진행
 		{
 			using namespace argument::instruction::add;
-			Order::set_content(new_site_name_position, site->get_site_name());
-			Order::set_content(new_id_position, ID_input);
-			Order::set_content(new_pw_position, PW_input);
-			Order::set_content(new_memo_position, memo_input);
-			Order::set_token_count(add_account_with_memo);
+			Main_Order::set_content(new_site_name_position, site->get_site_name());
+			Main_Order::set_content(new_id_position, ID_input);
+			Main_Order::set_content(new_pw_position, PW_input);
+			Main_Order::set_content(new_memo_position, memo_input);
+			Main_Order::set_token_count(add_account_with_memo);
 		}
 	}
 	return;
@@ -176,8 +176,8 @@ void Order_Form_Filler::del_form_filler()
 void Order_Form_Filler::del_site(Site * site)
 {
 	using namespace argument::instruction::del;
-	Order::set_content(site_name_position, site->get_site_name());
-	Order::set_token_count(delete_site);
+	Main_Order::set_content(site_name_position, site->get_site_name());
+	Main_Order::set_token_count(delete_site);
 	return;
 }
 
@@ -185,9 +185,9 @@ void Order_Form_Filler::del_account(Site * site)
 {
 	using namespace argument::instruction::del;
 	Account * temp_account = site->find_account_with_account_number(this->selection_2);
-	Order::set_content(site_name_position, site->get_site_name());
-	Order::set_content(id_position, temp_account->get_attribute("ID"));
-	Order::set_token_count(delete_account);
+	Main_Order::set_content(site_name_position, site->get_site_name());
+	Main_Order::set_content(id_position, temp_account->get_attribute("ID"));
+	Main_Order::set_token_count(delete_account);
 	return;
 }
 
@@ -270,9 +270,9 @@ void Order_Form_Filler::update_site_name(Site * site)
 		}
 		//정상진행
 		{
-			Order::set_content(update::site_name_position, site->get_site_name());
-			Order::set_content(update::new_site_name_position, new_site_name);
-			Order::set_token_count(update::modify_site_name);
+			Main_Order::set_content(update::site_name_position, site->get_site_name());
+			Main_Order::set_content(update::new_site_name_position, new_site_name);
+			Main_Order::set_token_count(update::modify_site_name);
 		}
 	}//UPDATE-3-UpdateSiteName 페이지 (사이트 자체(0) 혹은 계정 선택)
 	return;
@@ -303,19 +303,19 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//정상진행
 		{
-			Order::set_content(update::site_name_position, site->get_site_name());
-			Order::set_content(update::id_position, account->get_attribute("ID"));
+			Main_Order::set_content(update::site_name_position, site->get_site_name());
+			Main_Order::set_content(update::id_position, account->get_attribute("ID"));
 
 			switch (this->selection_3)
 			{
 			case 1:
-				Order::set_content(update::attribute_select_position, "ID");
+				Main_Order::set_content(update::attribute_select_position, "ID");
 				break;
 			case 2:
-				Order::set_content(update::attribute_select_position, "PW");
+				Main_Order::set_content(update::attribute_select_position, "PW");
 				break;
 			case 3:
-				Order::set_content(update::attribute_select_position, "memo");
+				Main_Order::set_content(update::attribute_select_position, "memo");
 				break;
 			}
 		}
@@ -330,20 +330,20 @@ void Order_Form_Filler::update_account_attribute(Site * site)
 		}
 		//입력
 		{
-			std::string attribute____ = Order::get_content(update::attribute_select_position);
+			std::string attribute____ = Main_Order::get_content(update::attribute_select_position);
 			std::cout << attribute____ << "/ ";
 			print_colored_account_attribute(account, attribute____);
 			input_string(true, new_attribute_value);
 		}
 		//선택에 대한 예외처리
 		{
-			if (Order::get_content(update::attribute_select_position) != "memo")
+			if (Main_Order::get_content(update::attribute_select_position) != "memo")
 				exception_no_input(new_attribute_value);
 		}
 		//정상진행
 		{
-			Order::set_content(update::new_attribute_value_position, new_attribute_value);
-			Order::set_token_count(update::modify_account_attribute);
+			Main_Order::set_content(update::new_attribute_value_position, new_attribute_value);
+			Main_Order::set_token_count(update::modify_account_attribute);
 		}
 	}//UPDATE-4-AttributeValueInput 페이지 (선택된 속성이 가지게 될 값 입력)
 
@@ -370,7 +370,7 @@ void Order_Form_Filler::load_form_filler()
 		//정상진행
 		{
 			using namespace argument::instruction::load;
-			Order::set_content(file_name_position, file_name);
+			Main_Order::set_content(file_name_position, file_name);
 		}
 	}//LOAD-1 페이지 (파일 이름 입력)
 	return;

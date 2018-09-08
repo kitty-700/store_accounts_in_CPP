@@ -176,9 +176,6 @@
     <ClInclude Include="Module_Tester.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Order.h">
-      <Filter>헤더 파일\Order_Handler</Filter>
-    </ClInclude>
     <ClInclude Include="Show.h">
       <Filter>헤더 파일\Option\Argument\Instruction</Filter>
     </ClInclude>
@@ -232,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="Log_Set.h">
       <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
+    </ClInclude>
+    <ClInclude Include="Order.h">
+      <Filter>헤더 파일\Order_Handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

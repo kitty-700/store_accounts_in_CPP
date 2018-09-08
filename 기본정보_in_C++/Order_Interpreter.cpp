@@ -46,29 +46,11 @@ Order_Interpreter::~Order_Interpreter()
 {
 	delete this->person;
 }
-bool Order_Interpreter::interprete_order(std::string order)///★★★★★★★★★★★★★★★★★★★★★★★★
+bool Order_Interpreter::interprete_order(Order_token * order)///★★★★★★★★★★★★★★★★★★★★★★★★
 {
-	//매개변수로 받은 string 의 order를 잘라 Order_token 구조체를 초기화한다.
-	Order::set(Order_Token_Refiner(new Order_token).refining(order)); //Order_Token_Refiner 임시객체 개념 사용
-	if (compile::debug::order_tokenizer) { //확인 결과 정상동작
-		General_Function::show_order(Order::get());
-	}
-	try { //매개변수 인자가 유효한지?
-		assert(Order::get_token_count() >= 0);
-		if (Order::get_token_count() == arg::no_arg)
-			throw err_exp::msg_no_order_input;
-		else if (Order::get_token_count() == arg::too_much_args)
-			throw err_exp::msg_too_much_args;
-		else;
-	}
-	catch (std::string error_message) {
-		if (error_message != err_exp::msg_no_order_input)
-			std::cout << error_message << std::endl;
-		return option::expression::normal::no_exit;
-	}
-	arg::order_type op = operation_translate(Order::get_content(arg::operation_position));
+	arg::order_type op = operation_translate(order->tokens[arg::operation_position]);
 	bool is_exit = false;
-	order_forwarding(op, &is_exit);
+	order_forwarding(order,op, &is_exit);
 	return is_exit;
 }
 
@@ -77,7 +59,7 @@ std::string Order_Interpreter::get_loaded_file_name()
 	return this->now_loaded_file_name;
 }
 
-void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit)
+void Order_Interpreter::order_forwarding(Order_token * order, argument::order_type op, bool * is_exit)
 {
 	switch (op)
 	{
@@ -88,7 +70,7 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	case arg::order_type::del_:
 	case arg::order_type::update_:
 	case arg::order_type::load_:
-		wanna_filling_sometimse(op);
+		wanna_filling_sometimse(order, op);
 		break;
 	case arg::order_type::reload_:
 		init_person(this->now_loaded_file_name);
@@ -134,22 +116,22 @@ void Order_Interpreter::order_forwarding(argument::order_type op, bool * is_exit
 	}
 }
 
-void Order_Interpreter::wanna_filling_sometimse(argument::order_type op)
+void Order_Interpreter::wanna_filling_sometimse(Order_token * order, argument::order_type op)
 {
 	try {
 		switch (op)
 		{
 		case arg::order_type::add_:
-			add();
+			add(order);
 			break;
 		case arg::order_type::del_:
-			del();
+			del(order);
 			break;
 		case arg::order_type::update_:
-			update();
+			update(order);
 			break;
 		case arg::order_type::load_:
-			load();
+			load(order);
 			break;
 		default:
 			assert(0);
@@ -189,40 +171,54 @@ arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 	return interpreted_op;
 }
 
-void Order_Interpreter::add()
+void Order_Interpreter::add(Order_token * order)
 {
 	Status::set_is_form_filling_successful(true);
 	using namespace arg::instruction::add;
-	if (Order::get_type() == add_form_use)
+	if (order->token_count == add_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
 		Order_Form_Filler(this->person).add_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->add();
+		this->person->add(order);
 }
 
-void Order_Interpreter::del()
+void Order_Interpreter::del(Order_token * order)
 {
 	Status::set_is_form_filling_successful(true);
 	using namespace argument::instruction::del;
-	if (Order::get_type() == delete_form_use)
+	if (order->token_count == delete_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
 		Order_Form_Filler(this->person).del_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->del();
+		this->person->del(order);
 }
 
-void Order_Interpreter::update()
+void Order_Interpreter::update(Order_token * order)
 {
 	Status::set_is_form_filling_successful(true);
 	using namespace argument::instruction::update;
-	if (Order::get_type() == modify_form_use)
+	if (order->token_count == modify_form_use)
 	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
 		Order_Form_Filler(this->person).update_form_filler();
 	}
 	if (Status::get_is_form_filling_successful() == true)
-		this->person->update();
+		this->person->update(order);
+}
+
+void Order_Interpreter::load(Order_token * order)
+{
+	Status::set_is_form_filling_successful(true);
+	using namespace arg::instruction::load;
+	if (Main_Order::get_type() == load_in_default_file_name)
+	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
+		Order_Form_Filler(this->person).load_form_filler();
+	}
+	if (Status::get_is_form_filling_successful() == true)
+	{
+		init_person(order->tokens[file_name_position]);
+	}
 }
 
 void Order_Interpreter::show(int what_type_of_showing)
@@ -249,19 +245,6 @@ void Order_Interpreter::show(int what_type_of_showing)
 		assert(0);
 	}
 }
-void Order_Interpreter::load()
-{
-	Status::set_is_form_filling_successful(true);
-	using namespace arg::instruction::load;
-	if (Order::get_type() == load_in_default_file_name)
-	{	//order가 완전하지 않을 시엔 Form 입력받기 필요
-		Order_Form_Filler(this->person).load_form_filler();
-	}
-	if (Status::get_is_form_filling_successful() == true)
-	{
-		init_person(Order::get_content(file_name_position));
-	}
-}
 
 void Order_Interpreter::sort(bool is_ascending)
 {
@@ -272,14 +255,14 @@ void Order_Interpreter::sort(bool is_ascending)
 void Order_Interpreter::show_site_in_number()//숫자로 사이트 찾아주기
 {	//"12" 처럼 사이트 번호만으로 정보를 찾는다.
 	try { //token 수가 1개가 아니면 함수 종료.
-		if (Order::get_type() != argument::instruction::show::no_additional_arguments)
+		if (Main_Order::get_type() != argument::instruction::show::no_additional_arguments)
 			throw err_exp::msg_unsupport_order_form;
 	}
 	catch (std::string error_message) {
 		std::cout << error_message << std::endl;
 		return;
 	}
-	int number = General_Function::string_to_integer(Order::get_content(arg::operation_position));
+	int number = General_Function::string_to_integer(Main_Order::get_content(arg::operation_position));
 	//order의 첫번째 토큰을 숫자로 바꾼다. "12" -> 12
 	if (number == 0) { //0번 사이트는 없으나, 사이트 목록을 출력하는 것으로 대신한다.
 		this->person->show_site_name_list();
@@ -298,14 +281,14 @@ void Order_Interpreter::show_site_in_number()//숫자로 사이트 찾아주기
 void Order_Interpreter::show_site_in_site_name()
 {	//"google" 처럼 사이트 이름만으로 정보를 찾는다.
 	try { //token 수가 1개가 아니면 함수 종료.
-		if (Order::get_type() != argument::instruction::show::no_additional_arguments)
+		if (Main_Order::get_type() != argument::instruction::show::no_additional_arguments)
 			throw err_exp::msg_unsupport_order_form;
 	}
 	catch (std::string error_message) {
 		std::cout << error_message << std::endl;
 		return;
 	}
-	Site * temp_site = this->person->find_Site(Order::get_content(arg::operation_position));
+	Site * temp_site = this->person->find_Site(Main_Order::get_content(arg::operation_position));
 	try {
 		if (temp_site == nullptr)
 			throw err_exp::msg_no_existing_site_name;

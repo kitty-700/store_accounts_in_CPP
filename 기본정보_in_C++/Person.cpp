@@ -91,24 +91,30 @@ Site * Person::make_site(std::string site_name)
 	}
 	return temp_site;
 }
-void Person::add()
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////ADD///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////ADD///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Person::add(Order_token * order)
 {
 	using namespace option::argument::instruction::add;
 	try {
-		if (Order::get_type() == add_site_only) { //사이트만 추가
-			add_site(Order::get_content(new_site_name_position));
+		if (order->token_count == add_site_only) { //사이트만 추가
+			add_site(order->tokens[new_site_name_position]);
 		}
 		else { //사이트에 계정 추가
-			if (Order::get_type() == add_account_without_memo) {
-				Order::set_content(new_memo_position, "");
-				Order::set_token_count(Order::get_token_count()+1);  // -> type이  add_account_with_memo ( ↙ )가 된다.
+			if (order->token_count == add_account_without_memo) {
+				order->tokens[new_memo_position] = "";
+				order->token_count++;  // -> type이  add_account_with_memo ( ↙ )가 된다.
 			}
-			if (Order::get_type() == add_account_with_memo) {
+			if (order->token_count == add_account_with_memo) {
 				add_account(
-					Order::get_content(new_site_name_position),
-					Order::get_content(new_id_position),
-					Order::get_content(new_pw_position),
-					Order::get_content(new_memo_position)
+					order->tokens[new_site_name_position],
+					order->tokens[new_id_position],
+					order->tokens[new_pw_position],
+					order->tokens[new_memo_position]
 				);
 			}
 			else {
@@ -131,10 +137,10 @@ Site * Person::add_site(std::string site_name)
 			throw err_exp::msg_cant_make_site;
 		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
 		*(this) += temp_site;
-		if (Order::get_type() == argument::instruction::add::add_account_with_memo)
-			Log_Recorder::pre_recording_procedure();
+		if (Main_Order::get_type() == argument::instruction::add::add_account_with_memo)
+			Log_Recorder::pre_recording_procedure(); //계정 만드는 김에 덩달아 사이트가 생성된 경우
 		else
-			Log_Recorder::pre_recording_procedure();
+			Log_Recorder::pre_recording_procedure(); //정말로 사이트 자체를 처음부터 만드는 경우
 		return temp_site;
 	}
 	catch (std::string error_message) {
@@ -153,15 +159,24 @@ void Person::add_account(std::string site_name, std::string ID, std::string PW, 
 	}
 	temp_site->add_account(ID, PW, memo);
 }
-void Person::del()
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////DEL///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////DEL///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Person::del(Order_token * order)
 {
 	using namespace option::argument::instruction::del;
 	try {
-		if (Order::get_type() == delete_site) {
-			del_site(Order::get_content(site_name_position));
+		if (order->token_count == delete_site) {
+			del_site(
+				order->tokens[site_name_position]);
 		}
-		else if (Order::get_type() == delete_account) {
-			del_account(Order::get_content(site_name_position), Order::get_content(id_position));
+		else if (order->token_count == delete_account) {
+			del_account(
+				order->tokens[site_name_position], 
+				order->tokens[id_position]);
 		}
 		else {
 			throw err_exp::msg_unsupport_order_form;
@@ -172,15 +187,6 @@ void Person::del()
 		return;
 	}
 }
-
-void Person::sort(bool is_ascending)
-{
-	if (is_ascending)
-		this->sites.sort([](Site*A_site, Site* B_site) {return *A_site < *B_site; });
-	else
-		this->sites.sort([](Site*A_site, Site* B_site) {return *A_site > *B_site; });
-}
-
 void Person::del_site(std::string site_name)
 {
 	for (std::list<Site*>::iterator each = this->sites.begin(); each != this->sites.end(); )
@@ -190,12 +196,12 @@ void Person::del_site(std::string site_name)
 			int account_count = (*each)->get_account_count();
 			std::string to_record =
 				"삭제된 사이트 이름 : " + site_name + ", " + std::to_string(account_count) + "개의 계정을 보유했었음.";
+			if (Main_Order::get_type() == argument::instruction::del::delete_site)
+				Log_Recorder::pre_recording_procedure();
 			(*each)->clean_itself();
 			delete (*each);
 			this->sites.erase(each);
 			this->site_count--;
-			if (Order::get_type() == argument::instruction::del::delete_site)
-				Log_Recorder::pre_recording_procedure();
 			return;
 		}
 		each++;
@@ -221,21 +227,27 @@ void Person::del_account(std::string site_name, std::string ID)
 	}
 	temp_site->del_account(ID);
 }
-void Person::update()
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////UPDATE///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////UPDATE///////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Person::update(Order_token * order)
 {
 	using namespace option::argument::instruction::update;
-	if (Order::get_type() == modify_site_name) {
+	if (order->token_count == modify_site_name) {
 		update_site_name(
-			Order::get_content(site_name_position),
-			Order::get_content(new_site_name_position)
+			order->tokens[site_name_position],
+			order->tokens[new_site_name_position]
 		);
 	}
-	else if (Order::get_type() == modify_account_attribute) {
+	else if (order->token_count == modify_account_attribute) {
 		update_account_attribute(
-			Order::get_content(site_name_position),
-			Order::get_content(id_position),
-			Order::get_content(attribute_select_position),
-			Order::get_content(new_attribute_value_position)
+			order->tokens[site_name_position],
+			order->tokens[id_position],
+			order->tokens[attribute_select_position],
+			order->tokens[new_attribute_value_position]
 		);
 	}
 	else {
@@ -272,6 +284,9 @@ void Person::update_account_attribute(std::string site_name, std::string ID, std
 	temp_site->update_account_attribute(ID, what_attribute, new_value);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////SHOW/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Person::show_one_site_information(Site * site, int site_number)
 {
 	namespace color = option::parameters::console_color;
@@ -307,4 +322,15 @@ void Person::show_site_name_list()
 		count++;
 	}
 	SET_CONSOLE_COLOR_DEFAULT;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////SORT//////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Person::sort(bool is_ascending)
+{
+	if (is_ascending)
+		this->sites.sort([](Site*A_site, Site* B_site) {return *A_site < *B_site; });
+	else
+		this->sites.sort([](Site*A_site, Site* B_site) {return *A_site > *B_site; });
 }

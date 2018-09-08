@@ -1,49 +1,56 @@
 #include "Order.h"
-Order_token * Order::order = nullptr;
+Order_token * Main_Order::order = nullptr;
+argument::order_type Main_Order::opcode = option::argument::unknown_;
 
-Order_token * Order::get()
+Order_token * Main_Order::get()
 {
-	return Order::order;
+	return Main_Order::order;
 }
 
-void Order::clear()
+void Main_Order::clear()
 {
-	if (Order::order != nullptr)
+	if (Main_Order::order != nullptr)
 	{
-		delete Order::order;
-		Order::order = nullptr;
+		delete Main_Order::order;
+		Main_Order::order = nullptr;
 	}
 }
 
-void Order::set(Order_token * order)
+void Main_Order::set(Order_token * order)
 {
-	Order::clear();
+	Main_Order::clear();
 	if (order == nullptr)
 		assert(0);
-	Order::order = order;
+	Main_Order::order = order;
+	Main_Order::opcode = option::expression::Translation::operation_translate(Main_Order::get_content(argument::operation_position));
 }
 
-void Order::set_content(const int index, const std::string value)
+void Main_Order::set_content(const int index, const std::string value)
 {
-	Order::order->tokens[index] = value;
+	Main_Order::order->tokens[index] = value;
 }
 
-void Order::set_token_count(const int count)
+void Main_Order::set_token_count(const int count)
 {
-	Order::order->token_count = count;
+	Main_Order::order->token_count = count;
 }
 
-std::string Order::get_content(const int index)
+std::string Main_Order::get_content(const int index)
 {
-	return Order::order->tokens[index];
+	return Main_Order::order->tokens[index];
 }
 
-int Order::get_type()
+int Main_Order::get_opcode()
 {
-	return Order::get_token_count();
+	return Main_Order::opcode;
 }
 
-int Order::get_token_count()
+int Main_Order::get_type()
 {
-	return Order::order->token_count;
+	return Main_Order::get_token_count();
+}
+
+int Main_Order::get_token_count()
+{
+	return Main_Order::order->token_count;
 }
