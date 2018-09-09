@@ -1,8 +1,7 @@
 #include "Log_Recorder.h"
 #include "Site.h"
 int Log_Recorder::log_count = 0;
-std::stack <Log*> Log_Recorder::undo_stack;
-std::stack <Log*> Log_Recorder::redo_stack;
+std::stack <Log*> Log_Recorder::order_log;
 Log_Recorder::~Log_Recorder()
 {
 	clear_itself();
@@ -10,9 +9,9 @@ Log_Recorder::~Log_Recorder()
 
 void Log_Recorder::clear_itself()
 {
-	for (; !Log_Recorder::undo_stack.empty(); Log_Recorder::undo_stack.pop())
+	for (; !Log_Recorder::order_log.empty(); Log_Recorder::order_log.pop())
 	{
-		Log * log = Log_Recorder::undo_stack.top();
+		Log * log = Log_Recorder::order_log.top();
 		delete log;
 	}
 	Log_Recorder::log_count = 0;
@@ -27,32 +26,62 @@ void  Log_Recorder::after_recording_procedure(Log * log)
 {
 }
 
-void Log_Recorder::record_add_site(std::string site_name)
+void Log_Recorder::record_add_site(Order_token *order, std::string site_name)
 {
 	if (Status::get_is_person_loaded() == false) return;
 	if (Main_Order::get_token_count() <= 0) assert(0);
-	Log_of_add_site * add_log = new Log_of_add_site(site_name);
-	Log_Recorder::undo_stack.push(add_log);
+	Log * new_log = new Log(order);
+	//
+	std::string roll_back_order = "del " + site_name;
+	new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order));
+	//
+	Log_Recorder::order_log.push(new_log);
 	Log_Recorder::log_count++;
 }
 
-void Log_Recorder::record_add_account(std::string site_name, std::string account_ID)
+void Log_Recorder::record_add_account(Order_token *order, std::string site_name, std::string account_ID)
+{
+	if (Status::get_is_person_loaded() == false) return;
+	if (Main_Order::get_token_count() <= 0) assert(0);
+	Log * new_log = new Log(order);
+	//
+	std::string roll_back_order = "del " + site_name + " " + account_ID;
+	new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order));
+	//
+	Log_Recorder::order_log.push(new_log);
+	Log_Recorder::log_count++;
+}
+
+void Log_Recorder::record_del_site(Order_token *order, Site * site)
+{
+	if (Status::get_is_person_loaded() == false) return;
+	if (Main_Order::get_token_count() <= 0) assert(0);
+	Log * new_log = new Log(order);
+	//
+	for (int i = 1; i <= site->get_account_count(); i++) {
+		std::string roll_back_order = "add ";
+		roll_back_order += site->get_site_name() + " ";
+		roll_back_order += site->find_account_with_account_number(i)->get_attribute("ID") + " ";
+		roll_back_order += site->find_account_with_account_number(i)->get_attribute("PW") + " ";
+		roll_back_order += site->find_account_with_account_number(i)->get_attribute("Memo");
+		new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order));
+	}
+	//
+	Log_Recorder::order_log.push(new_log);
+	Log_Recorder::log_count++;
+}
+
+void Log_Recorder::record_del_account(Order_token *order, std::string site_name, std::string account_ID)
 {
 }
 
-void Log_Recorder::record_del_site(Site * site)
+void Log_Recorder::record_update_site_name
+(Order_token *order, std::string site_name, std::string account_ID, std::string original)
 {
 }
 
-void Log_Recorder::record_del_account(std::string site_name, std::string account_ID)
-{
-}
-
-void Log_Recorder::record_update_site_name(std::string site_name, std::string account_ID, std::string original)
-{
-}
-
-void Log_Recorder::record_update_account_attribute(std::string site_name, std::string account_ID, std::string attribute, std::string original)
+void Log_Recorder::record_update_account_attribute
+(Order_token *order, std::string site_name, std::string account_ID, std::string attribute, std::string original)
 {
 }
 
@@ -67,7 +96,7 @@ void Log_Recorder::print_log()
 	SET_CONSOLE_COLOR(color::history_color);
 	int count = Log_Recorder::log_count;
 
-	for (std::stack<Log*> dump = Log_Recorder::undo_stack; !dump.empty(); dump.pop())
+	for (std::stack<Log*> dump = Log_Recorder::order_log; !dump.empty(); dump.pop())
 	{	//스택을 복사한다. 포인터만 복사하는거라 실제 포인터에 위치한 값은 변하지 않는다.
 		std::cout << "[";
 		std::cout.fill('0');

@@ -58,9 +58,6 @@
     <Filter Include="소스 파일\Log_Handler">
       <UniqueIdentifier>{dc00eee6-d585-4edb-bf93-e68a4237021e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Log_Handler\Log_Set">
-      <UniqueIdentifier>{3b237364-28be-491f-b726-e0b542a6dc3a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Start.cpp">
@@ -112,9 +109,6 @@
       <Filter>소스 파일\Option\Expression</Filter>
     </ClCompile>
     <ClCompile Include="Log.cpp">
-      <Filter>소스 파일\Log_Handler</Filter>
-    </ClCompile>
-    <ClCompile Include="Log_of_Add_Site.cpp">
       <Filter>소스 파일\Log_Handler</Filter>
     </ClCompile>
   </ItemGroup>
@@ -221,23 +215,8 @@
     <ClInclude Include="Log.h">
       <Filter>헤더 파일\Log_Handler</Filter>
     </ClInclude>
-    <ClInclude Include="Log_of_Del.h">
-      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
-    </ClInclude>
-    <ClInclude Include="Log_of_Update.h">
-      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
-    </ClInclude>
-    <ClInclude Include="Log_Set.h">
-      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
-    </ClInclude>
     <ClInclude Include="Order.h">
       <Filter>헤더 파일\Order_Handler</Filter>
-    </ClInclude>
-    <ClInclude Include="Log_of_Add_Site.h">
-      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
-    </ClInclude>
-    <ClInclude Include="Log_of_Add_Account.h">
-      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

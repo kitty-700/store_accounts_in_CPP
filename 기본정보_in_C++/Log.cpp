@@ -1,6 +1,6 @@
 #include "Log.h"
 
-Log::Log()
+Log::Log(const Order_token * order)
 {
-	General_Function::order_copy(&this->order_was, Main_Order::get());
+	General_Function::order_copy(&this->order_was, order);
 }

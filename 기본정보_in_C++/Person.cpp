@@ -138,9 +138,9 @@ Site * Person::add_site(std::string site_name)
 		//이전에 저장된 정보들이 옳다는 가정 하에 바르게 동작한다. (Site::update_site_name () 내에서 경고는 띄워준다.)
 		*(this) += temp_site;
 		if (Main_Order::get_type() == argument::instruction::add::add_account_with_memo)
-			Log_Recorder::pre_recording_procedure(); //계정 만드는 김에 덩달아 사이트가 생성된 경우
-		else
-			Log_Recorder::pre_recording_procedure(); //정말로 사이트 자체를 처음부터 만드는 경우
+			Log_Recorder::record_add_site(Main_Order::get(),site_name); //계정 만드는 김에 덩달아 사이트가 생성된 경우
+		else if(Main_Order::get_type() == argument::instruction::add::add_site_only)
+			Log_Recorder::record_add_site(Main_Order::get(), site_name); //정말로 사이트 자체를 처음부터 만드는 경우
 		return temp_site;
 	}
 	catch (std::string error_message) {

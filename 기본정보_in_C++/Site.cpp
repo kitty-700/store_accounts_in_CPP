@@ -86,7 +86,7 @@ Account * Site::find_account_with_ID(std::string ID)
 	return nullptr;
 }
 Account * Site::find_account_with_account_number(int account_number)
-{
+{	//1부터 입력 받는다.
 	int count = 1;
 	for (
 		std::list<Account*>::iterator each = this->accounts.begin();

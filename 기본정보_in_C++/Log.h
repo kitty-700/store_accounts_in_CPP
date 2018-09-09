@@ -11,6 +11,6 @@ class Log {
 public:
 	Order_token order_was;
 	std::stack<Order_token *>roll_back_orders;
-	Log();
+	Log(const Order_token *order);
 };
 #endif

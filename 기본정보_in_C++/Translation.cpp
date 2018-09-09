@@ -21,6 +21,8 @@ namespace option {
 			{ "PW", "PASSWORD", "PASSWD", "pw", "password", "passwd", "비밀번호", "비번"};
 			const std::string Memo_similary[] = \
 			{ "Memo", "MEMO", "memo" };
+			const std::string Update_time_similary[] = \
+			{ "update_time", "Update_time", "date" };
 			for (int i = 0; i < sizeof(ID_similary) / sizeof(std::string); i++)
 				if (str == ID_similary[i])
 					return "ID";
@@ -30,6 +32,9 @@ namespace option {
 			for (int i = 0; i < sizeof(Memo_similary) / sizeof(std::string); i++)
 				if (str == Memo_similary[i])
 					return "memo";
+			for (int i = 0; i < sizeof(Update_time_similary) / sizeof(std::string); i++)
+				if (str == Update_time_similary[i])
+					return "update_time";
 			return err_exp::translation_error;
 		}
 

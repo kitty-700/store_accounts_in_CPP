@@ -91,6 +91,8 @@ std::string Account::get_attribute(std::string what_info) const
 		return std::string(this->PW);
 	else if (what_info == "memo")
 		return std::string(this->memo);
+	else if (what_info == "update_time")
+		return std::string(this->update_time);
 	else { /*translation_error*/
 		std::cout << err_exp::msg_undefined_account_attribute << std::endl;
 		return nullptr;

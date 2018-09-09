@@ -7,13 +7,12 @@
 #include "Options.h"
 #include "Structs.h"
 #include "Status.h"
-#include "Log_Set.h"
+#include "Log.h"
 #include "General_Function.h"
 class Site;
 class Log_Recorder {
+	static std::stack <Log*> order_log;
 	static int log_count;
-	static std::stack <Log*> undo_stack;
-	static std::stack <Log*> redo_stack;
 public:
 	~Log_Recorder();
 	static void clear_itself();
@@ -21,14 +20,14 @@ public:
 	static Log* pre_recording_procedure();
 	static void after_recording_procedure(Log * log);
 
-	static void record_add_site(std::string site_name);
-	static void record_add_account(std::string site_name, std::string account_ID);
+	static void record_add_site(Order_token *order, std::string site_name);
+	static void record_add_account(Order_token *order, std::string site_name, std::string account_ID);
 
-	static void record_del_site(Site * site);
-	static void record_del_account(std::string site_name, std::string account_ID);
+	static void record_del_site(Order_token *order, Site * site);
+	static void record_del_account(Order_token *order, std::string site_name, std::string account_ID);
 
-	static void record_update_site_name(std::string site_name, std::string account_ID, std::string original);
-	static void record_update_account_attribute(std::string site_name, std::string account_ID, std::string attribute, std::string original);
+	static void record_update_site_name(Order_token *order, std::string site_name, std::string account_ID, std::string original);
+	static void record_update_account_attribute(Order_token *order, std::string site_name, std::string account_ID, std::string attribute, std::string original);
 
 	static void print_log();
 	static bool has_log();
