@@ -19,7 +19,11 @@ bool Account::is_proper_string(std::string what_attribute, std::string str) cons
 		}
 		else if (what_attribute == "memo") {
 			if (str.size() > buff::memo_length)
-				throw err_exp::msg_too_long_accout_memo; //메모는 공백이어도 된다.
+				throw err_exp::msg_too_long_account_memo; //메모는 공백이어도 된다.
+		}
+		else if (what_attribute == "update_time") {
+			if (str.size() > buff::update_time_length)
+				throw err_exp::msg_too_long_account_update_time; //메모는 공백이어도 된다.
 		}
 		else
 			throw err_exp::msg_undefined_account_attribute;
@@ -72,6 +76,10 @@ void Account::update_attribute(std::string what_attribute, std::string new_value
 			std::string before_memo = this->memo;
 			strcpy_s(this->memo, buff::memo_length, new_value.c_str());
 		}
+		else if (what_attribute == "update_time") { //form filling 에서는 의도적으로 update_time 을 수정하는 것을 숨겼다.
+			std::string before_update_time = this->update_time;
+			strcpy_s(this->update_time, buff::update_time_length, new_value.c_str());
+		}
 		else {  /*    return error_expression::translation_error;    */
 			std::cout << err_exp::msg_undefined_account_attribute << std::endl;
 			return;
@@ -79,7 +87,7 @@ void Account::update_attribute(std::string what_attribute, std::string new_value
 	}
 	else
 		strcpy_s(this->ID, buff::id_length, err_exp::abnormal_Account_ID.c_str());
-	if (Status::get_is_person_loaded() == true)
+	if (Status::get_is_person_loaded() == true && what_attribute !="update_time")
 		replace_account_update_time(this->update_time);
 }
 std::string Account::get_attribute(std::string what_info) const

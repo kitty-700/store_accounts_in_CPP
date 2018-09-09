@@ -145,7 +145,7 @@ namespace option {
 				|| query_op == "help"
 				|| 0) interpreted_op = arg::order_type::help_;
 
-			else	interpreted_op = arg::order_type::not_translate_but_should_calculated_;
+			else	interpreted_op = arg::order_type::not_translated_but_should_calculated_;
 
 			return interpreted_op;
 		};

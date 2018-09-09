@@ -45,8 +45,10 @@ namespace option {
 				"입력한 계정의 ID의 길이가 너무 깁니다.  ( " + std::to_string(buff::id_length) + " 자 이하로..)";
 			static const std::string msg_too_long_account_PW =
 				"입력한 계정의 Password의 길이가 너무 깁니다.  ( " + std::to_string(buff::password_length) + " 자 이하로..)";
-			static const std::string msg_too_long_accout_memo =
+			static const std::string msg_too_long_account_memo =
 				"입력한 계정의 memo 의 길이가 너무 깁니다.  ( " + std::to_string(buff::memo_length) + " 자 이하로..)";
+			static const std::string msg_too_long_account_update_time =
+				"입력한 계정의 update_time 의 길이가 너무 깁니다.  ( " + std::to_string(buff::update_time_length) + " 자 이하로..), 그리고 이거 수정하는거 비추";
 			//translation
 			static const std::string translation_error = "TRANSLATION FAIL";
 			//file_io

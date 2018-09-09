@@ -160,7 +160,7 @@ void Order_Interpreter::exit_precess(bool * is_exit)
 arg::order_type Order_Interpreter::operation_translate(std::string query_op)
 {
 	arg::order_type interpreted_op = option::expression::Translation::operation_translate(query_op);
-	if (interpreted_op == arg::order_type::not_translate_but_should_calculated_)
+	if (interpreted_op == arg::order_type::not_translated_but_should_calculated_)
 	{
 		if (General_Function::is_natural_number(query_op) == true) //사이트 번호 입력
 			interpreted_op = arg::order_type::show_one_site_information_with_number_;
