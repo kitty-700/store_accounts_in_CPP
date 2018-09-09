@@ -155,6 +155,7 @@
     <ClCompile Include="Importer.cpp" />
     <ClCompile Include="Load.h" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Log_of_Add_Site.cpp" />
     <ClCompile Include="Log_Recorder.cpp" />
     <ClCompile Include="Module_Tester.cpp" />
     <ClCompile Include="Translation.cpp" />
@@ -185,7 +186,8 @@
     <ClInclude Include="Information_Organizing_Class.h" />
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="Log_of_Add.h" />
+    <ClInclude Include="Log_of_Add_Account.h" />
+    <ClInclude Include="Log_of_Add_Site.h" />
     <ClInclude Include="Log_of_Del.h" />
     <ClInclude Include="Log_of_Update.h" />
     <ClInclude Include="Log_Recorder.h" />

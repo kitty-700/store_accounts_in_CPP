@@ -3,7 +3,7 @@ using namespace std;
 namespace err_exp = option::expression::error;
 namespace compile = option::parameters::compile;
 bool General_Function::is_natural_number(string str)
-{
+{	//자연수인지 체크
 	if (str.size() > 0)
 	{
 		const char * c_style_string = str.c_str();
@@ -18,13 +18,12 @@ int General_Function::string_to_integer(string str)
 {
 	if (str == "")
 		return expression::error::string_to_be_int_wasnt_entered;
-	else if (str.size() > 0) {
+	else if (General_Function::is_natural_number(str)==true) {
 		const char * c_style_string = str.c_str();
 		return atoi(c_style_string);
 	}
 	else	{
-		assert(0);
-		return -9999;//i dont know. 
+		return expression::error::string_cannot_be_int;
 	}
 }
 int General_Function::get_cipher(int number)
@@ -120,6 +119,13 @@ void General_Function::show_order(Order_token * order)
 	for (int i = 0; i < order->token_count; i++)
 		cout << order->tokens[i] << " ";
 	cout << endl;
+}
+
+void General_Function::order_copy(Order_token * destination_order, const Order_token * source_order)
+{
+	for (int i = 0; i < source_order->token_count; i++) //order copy
+		destination_order->tokens[i] = source_order->tokens[i];
+	destination_order->token_count = source_order->token_count;
 }
 
 void General_Function::print_thick_line()

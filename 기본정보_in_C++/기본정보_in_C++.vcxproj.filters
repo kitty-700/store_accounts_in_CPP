@@ -114,6 +114,9 @@
     <ClCompile Include="Log.cpp">
       <Filter>소스 파일\Log_Handler</Filter>
     </ClCompile>
+    <ClCompile Include="Log_of_Add_Site.cpp">
+      <Filter>소스 파일\Log_Handler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="General_Function.h">
@@ -218,9 +221,6 @@
     <ClInclude Include="Log.h">
       <Filter>헤더 파일\Log_Handler</Filter>
     </ClInclude>
-    <ClInclude Include="Log_of_Add.h">
-      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
-    </ClInclude>
     <ClInclude Include="Log_of_Del.h">
       <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
     </ClInclude>
@@ -232,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="Order.h">
       <Filter>헤더 파일\Order_Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="Log_of_Add_Site.h">
+      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
+    </ClInclude>
+    <ClInclude Include="Log_of_Add_Account.h">
+      <Filter>헤더 파일\Log_Handler\Log_Set</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

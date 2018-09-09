@@ -65,7 +65,8 @@ namespace option {
 			static const std::string msg_cancel = "취소했습니다.";
 			//string to int
 			enum convert_error {
-				string_to_be_int_wasnt_entered = -999
+				string_to_be_int_wasnt_entered = -999,
+				string_cannot_be_int = -998
 			};
 		}// namespace error_expression
 	}// namespace expression

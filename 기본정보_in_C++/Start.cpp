@@ -7,7 +7,6 @@
 #include "Status.h"
 void init_program();
 void argument_excute(int argc, char ** argv);
-void exit_program();
 namespace compile = option::parameters::compile;
 int main(int argc, char ** argv)
 {
@@ -39,7 +38,6 @@ int main(int argc, char ** argv)
 			is_exit = Order_Interpreter::interprete_order(Main_Order::get());
 		}
 	} while (is_exit == option::expression::normal::no_exit);
-	exit_program();
 	return 0;
 }
 
@@ -47,7 +45,6 @@ void init_program()
 {
 	if (General_Function::login() == compile::login_fail)
 		exit(compile::login_fail);
-	Module_tester::init();
 	Order_Interpreter::init();
 	//system("mode con:cols=80 lines=50");
 	SetConsoleTitle(L"info edit");
@@ -61,9 +58,4 @@ void argument_excute(int argc, char ** argv)
 	Main_Order::set(Order_Token_Refiner(new Order_token).refining(string_order));
 	if (Main_Order::get() == nullptr) assert(0);
 	Order_Interpreter::interprete_order(Main_Order::get());
-}
-
-void exit_program()
-{
-	Module_tester::exit();
 }

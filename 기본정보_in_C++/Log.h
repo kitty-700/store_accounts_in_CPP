@@ -1,10 +1,14 @@
 #pragma once
 #ifndef _LOG_H_ 
 #define _LOG_H_
+#include <string>
 #include "Structs.h"
+#include "Order.h"
+#include "General_Function.h"
+#include "Order_Token_Refiner.h"
+
 class Log {
 public:
-	option::argument::order_type order_type;
 	Order_token order_was;
 	std::stack<Order_token *>roll_back_orders;
 	Log();

@@ -5,31 +5,51 @@ namespace err_exp = option::expression::error;
 namespace compile = option::parameters::compile;
 Order_Token_Refiner::Order_Token_Refiner(Order_token * order_token)
 {
-	this->order_token = order_token;
-	this->order_token->token_count = 0;
+	this->order = order_token;
+	this->order->token_count = 0;
 }
 
 Order_token * Order_Token_Refiner::refining(std::string order)
 {
 	order_tokenizer(order);
 	if (option::parameters::compile::debug::order_tokenizer) { //확인 결과 정상동작
-		General_Function::show_order(this->order_token);
+		General_Function::show_order(this->order);
 	}
 	try { //매개변수 인자가 유효한지?
-		assert(this->order_token->token_count >= 0);
-		if (this->order_token->token_count == arg::no_arg)
+		assert(this->order->token_count >= 0);
+		if (this->order->token_count == arg::no_arg)
 			throw err_exp::msg_no_order_input;
-		else if (this->order_token->token_count == arg::too_much_args)
+		else if (this->order->token_count == arg::too_much_args)
 			throw err_exp::msg_too_much_args;
 		else;
 	}
 	catch (std::string error_message) {
 		if (error_message != err_exp::msg_no_order_input)
 			std::cout << error_message << std::endl;
-		delete this->order_token;
+		delete this->order;
 		return nullptr;
 	}
-	return this->order_token;
+	return this->order;
+}
+
+Order_token * Order_Token_Refiner::refining(std::string arg1, std::string arg2, std::string arg3, std::string arg4, std::string arg5)
+{
+	if (arg1 == "") return this->order;
+	this->order->tokens[0] = arg1;
+	this->order->token_count++;
+	if (arg2 == "") return this->order;
+	this->order->tokens[1] = arg2;
+	this->order->token_count++;
+	if (arg3 == "") return this->order;
+	this->order->tokens[2] = arg3;
+	this->order->token_count++;
+	if (arg4 == "") return this->order;
+	this->order->tokens[3] = arg4;
+	this->order->token_count++;
+	if (arg5 == "") return this->order;
+	this->order->tokens[4] = arg5;
+	this->order->token_count++;
+	return this->order;
 }
 
 void Order_Token_Refiner::order_tokenizer(std::string left_order)
@@ -85,14 +105,14 @@ void Order_Token_Refiner::order_tokenizer(std::string left_order)
 				}
 			}
 		}
-		if (this->order_token->token_count >= arg::argument_limit)
+		if (this->order->token_count >= arg::argument_limit)
 		{
-			this->order_token->token_count = arg::too_much_args;
+			this->order->token_count = arg::too_much_args;
 			return;
 		}
-		this->order_token->content[this->order_token->each_argument] = order_argument;
+		this->order->content[this->order->each_argument] = order_argument;
 		//각 토큰화된 문자열의 길이가 적절한지는 토큰들을 받아서 직접 처리하는 쪽에서 맡는다.
-		this->order_token->each_argument++;
+		this->order->each_argument++;
 	}
 }
 
@@ -181,5 +201,5 @@ std::string Order_Token_Refiner::left_trim(std::string str)
 
 Order_token * Order_Token_Refiner::get_order_token() const
 {
-	return this->order_token;
+	return this->order;
 }
