@@ -66,7 +66,7 @@ void Order_Form_Filler::add_new_site()
 		//메뉴출력
 		{
 			menu_print(true, "");
-			this->person->show_site_name_list();
+			//this->person->show_site_name_list();
 		}
 		//입력
 		{

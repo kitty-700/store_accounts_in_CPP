@@ -62,8 +62,6 @@ void Account::update_attribute(std::string what_attribute, std::string new_value
 	what_attribute = option::expression::Translation::account_attribute_translate(what_attribute);
 	if (is_proper_string(what_attribute, new_value) == true)
 	{
-		if (Main_Order::get_opcode() == argument::update_)
-			Log_Recorder::pre_recording_procedure();
 		if (what_attribute == "ID") {
 			std::string before_ID = this->ID;
 			strcpy_s(this->ID, buff::id_length, new_value.c_str());

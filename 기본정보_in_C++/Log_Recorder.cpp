@@ -59,7 +59,14 @@ void Log_Recorder::record_del_site(Order_token *order, Site * site)
 	Log * new_log = new Log(order);
 	//
 	for (int i = 1; i <= site->get_account_count(); i++) {
-		std::string roll_back_order = "add ";
+		std::string roll_back_order;
+		roll_back_order = "update ";
+		roll_back_order += site->get_site_name() + " ";
+		roll_back_order += site->find_account_with_account_number(i)->get_attribute("ID") + " ";
+		roll_back_order += "date ";
+		roll_back_order += site->find_account_with_account_number(i)->get_attribute("date");
+		new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order));
+		roll_back_order = "add ";
 		roll_back_order += site->get_site_name() + " ";
 		roll_back_order += site->find_account_with_account_number(i)->get_attribute("ID") + " ";
 		roll_back_order += site->find_account_with_account_number(i)->get_attribute("PW") + " ";
@@ -71,18 +78,64 @@ void Log_Recorder::record_del_site(Order_token *order, Site * site)
 	Log_Recorder::log_count++;
 }
 
-void Log_Recorder::record_del_account(Order_token *order, std::string site_name, std::string account_ID)
+void Log_Recorder::record_del_account(Order_token *order, Site * site, std::string account_ID)
 {
+	if (Status::get_is_person_loaded() == false) return;
+	if (Main_Order::get_token_count() <= 0) assert(0);
+	Log * new_log = new Log(order);
+	//
+	std::string roll_back_order;
+	roll_back_order = "update ";
+	roll_back_order += site->get_site_name() + " ";
+	roll_back_order += site->find_account_with_ID(account_ID)->get_attribute("ID") + " ";
+	roll_back_order += "date ";
+	roll_back_order += site->find_account_with_ID(account_ID)->get_attribute("date");
+	new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order));
+	roll_back_order = "add ";
+	roll_back_order += site->get_site_name() + " ";
+	roll_back_order += site->find_account_with_ID(account_ID)->get_attribute("ID") + " ";
+	roll_back_order += site->find_account_with_ID(account_ID)->get_attribute("PW") + " ";
+	roll_back_order += site->find_account_with_ID(account_ID)->get_attribute("Memo");
+	new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order)); //스택이니까 넣는 순서 주의
+	//
+	Log_Recorder::order_log.push(new_log);
+	Log_Recorder::log_count++;
 }
 
 void Log_Recorder::record_update_site_name
 (Order_token *order, std::string site_name, std::string account_ID, std::string original)
 {
+	if (Status::get_is_person_loaded() == false) return;
+	if (Main_Order::get_token_count() <= 0) assert(0);
+	Log * new_log = new Log(order);
+	//
+	std::string roll_back_order;
+	roll_back_order = "update ";
+	roll_back_order += site_name + " ";
+	roll_back_order += original + " ";
+	new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order)); 
+	//
+	Log_Recorder::order_log.push(new_log);
+	Log_Recorder::log_count++;
 }
 
 void Log_Recorder::record_update_account_attribute
 (Order_token *order, std::string site_name, std::string account_ID, std::string attribute, std::string original)
 {
+	if (Status::get_is_person_loaded() == false) return;
+	if (Main_Order::get_token_count() <= 0) assert(0);
+	Log * new_log = new Log(order);
+	//
+	std::string roll_back_order;
+	roll_back_order = "update ";
+	roll_back_order += site_name + " ";
+	roll_back_order += account_ID + " ";
+	roll_back_order += attribute + " ";
+	roll_back_order += original + " ";
+	new_log->roll_back_orders.push(Order_Token_Refiner(new Order_token).refining(roll_back_order));
+	//
+	Log_Recorder::order_log.push(new_log);
+	Log_Recorder::log_count++;
 }
 
 void Log_Recorder::print_log()
@@ -104,6 +157,9 @@ void Log_Recorder::print_log()
 		std::cout << count << "] ";
 		General_Function::show_order(&dump.top()->order_was);
 		std::cout << std::endl;
+		std::cout << "undo orders - " << std::endl;
+		for (	std::stack<Order_token *> secondary_order = dump.top()->roll_back_orders; !secondary_order.empty(); secondary_order.pop())
+			General_Function::show_order(secondary_order.top());
 		count--;
 	}
 	SET_CONSOLE_COLOR_DEFAULT;

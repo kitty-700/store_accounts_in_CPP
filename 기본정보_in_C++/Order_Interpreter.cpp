@@ -56,12 +56,6 @@ bool Order_Interpreter::interprete_order(Order_token * order)///�ڡڡڡڡڡڡڡ�
 	order_forwarding(order, op, &is_exit);
 	return is_exit;
 }
-
-std::string Order_Interpreter::get_loaded_file_name()
-{
-	return Order_Interpreter::now_loaded_file_name;
-}
-
 void Order_Interpreter::order_forwarding(Order_token * order, argument::order_type op, bool * is_exit)
 {
 	switch (op)
@@ -319,4 +313,11 @@ bool Order_Interpreter::change_person(Person * person_to_change)
 		}
 		return false;
 	}
+}
+
+
+
+std::string Order_Interpreter::get_loaded_file_name()
+{
+	return Order_Interpreter::now_loaded_file_name;
 }

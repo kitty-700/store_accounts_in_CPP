@@ -16,7 +16,7 @@ namespace option {
 			static const bool active_encryption = true; //at Export
 			static const bool active_decryption = true; //at Import
 			//JUNK byte 붙이기.  한번 붙일 때마다 min~max 만큼의 바이트 수 중 랜덤 갯수로 붙인다.
-			static const bool generate_junk_bytes = true;
+			static const bool generate_junk_bytes = false;
 			static const int max_junk_bytes = 500000;
 			static const int min_junk_bytes = 250000; //max보다 크지 않아야 한다.
 			//로그인

@@ -24,7 +24,7 @@ public:
 	static void record_add_account(Order_token *order, std::string site_name, std::string account_ID);
 
 	static void record_del_site(Order_token *order, Site * site);
-	static void record_del_account(Order_token *order, std::string site_name, std::string account_ID);
+	static void record_del_account(Order_token *order, Site * site, std::string account_ID);
 
 	static void record_update_site_name(Order_token *order, std::string site_name, std::string account_ID, std::string original);
 	static void record_update_account_attribute(Order_token *order, std::string site_name, std::string account_ID, std::string attribute, std::string original);
@@ -32,5 +32,7 @@ public:
 	static void print_log();
 	static bool has_log();
 	static bool continue_although_unsaved();
+
+	
 };
 #endif 
