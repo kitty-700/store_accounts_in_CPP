@@ -198,7 +198,7 @@ void Person::del_site(std::string site_name)
 			std::string to_record =
 				"삭제된 사이트 이름 : " + site_name + ", " + std::to_string(account_count) + "개의 계정을 보유했었음.";
 			if (Main_Order::get_type() == argument::instruction::del::delete_site)
-				Log_Recorder::pre_recording_procedure();
+				Log_Recorder::pre_recording_procedure(); //로그띄울수있게
 			(*each)->clean_itself();
 			delete (*each);
 			this->sites.erase(each);
